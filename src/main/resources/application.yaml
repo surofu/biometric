@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: biometric
+  session:
+    timeout: 30d
+  liquibase:
+    enabled: false
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+  servlet:
+    session:
+      cookie:
+        max-age: 30d
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 80MB
+      enabled: true
+      file-size-threshold: 2KB
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    charset: UTF-8
+  jackson:
+    serialization:
+      indent-output: false
+
+aws:
+  s3:
+    region: ${AWS_DEFAULT_REGION}
+    endpoint: ${AWS_ENDPOINT_URL}
+    bucket-name: ${AWS_S3_BUCKET_NAME}
+    access-key-id: ${AWS_ACCESS_KEY_ID}
+    secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+    public-url: ${AWS_PUBLIC_URL}
+    path-style-enabled: ${AWS_PATH_STYLE_ENABLED:false}
+    crt-enabled: ${AWS_CRT_ENABLED:false}
+
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized

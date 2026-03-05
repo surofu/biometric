@@ -1,0 +1,25 @@
+spring:
+  freemarker:
+    cache: false
+  jackson:
+    serialization:
+      indent-output: true
+  web:
+    error:
+      include-stacktrace: always
+      include-message: always
+
+logging:
+  level:
+    root: INFO
+    org.springframework: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.jdbc.core: DEBUG
+    org.springframework.transaction: DEBUG
+    com.whitestork: DEBUG
+
+management:
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,51 @@
+package com.whitestork.biometric.analytics.interfaces;
+
+import com.whitestork.biometric.analytics.application.response.AnalyticsResponse;
+import com.whitestork.biometric.analytics.application.usecase.GetAnalyticsUseCase;
+import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
+import com.whitestork.biometric.indicator.application.usecase.GetMyAvailableIndicatorsUseCase;
+import com.whitestork.biometric.user.infrastructure.security.SecurityUser;
+import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/analytics")
+@PreAuthorize("isAuthenticated()")
+public class AnalyticsController {
+  private final GetMyAvailableIndicatorsUseCase getMyAvailableIndicatorsUseCase;
+  private final GetAnalyticsUseCase getAnalyticsUseCase;
+
+  @GetMapping
+  public String selectAnalytics(
+      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull Model model
+  ) {
+    Iterable<IndicatorResponse> indicators = getMyAvailableIndicatorsUseCase.execute(
+        securityUser.email()
+    );
+    model.addAttribute("indicators", indicators);
+    return "analytics/select-analytics";
+  }
+
+  @GetMapping("{indicatorId}")
+  public String showMeasurementAnalytics(
+      @NonNull @PathVariable Long indicatorId,
+      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull Model model
+  ) {
+    AnalyticsResponse analyticsResponse = getAnalyticsUseCase.execute(
+        indicatorId,
+        securityUser.email()
+    );
+    model.addAttribute("analytics", analyticsResponse);
+    return "analytics/measurement-analytics";
+  }
+}

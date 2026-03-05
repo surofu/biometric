@@ -1,0 +1,63 @@
+package com.whitestork.biometric.analytics.application.usecase;
+
+import com.whitestork.biometric.analytics.application.response.AnalyticsResponse;
+import com.whitestork.biometric.analytics.domain.AnalyticsData;
+import com.whitestork.biometric.analytics.domain.MeasurementPoint;
+import com.whitestork.biometric.analytics.infrastructure.view.MeasurementAnalyticsView;
+import com.whitestork.biometric.indicator.application.service.IndicatorProvider;
+import com.whitestork.biometric.indicator.domain.Indicator;
+import com.whitestork.biometric.measurement.infrastructure.persistence.MeasurementRepository;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class GetAnalyticsUseCase {
+  private final IndicatorProvider indicatorProvider;
+  private final MeasurementRepository measurementRepository;
+
+  @NonNull
+  public AnalyticsResponse execute(@NonNull Long indicatorId, @NonNull String email) {
+    Indicator indicator = indicatorProvider.withId(indicatorId);
+    List<MeasurementAnalyticsView> measurements = measurementRepository.findAllAnalytics(
+        indicatorId,
+        email
+    );
+
+    List<String> labels = measurements.stream()
+        .map(v -> "%s (%s)".formatted(v.date(), v.dayOfWeek()))
+        .toList();
+    List<String> shortLabels = measurements.stream()
+        .map(v -> v.date()
+            .format(DateTimeFormatter.ofPattern("dd MMM", Locale.forLanguageTag("ru"))))
+        .toList();
+    List<Double> values = measurements.stream()
+        .map(MeasurementAnalyticsView::value)
+        .toList();
+
+    List<Double> refMin = Collections.nCopies(measurements.size(), indicator.referenceMin());
+    List<Double> refMax = Collections.nCopies(measurements.size(), indicator.referenceMax());
+
+    AnalyticsData data = new AnalyticsData(labels, shortLabels, values, refMin, refMax);
+
+    List<MeasurementPoint> measurementPoints = new ArrayList<>();
+    for (int i = labels.size() - 1; i >= 0; i--) {
+      measurementPoints.add(new MeasurementPoint(labels.get(i), values.get(i)));
+    }
+
+    return new AnalyticsResponse(
+        indicator.name(),
+        "Последние 5 измерений",
+        data,
+        indicator.referenceMin(),
+        indicator.referenceMax(),
+        measurementPoints
+    );
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "biometric",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "homepage": "https://github.com/surofu/biometric#readme",
+  "bugs": {
+    "url": "https://github.com/surofu/biometric/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/surofu/biometric.git"
+  },
+  "license": "ISC",
+  "author": "WhiteStork",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "postcss ./src/main/resources/css/style.css -o ./src/main/resources/static/css/style.css",
+    "watch:css": "postcss ./src/main/resources/css/style.css -o ./src/main/resources/static/css/style.css --watch",
+    "build:prod": "NODE_ENV=production postcss ./src/main/resources/css/style.css -o ./src/main/resources/static/css/style.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.2.1"
+  }
+}

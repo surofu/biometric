@@ -1,0 +1,16 @@
+{
+  "name": "Биометрик",
+  "short_name": "Биометрик",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "scope": "/",
+  "theme_color": "#10b981"
+}
