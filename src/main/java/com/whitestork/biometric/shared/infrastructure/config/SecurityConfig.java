@@ -47,7 +47,8 @@ public class SecurityConfig {
                 "/site.webmanifest", "/manifest.json",
                 "/web-app-manifest-192x192.png",
                 "/web-app-manifest-512x512.png",
-                "/service-worker.js"
+                "/service-worker.js",
+                "/.well-known/appspecific/com.chrome.devtools.json"
             ).permitAll()
             .anyRequest().authenticated()
         )

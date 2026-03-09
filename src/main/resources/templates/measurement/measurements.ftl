@@ -19,14 +19,16 @@
                         class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 transition-colors cursor-pointer"
                         title="Развернуть все">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7 7 7M5 14l7 7 7-7" />
+                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2 L18 10 L6 10 Z" />
+                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22 L18 14 L6 14 Z" />
                     </svg>
                 </button>
                 <button id="collapseAll"
                         class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 transition-colors cursor-pointer"
                         title="Свернуть все">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 21l7-7 7 7M5 3l7 7 7-7" />
+                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10 L18 2 L6 2 Z" />
+                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14 L18 22 L6 22 Z" />
                     </svg>
                 </button>
             </div>

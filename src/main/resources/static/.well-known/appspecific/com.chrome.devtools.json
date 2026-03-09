@@ -1,0 +1,25 @@
+{
+  "devtools": {
+    "settings": {
+      "version": 1
+    },
+    "preferences": {
+      "uiTheme": "white",
+      "language": "ru",
+      "consoleTimestamps": true,
+      "showFPSCounter": true,
+      "disableJavaScript": false,
+      "cacheDisabled": true,
+      "colorFormat": "hex",
+      "showWhitespaceInEditor": "all",
+      "wordWrap": true,
+      "indentation": "spaces",
+      "indentationSize": 2
+    },
+    "experiments": {
+      "enableNetworkPanel": true,
+      "enableSourcesPanel": true,
+      "enableServiceWorkers": true
+    }
+  }
+}
