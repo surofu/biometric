@@ -41,7 +41,6 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <log4j2.version>2.25.3</log4j2.version>
-        <awssdk.version>2.41.34</awssdk.version>
         <bouncycastle.version>1.83</bouncycastle.version>
         <tools.jackson.core.version>3.1.0</tools.jackson.core.version>
     </properties>
@@ -98,18 +97,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
-        </dependency>
-
-        <!--   S3 Client     -->
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>s3</artifactId>
-            <version>${awssdk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>aws-crt-client</artifactId>
-            <version>${awssdk.version}</version>
         </dependency>
 
         <!--   Security     -->
