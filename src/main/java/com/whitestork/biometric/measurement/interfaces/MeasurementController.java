@@ -5,15 +5,20 @@ import com.whitestork.biometric.measurement.application.request.SaveOrUpdateMeas
 import com.whitestork.biometric.measurement.application.response.MeasurementGroupResponse;
 import com.whitestork.biometric.measurement.application.response.MeasurementResponse;
 import com.whitestork.biometric.measurement.application.usecase.DeleteMeasurementUseCase;
-import com.whitestork.biometric.measurement.application.usecase.GetAllUserMeasurementsUseCase;
+import com.whitestork.biometric.measurement.application.usecase.GetMeasurementPageByUserUseCase;
 import com.whitestork.biometric.measurement.application.usecase.GetUserMeasurementByIdAndUserEmailUseCase;
 import com.whitestork.biometric.measurement.application.usecase.SaveOrUpdateMeasurementUseCase;
-import com.whitestork.biometric.shared.exception.DomainException;
+import com.whitestork.biometric.shared.domain.KeysetCursor;
+import com.whitestork.biometric.shared.domain.KeysetPage;
+import com.whitestork.biometric.shared.domain.exception.DomainException;
 import com.whitestork.biometric.user.infrastructure.security.SecurityUser;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
@@ -32,20 +38,36 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class MeasurementController {
   private final GetAllIndicatorsUseCase getAllIndicatorsUseCase;
+  private final GetMeasurementPageByUserUseCase getMeasurementPageByUserUseCase;
   private final SaveOrUpdateMeasurementUseCase saveOrUpdateMeasurementUseCase;
-  private final GetAllUserMeasurementsUseCase getAllUserMeasurementsUseCase;
   private final GetUserMeasurementByIdAndUserEmailUseCase getUserMeasurementByIdAndUserEmailUseCase;
   private final DeleteMeasurementUseCase deleteMeasurementUseCase;
 
   @GetMapping
   @PreAuthorize("isAuthenticated()")
   public String all(
+      @RequestParam(defaultValue = "20") int pageSize,
+      @Nullable @RequestParam String cursor,
       @NonNull @AuthenticationPrincipal SecurityUser securityUser,
-      @NonNull Model model
+      @NonNull Model model,
+      HttpServletRequest request,
+      HttpServletResponse response
   ) {
-    Iterable<MeasurementGroupResponse> measurementGroups =
-        getAllUserMeasurementsUseCase.execute(securityUser.email());
-    model.addAttribute("measurementGroups", measurementGroups);
+    KeysetPage<MeasurementGroupResponse> page = getMeasurementPageByUserUseCase.execute(
+        securityUser.email(),
+        cursor != null ? KeysetCursor.fromBase64(cursor) : null,
+        pageSize
+    );
+
+    model.addAttribute("isFirstPage", cursor == null);
+    model.addAttribute("page", page);
+    model.addAttribute("pageSize", pageSize);
+
+    if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+      response.setHeader("X-Next-Cursor", page.nextCursor() != null ? page.nextCursor() : "");
+      response.setHeader("X-Has-Next", String.valueOf(page.hasNext()));
+      return "measurement/measurement-groups";
+    }
     return "measurement/measurements";
   }
 
@@ -103,7 +125,11 @@ public class MeasurementController {
 
     try {
       saveOrUpdateMeasurementUseCase.execute(updatedRequest);
-      model.addAttribute("successMessage", "Показатель успешно добавлен!");
+
+      String successMessage = request.id() == null
+          ? "Показатель успешно добавлен!"
+          : "Показатель успешно изменен!";
+      model.addAttribute("successMessage", successMessage);
       model.addAttribute("indicators", getAllIndicatorsUseCase.execute());
       model.addAttribute(
           "measurement",

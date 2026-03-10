@@ -2,6 +2,7 @@ package com.whitestork.biometric.indicator.infrastructure.persistence;
 
 import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.domain.Indicator;
+import java.util.List;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -9,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface IndicatorRepository extends CrudRepository<Indicator, Long> {
 
   @Query("select * from indicators order by name, id")
-  @NonNull Iterable<IndicatorResponse> findAllResponses();
+  @NonNull List<IndicatorResponse> findAllResponses();
 
   @Query("""
         select distinct i.*
@@ -19,5 +20,5 @@ public interface IndicatorRepository extends CrudRepository<Indicator, Long> {
         where u.email = :email
         order by i.name, i.id
         """)
-  @NonNull Iterable<IndicatorResponse> findAllAvailable(@NonNull String email);
+  @NonNull List<IndicatorResponse> findAllAvailable(@NonNull String email);
 }

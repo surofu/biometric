@@ -1,4 +1,4 @@
-package com.whitestork.biometric.shared.exception;
+package com.whitestork.biometric.shared.domain.exception;
 
 import com.whitestork.biometric.shared.application.response.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;

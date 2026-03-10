@@ -1,6 +1,6 @@
 package com.whitestork.biometric.user.application.service;
 
-import com.whitestork.biometric.shared.exception.DomainException;
+import com.whitestork.biometric.shared.domain.exception.DomainException;
 import com.whitestork.biometric.user.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;

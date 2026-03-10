@@ -6,7 +6,6 @@ import com.whitestork.biometric.measurement.domain.Measurement;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import org.jspecify.annotations.NonNull;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,24 +13,75 @@ import org.springframework.data.repository.query.Param;
 public interface MeasurementRepository extends CrudRepository<Measurement, Long> {
 
   @Query("""
-         select
-         m.id as id,
-         m.value as value,
-         m.date as date,
-         i.id as indicator_id,
-         i.name as indicator_name,
-         i.unit as indicator_unit,
-         i.reference_min as indicator_reference_min,
-         i.reference_max as indicator_reference_max
-         from measurements m
-         join indicators i on m.indicator_id = i.id
-         join users u on m.user_id = u.id
-         where u.email = :email
-         order by m.date desc
+         WITH ranked AS (
+             SELECT
+                 m.id,
+                 m.value,
+                 m.date,
+                 i.id AS indicator_id,
+                 i.name AS indicator_name,
+                 i.unit AS indicator_unit,
+                 i.reference_min AS indicator_reference_min,
+                 i.reference_max AS indicator_reference_max,
+                 DENSE_RANK() OVER (ORDER BY m.date DESC) AS date_rank
+             FROM measurements m
+             JOIN indicators i ON m.indicator_id = i.id
+             JOIN users u ON m.user_id = u.id
+             WHERE u.email = :email
+         )
+         SELECT * FROM ranked
+         WHERE date_rank <= :pageSize
+         ORDER BY date DESC, id DESC
          """)
-  @NonNull Iterable<MeasurementResponse> findAllUserMeasurementResponses(
-      @NonNull @Param("email") String email
+  List<MeasurementResponse> findFirstPageByUser(
+      @Param("email") String email,
+      @Param("pageSize") int pageSize
   );
+
+  @Query("""
+         WITH ranked AS (
+             SELECT
+                 m.id,
+                 m.value,
+                 m.date,
+                 i.id AS indicator_id,
+                 i.name AS indicator_name,
+                 i.unit AS indicator_unit,
+                 i.reference_min AS indicator_reference_min,
+                 i.reference_max AS indicator_reference_max,
+                 DENSE_RANK() OVER (ORDER BY m.date DESC) AS date_rank
+             FROM measurements m
+             JOIN indicators i ON m.indicator_id = i.id
+             JOIN users u ON m.user_id = u.id
+             WHERE u.email = :email
+               AND (m.date < :lastDate OR (m.date = :lastDate AND m.id < :lastId))
+         )
+         SELECT * FROM ranked
+         WHERE date_rank <= :pageSize
+         ORDER BY date DESC, id DESC
+         """)
+  List<MeasurementResponse> findNextPageByUser(
+      @Param("email") String email,
+      @Param("lastDate") LocalDate lastDate,
+      @Param("lastId") long lastId,
+      @Param("pageSize") int pageSize
+  );
+
+  @Query("""
+         SELECT COUNT(DISTINCT m.date)
+         FROM measurements m
+         JOIN users u ON m.user_id = u.id
+         WHERE u.email = :email
+           AND (m.date < :lastDate OR (m.date = :lastDate AND m.id < :lastId))
+         """)
+  long countDistinctDatesAfter(
+      @Param("email") String email,
+      @Param("lastDate") LocalDate lastDate,
+      @Param("lastId") long lastId
+  );
+
+  @Query("SELECT COUNT(DISTINCT m.date) FROM measurements m JOIN users u ON m.user_id = u.id WHERE u.email = :email")
+  long countAllDistinctDates(@Param("email") String email);
 
 
   @Query("""
@@ -40,9 +90,9 @@ public interface MeasurementRepository extends CrudRepository<Measurement, Long>
          where m.id = :id and u.email = :email
          limit 1
          """)
-  @NonNull Optional<Measurement> findByIdAndUserEmail(
-      @NonNull @Param("id") Long id,
-      @NonNull @Param("email") String email
+  Optional<Measurement> findByIdAndUserEmail(
+      @Param("id") Long id,
+      @Param("email") String email
   );
 
   @Query("""
@@ -51,9 +101,9 @@ public interface MeasurementRepository extends CrudRepository<Measurement, Long>
          where m.id = :id and u.email = :email
          limit 1
          """)
-  @NonNull Optional<MeasurementResponse> findResponseByIdAndUserEmail(
-      @NonNull @Param("id") Long id,
-      @NonNull @Param("email") String email
+  Optional<MeasurementResponse> findResponseByIdAndUserEmail(
+      @Param("id") Long id,
+      @Param("email") String email
   );
 
   @Query("""
@@ -68,9 +118,9 @@ public interface MeasurementRepository extends CrudRepository<Measurement, Long>
              where m.rn <= 5
              order by m.date
          """)
-  @NonNull List<MeasurementAnalyticsView> findAllAnalytics(
-      @NonNull @Param("indicatorId") Long indicatorId,
-      @NonNull @Param("email") String email
+  List<MeasurementAnalyticsView> findAllAnalytics(
+      @Param("indicatorId") Long indicatorId,
+      @Param("email") String email
   );
 
   @Query("""
@@ -79,8 +129,8 @@ public interface MeasurementRepository extends CrudRepository<Measurement, Long>
              where u.email = :email and m.indicator_id = :indicatorId and m.date = :date
          """)
   boolean existsByUserEmailAndIndicatorIdAndDate(
-      @NonNull @Param("email") String email,
-      @NonNull @Param("indicatorId") Long indicatorId,
-      @NonNull @Param("date") LocalDate date
+      @Param("email") String email,
+      @Param("indicatorId") Long indicatorId,
+      @Param("date") LocalDate date
   );
 }

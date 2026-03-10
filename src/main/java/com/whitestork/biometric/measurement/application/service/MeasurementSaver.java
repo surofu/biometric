@@ -3,7 +3,6 @@ package com.whitestork.biometric.measurement.application.service;
 import com.whitestork.biometric.measurement.domain.Measurement;
 import com.whitestork.biometric.measurement.infrastructure.persistence.MeasurementRepository;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MeasurementSaver {
   private final MeasurementRepository repository;
 
-  @NonNull
   @Transactional
-  public Measurement save(Measurement measurement) {
-    return repository.save(measurement);
+  public void save(Measurement measurement) {
+    repository.save(measurement);
   }
 }

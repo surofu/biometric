@@ -8,7 +8,6 @@
             </h1>
         </div>
 
-        <!-- Кнопки управления (иконки) и добавления -->
         <div class="flex justify-between items-start sm:items-center gap-4 w-full py-6">
             <a href="/measurements/new"
                class="w-full sm:w-auto px-4 py-2 bg-emerald-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors text-center">
@@ -16,25 +15,29 @@
             </a>
             <div class="flex gap-2">
                 <button id="expandAll"
-                        class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 transition-colors cursor-pointer"
+                        class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 transition-colors keysetCursor-pointer"
                         title="Развернуть все">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2 L18 10 L6 10 Z" />
-                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22 L18 14 L6 14 Z" />
+                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 2 L18 10 L6 10 Z"/>
+                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 22 L18 14 L6 14 Z"/>
                     </svg>
                 </button>
                 <button id="collapseAll"
-                        class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 transition-colors cursor-pointer"
+                        class="p-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-700 transition-colors keysetCursor-pointer"
                         title="Свернуть все">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10 L18 2 L6 2 Z" />
-                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14 L18 22 L6 22 Z" />
+                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 10 L18 2 L6 2 Z"/>
+                        <path fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 14 L18 22 L6 22 Z"/>
                     </svg>
                 </button>
             </div>
         </div>
 
-        <#if measurementGroups?size == 0>
+        <#if page.content()?size == 0>
             <div class="bg-white rounded-lg border border-gray-200 p-8 text-center">
                 <div class="flex flex-col items-center space-y-3">
                     <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,83 +51,20 @@
                 </div>
             </div>
         <#else>
-            <div class="space-y-3" id="measurementGroups">
-                <#list measurementGroups as group>
-                    <details class="measurement-group bg-white rounded-lg border border-gray-200 overflow-hidden" <#if group?is_first>open</#if>>
-                        <summary class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center cursor-pointer hover:bg-gray-300 transition-colors list-none [&::-webkit-details-marker]:hidden">
-                            <h2 class="font-medium text-gray-700">${group.date()} <span class="text-xs text-gray-500">(${group.dayOfWeek()})</span></h2>
-                            <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200 chevron-icon"
-                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </summary>
-                        <div class="divide-y divide-gray-200">
-                            <#list group.items() as item>
-                                <div class="p-4 hover:bg-gray-50 transition-colors">
-                                    <div class="flex flex-col sm:flex-row sm:items-start gap-3">
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-start justify-between gap-2">
-                                                <div>
-                                                    <h3 class="font-medium text-gray-900">${item.indicatorName()}</h3>
-                                                    <p class="text-sm text-gray-500">${item.indicatorUnit()}</p>
-                                                </div>
-                                                <div class="text-right shrink-0">
-                                                    <span class="font-mono font-medium text-lg">${item.value()}</span>
-                                                    <span class="text-sm text-gray-500 ml-1">${item.indicatorUnit()}</span>
-                                                </div>
-                                            </div>
-                                            <div class="mt-2 flex flex-wrap items-center gap-2">
-                                                <#if item.indicatorReferenceMin()?? && item.indicatorReferenceMax()??>
-                                                    <span class="text-xs text-gray-600">
-                                                        Норма: ${item.indicatorReferenceMin()} – ${item.indicatorReferenceMax()} ${item.indicatorUnit()}
-                                                    </span>
-                                                    <span class="text-xs">
-                                                        <#if item.value() gte item.indicatorReferenceMin() && item.value() lte item.indicatorReferenceMax()>
-                                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-green-100 text-green-800">В норме</span>
-                                                        <#elseif item.value() lt item.indicatorReferenceMin()>
-                                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800">Ниже нормы</span>
-                                                        <#else>
-                                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-red-100 text-red-800">Выше нормы</span>
-                                                        </#if>
-                                                    </span>
-                                                <#else>
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs">Норма не указана</span>
-                                                </#if>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center justify-end gap-2 text-sm mt-2 sm:mt-0 sm:pl-4 sm:border-l border-gray-200">
-                                            <a href="/measurements/${item.id()}/edit"
-                                               class="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-full transition-colors"
-                                               title="Редактировать">
-                                                Редактировать
-                                            </a>
-                                            <form action="/measurements/${item.id()}/delete"
-                                                  method="post"
-                                                  onsubmit="return confirm('Вы уверены, что хотите удалить этот показатель?');">
-                                                <#if _csrf??>
-                                                    <input type="hidden" name="${_csrf.parameterName}"
-                                                           value="${_csrf.token}"/>
-                                                </#if>
-                                                <button type="submit"
-                                                        class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-full transition-colors"
-                                                        title="Удалить">
-                                                    Удалить
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </#list>
-                        </div>
-                    </details>
-                </#list>
+            <div id="measurementGroups" class="space-y-3">
+                <#include "measurement-groups.ftl">
+                <div id="scroll-trigger" style="height: 10px; background: transparent;"></div>
             </div>
         </#if>
     </div>
 
+    <div id="pagination-data"
+         data-next-cursor="${page.nextCursor()!''}"
+         data-has-next="${page.hasNext()?c}"
+         data-page-size="${pageSize}">
+    </div>
+
     <style>
-        /* Поворот иконки при открытом details */
         details[open] .chevron-icon {
             transform: rotate(180deg);
         }
@@ -146,6 +86,73 @@
                     details.forEach(detail => detail.open = false);
                 });
             }
+
+            const container = document.getElementById('measurementGroups');
+            const paginationData = document.getElementById('pagination-data');
+            const scrollTrigger = document.getElementById('scroll-trigger');
+
+            if (!container || !paginationData || !scrollTrigger) return;
+
+            let nextCursor = paginationData.dataset.nextCursor || null;
+            let hasNext = paginationData.dataset.hasNext === 'true';
+            const pageSize = parseInt(paginationData.dataset.pageSize, 20) || 20;
+            let loading = false;
+
+            if (!hasNext) {
+                scrollTrigger.style.display = 'none';
+            }
+
+            async function loadNextPage() {
+                if (!hasNext || loading || !nextCursor) return;
+
+                loading = true;
+                scrollTrigger.innerText = 'Загрузка...';
+
+                try {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('cursor', nextCursor);
+                    url.searchParams.set('pageSize', pageSize);
+
+                    const response = await fetch(url, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки');
+                    }
+
+                    const html = await response.text();
+                    // Вставляем новые группы перед триггером
+                    scrollTrigger.insertAdjacentHTML('beforebegin', html);
+
+                    // Обновляем курсор и флаг из заголовков ответа
+                    nextCursor = response.headers.get('X-Next-Cursor') || null;
+                    hasNext = response.headers.get('X-Has-Next') === 'true';
+
+                    if (!hasNext) {
+                        scrollTrigger.style.display = 'none';
+                    } else {
+                        scrollTrigger.innerText = '';
+                    }
+                } catch (error) {
+                    console.error('Ошибка загрузки следующей страницы:', error);
+                    scrollTrigger.innerText = 'Ошибка загрузки';
+                } finally {
+                    loading = false;
+                }
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                for (let entry of entries) {
+                    if (entry.isIntersecting && hasNext && !loading) {
+                        loadNextPage();
+                    }
+                }
+            }, {threshold: 0.1});
+
+            observer.observe(scrollTrigger);
         });
     </script>
 </@layoutMacros.layout>

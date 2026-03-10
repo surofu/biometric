@@ -5,6 +5,7 @@ import com.whitestork.biometric.analytics.application.usecase.GetAnalyticsUseCas
 import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.application.usecase.GetMyAvailableIndicatorsUseCase;
 import com.whitestork.biometric.user.infrastructure.security.SecurityUser;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,7 +29,7 @@ public class AnalyticsController {
       @NonNull @AuthenticationPrincipal SecurityUser securityUser,
       @NonNull Model model
   ) {
-    Iterable<IndicatorResponse> indicators = getMyAvailableIndicatorsUseCase.execute(
+    List<IndicatorResponse> indicators = getMyAvailableIndicatorsUseCase.execute(
         securityUser.email()
     );
     model.addAttribute("indicators", indicators);

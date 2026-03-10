@@ -1,6 +1,6 @@
 package com.whitestork.biometric.user.interfaces;
 
-import com.whitestork.biometric.shared.exception.DomainException;
+import com.whitestork.biometric.shared.domain.exception.DomainException;
 import com.whitestork.biometric.user.application.request.RegisterUserRequest;
 import com.whitestork.biometric.user.application.usecase.RegisterUserUseCase;
 import com.whitestork.biometric.user.infrastructure.security.SecurityUser;

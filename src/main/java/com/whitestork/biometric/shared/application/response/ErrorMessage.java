@@ -1,6 +1,6 @@
 package com.whitestork.biometric.shared.application.response;
 
-import com.whitestork.biometric.shared.exception.DomainException;
+import com.whitestork.biometric.shared.domain.exception.DomainException;
 import java.io.Serial;
 import java.io.Serializable;
 

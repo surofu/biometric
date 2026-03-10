@@ -69,7 +69,7 @@
 
                 <button
                         type="submit"
-                        class="w-full bg-linear-to-r from-emerald-400 to-emerald-500 text-white font-medium px-5 py-3 md:py-2 rounded-lg cursor-pointer mt-5 opacity-100 group-invalid:opacity-40 group-invalid:pointer-events-none hover:from-emerald-500 hover:to-emerald-600 transition-all"
+                        class="w-full bg-linear-to-r from-emerald-400 to-emerald-500 text-white font-medium px-5 py-3 md:py-2 rounded-lg keysetCursor-pointer mt-5 opacity-100 group-invalid:opacity-40 group-invalid:pointer-events-none hover:from-emerald-500 hover:to-emerald-600 transition-all"
                 >
                     Зарегистрироваться
                 </button>

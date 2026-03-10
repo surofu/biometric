@@ -1,4 +1,4 @@
-package com.whitestork.biometric.shared.exception;
+package com.whitestork.biometric.shared.domain.exception;
 
 public final class DomainException extends RuntimeException {
   public DomainException(String message) {

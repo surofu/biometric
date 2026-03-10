@@ -2,11 +2,12 @@ package com.whitestork.biometric.measurement.application.response;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
 public record MeasurementGroupResponse(
     LocalDate date,
-    Iterable<MeasurementResponse> items
+    List<MeasurementResponse> items
 ) {
 
   public String dayOfWeek() {

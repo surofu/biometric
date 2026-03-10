@@ -161,7 +161,7 @@
                 width: chartEl.getBoundingClientRect().width || 340,
                 height: H,
                 padding: [8, 8, 0, 0],
-                cursor: {drag: {x: false, y: false}, points: {show: false}},
+                keysetCursor: {drag: {x: false, y: false}, points: {show: false}},
                 select: {show: false},
                 legend: {show: false},
                 series: [
@@ -233,7 +233,7 @@
                         ctx.restore();
                     }],
                     setCursor: [u => {
-                        const {idx} = u.cursor;
+                        const {idx} = u.keysetCursor;
                         const tip = document.getElementById('tooltip');
                         if (idx == null || idx < 0 || idx >= values.length) {
                             tip.style.opacity = 0;

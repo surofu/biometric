@@ -2,7 +2,7 @@ package com.whitestork.biometric.measurement.application.service;
 
 import com.whitestork.biometric.measurement.domain.Measurement;
 import com.whitestork.biometric.measurement.infrastructure.persistence.MeasurementRepository;
-import com.whitestork.biometric.shared.exception.DomainException;
+import com.whitestork.biometric.shared.domain.exception.DomainException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;

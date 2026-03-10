@@ -2,6 +2,7 @@ package com.whitestork.biometric.indicator.interfaces;
 
 import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.application.usecase.GetAllIndicatorsUseCase;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ public class IndicatorController {
   @GetMapping
   @PreAuthorize("isAuthenticated()")
   public String all(Model model) {
-    Iterable<IndicatorResponse> indicators = getAllIndicatorsUseCase.execute();
+    List<IndicatorResponse> indicators = getAllIndicatorsUseCase.execute();
     model.addAttribute("indicators", indicators);
     return "indicator/indicators";
   }
