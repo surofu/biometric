@@ -16,12 +16,14 @@ public class RegisterUserUseCase {
   private final UserValidator validator;
   private final PasswordEncoder passwordEncoder;
   private final UserSaver saver;
+  private final SendVerificationEmailUseCase sendVerificationEmailUseCase;
 
   public void execute(@NonNull RegisterUserRequest request) {
     validator.uniqueEmail(request.email());
     String passwordHash = passwordEncoder.encode(request.password());
     Objects.requireNonNull(passwordHash, "Пароль обязателен");
-    User user = new User(request.email(), passwordHash);
-    saver.save(user);
+    User user = new User(request.email(), passwordHash).withEmailVerified(true);
+    User savedUser = saver.save(user);
+//    sendVerificationEmailUseCase.execute(savedUser);
   }
 }

@@ -12,6 +12,7 @@ logging:
     org.springframework.web: WARN
     org.springframework.security: WARN
     com.whitestork: WARN
+    org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter: OFF
 
 server:
   compression:
@@ -23,3 +24,6 @@ management:
   endpoint:
     health:
       show-details: when_authorized
+
+resend:
+  sender-email: Биометрик <noreply@biometric.com>

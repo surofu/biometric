@@ -1,7 +1,11 @@
 <#import "../shared/layout.ftl" as layoutMacros>
+<#import "../shared/message.ftl" as messageMacros>
 
 <@layoutMacros.layout title="Мой профиль - Биометрик" selectedPage="4">
     <div class="container mx-auto px-4 pt-8 pb-16">
+
+        <@messageMacros.message />
+
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="bg-linear-to-r from-emerald-400 to-emerald-500 p-6 text-white">
                 <div class="flex items-center gap-4">
@@ -19,19 +23,20 @@
             </div>
 
             <div class="p-6">
-                <div class="mb-6">
-                    <h2 class="text-lg font-medium text-gray-800 mb-4">Информация о профиле</h2>
-                    <div class="bg-slate-50 rounded-lg p-4 border border-slate-100">
-                        <div class="flex items-center gap-3">
-                            <span class="text-sm text-gray-500 shrink-0">Email:</span>
-                            <span class="font-medium text-gray-800 truncate min-w-0">${email}</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="/change-password"
+                       class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 keysetCursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                        </svg>
+                        <span>Изменить пароль</span>
+                    </a>
 
-                <div class="border-t border-slate-200 pt-6">
-                    <form action="/logout" method="post" onsubmit="return confirm('Вы уверены, что хотите выйти из аккаунта?');">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <form action="/logout" method="post" onsubmit="return confirm('Вы уверены, что хотите выйти из аккаунта?');" class="sm:ml-auto">
+                        <#if _csrf??>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </#if>
                         <button type="submit"
                                 class="w-full sm:w-auto px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 keysetCursor-pointer">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

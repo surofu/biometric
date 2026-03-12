@@ -3,13 +3,12 @@ spring:
     name: biometric
   session:
     timeout: 30d
+    cookie:
+      name: BIOMETRIC_SESSION_ID
   liquibase:
     enabled: false
     change-log: classpath:/db/changelog/db.changelog-master.yaml
   servlet:
-    session:
-      cookie:
-        max-age: 30d
     multipart:
       max-file-size: 20MB
       max-request-size: 80MB
@@ -22,12 +21,26 @@ spring:
   jackson:
     serialization:
       indent-output: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_OAUTH_CLIENT_ID}
+            client-secret: ${GOOGLE_OAUTH_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
 
 server:
+  forward-headers-strategy: framework
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
     min-response-size: 1024
+  servlet:
+    session:
+      persistent: false  # Отключаем создание JSESSIONID
 
 management:
   endpoints:
@@ -37,3 +50,16 @@ management:
   endpoint:
     health:
       show-details: when_authorized
+
+app:
+  base-url: ${BASE_URL}
+
+google:
+  oauth:
+    client-id: ${GOOGLE_OAUTH_CLIENT_ID}
+    client-secret: ${GOOGLE_OAUTH_CLIENT_SECRET}
+    refresh-token: ${GOOGLE_OAUTH_REFRESH_TOKEN}
+
+resend:
+  api-key: ${RESEND_API_KEY}
+  sender-email: Биометрик <onboarding@resend.dev>

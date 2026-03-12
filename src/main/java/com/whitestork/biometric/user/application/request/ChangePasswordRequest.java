@@ -2,8 +2,9 @@ package com.whitestork.biometric.user.application.request;
 
 import org.jspecify.annotations.NonNull;
 
-public record RegisterUserRequest(
+public record ChangePasswordRequest(
     @NonNull String email,
-    @NonNull String password
+    @NonNull String oldPassword,
+    @NonNull String newPassword
 ) {
 }

@@ -1,4 +1,5 @@
 <#import "../shared/layout.ftl" as layoutMacros>
+<#import "../shared/message.ftl" as messageMacros>
 
 <@layoutMacros.layout title="Добавление показателя" selectedPage="2">
     <div class="container max-w-2xl mx-auto px-4 pt-8 pb-16">
@@ -97,13 +98,7 @@
                 </#if>
             </div>
 
-            <#if successMessage??>
-                <p class="bg-emerald-50 border border-emerald-200 rounded-md text-emerald-600 text-sm px-4 py-2">${successMessage}</p>
-            </#if>
-
-            <#if errorMessage??>
-                <p class="bg-pink-50 border border-pink-200 rounded-md text-pink-600 text-sm px-4 py-2">${errorMessage}</p>
-            </#if>
+            <@messageMacros.message />
 
             <#-- Кнопки -->
             <div class="pt-4 border-t border-gray-200">

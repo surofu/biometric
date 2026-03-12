@@ -51,8 +51,8 @@ public class GetMeasurementPageByUserUseCase {
   private String buildNextCursor(@NonNull MeasurementResponse last) {
     LocalDate nextCursorDate = last.date();
     Long nextCursorId = last.id();
-    KeysetCursor keysetCursor = new KeysetCursor(nextCursorDate, nextCursorId);
-    return keysetCursor.base64();
+    KeysetCursor cursor = new KeysetCursor(nextCursorDate, nextCursorId);
+    return cursor.toString();
   }
 
   @NonNull

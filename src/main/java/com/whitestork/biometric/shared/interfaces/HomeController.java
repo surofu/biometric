@@ -15,7 +15,6 @@ public class HomeController {
   @GetMapping("/")
   @PreAuthorize("permitAll()")
   public String homePage(@AuthenticationPrincipal SecurityUser securityUser, Model model) {
-    model.addAttribute("isAtuh", securityUser != null);
     return "index";
   }
 }

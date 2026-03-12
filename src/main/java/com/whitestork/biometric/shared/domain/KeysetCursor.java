@@ -9,9 +9,9 @@ public record KeysetCursor(@NonNull LocalDate date, @NonNull Long id) {
   private static final String SEPARATOR = ":";
 
   @NonNull
-  public static KeysetCursor fromBase64(@NonNull String base64) {
+  public static KeysetCursor fromString(@NonNull String original) {
     try {
-      byte[] decoded = Base64.getUrlDecoder().decode(base64);
+      byte[] decoded = Base64.getUrlDecoder().decode(original);
       String raw = new String(decoded);
       String[] parts = raw.split(SEPARATOR, 2);
       LocalDate date = LocalDate.parse(parts[0]);
@@ -25,7 +25,8 @@ public record KeysetCursor(@NonNull LocalDate date, @NonNull Long id) {
     }
   }
 
-  public String base64() {
+  @NonNull
+  public String toString() {
     String raw = date + SEPARATOR + id;
     return Base64.getUrlEncoder().withoutPadding().encodeToString(raw.getBytes());
   }

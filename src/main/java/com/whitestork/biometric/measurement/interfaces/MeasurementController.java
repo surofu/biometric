@@ -55,7 +55,7 @@ public class MeasurementController {
   ) {
     KeysetPage<MeasurementGroupResponse> page = getMeasurementPageByUserUseCase.execute(
         securityUser.email(),
-        cursor != null ? KeysetCursor.fromBase64(cursor) : null,
+        cursor != null ? KeysetCursor.fromString(cursor) : null,
         pageSize
     );
 

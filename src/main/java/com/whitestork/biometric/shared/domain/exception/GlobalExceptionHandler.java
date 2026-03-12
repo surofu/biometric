@@ -19,8 +19,8 @@ public class GlobalExceptionHandler {
   ) {
     log.error("Domain exception: {}", exception.getMessage(), exception);
     ErrorMessage errorMessage = ErrorMessage.from(exception);
-    redirectAttributes.addFlashAttribute("error", errorMessage);
-    return "redirect:/error";
+    redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+    return "redirect:/";
   }
 
   @ExceptionHandler(NoResourceFoundException.class)
@@ -39,8 +39,8 @@ public class GlobalExceptionHandler {
         "Ошибка авторизации",
         java.time.Instant.now().toString()
     );
-    redirectAttributes.addFlashAttribute("error", errorMessage);
-    return "redirect:/error";
+    redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+    return "redirect:/";
   }
 
   @ExceptionHandler(Exception.class)
@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
         "Произошла непредвиденная ошибка",
         java.time.Instant.now().toString()
     );
-    redirectAttributes.addFlashAttribute("error", errorMessage);
-    return "redirect:/error";
+    redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+    return "redirect:/";
   }
 }

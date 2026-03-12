@@ -42,7 +42,9 @@
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <log4j2.version>2.25.3</log4j2.version>
         <bouncycastle.version>1.83</bouncycastle.version>
-        <tools.jackson.core.version>3.1.0</tools.jackson.core.version>
+        <resend.version>4.12.0</resend.version>
+        <okio.version>3.10.2</okio.version>
+        <jackson.version>2.21.1</jackson.version>
     </properties>
     <repositories>
         <repository>
@@ -109,6 +111,19 @@
             <artifactId>bcpkix-jdk18on</artifactId>
             <version>${bouncycastle.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.resend</groupId>
+            <artifactId>resend-java</artifactId>
+            <version>${resend.version}</version>
+        </dependency>
 
         <!--    Annotation Processors    -->
         <dependency>
@@ -128,10 +143,12 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
+
+        <!--    Misc    -->
         <dependency>
-            <groupId>tools.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${tools.jackson.core.version}</version>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio-jvm</artifactId>
+            <version>${okio.version}</version>
         </dependency>
     </dependencies>
 

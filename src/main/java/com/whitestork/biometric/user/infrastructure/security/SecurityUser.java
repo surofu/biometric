@@ -1,15 +1,26 @@
 package com.whitestork.biometric.user.infrastructure.security;
 
+import com.whitestork.biometric.user.domain.User;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public record SecurityUser(
+    @NonNull
     String email,
+    @NonNull
+    Boolean emailVerified,
+    @NonNull
     String passwordHash
-) implements UserDetails {
+) implements UserDetails, OAuth2User {
+
+  public SecurityUser(User user) {
+    this(user.email(), user.emailVerified(), user.passwordHash());
+  }
 
   @NonNull
   @Override
@@ -46,6 +57,19 @@ public record SecurityUser(
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return emailVerified;
+  }
+
+  @Override
+  public Map<String, Object> getAttributes() {
+    return Map.of(
+        "email", email
+    );
+  }
+
+  @NonNull
+  @Override
+  public String getName() {
+    return email;
   }
 }

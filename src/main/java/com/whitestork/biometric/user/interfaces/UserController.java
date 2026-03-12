@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -14,8 +15,17 @@ public class UserController {
 
   @GetMapping("/profile")
   @PreAuthorize("isAuthenticated()")
-  public String profilePage(@AuthenticationPrincipal SecurityUser securityUser, Model model) {
+  public String profilePage(
+      @RequestParam(required = false) String passwordChanged,
+      @AuthenticationPrincipal SecurityUser securityUser,
+      Model model
+  ) {
     model.addAttribute("email", securityUser.email());
+
+    if (passwordChanged != null) {
+      model.addAttribute("infoMessage", "Пароль успешно изменён");
+    }
+
     return "user/profile";
   }
 }

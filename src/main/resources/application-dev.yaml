@@ -23,3 +23,9 @@ management:
   endpoint:
     health:
       show-details: always
+
+app:
+  base-url: https://oversubtle-ichthyolitic-agnus.ngrok-free.dev
+
+resend:
+  sender-email: Биометрик <onboarding@resend.dev>

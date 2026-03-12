@@ -1,8 +1,11 @@
 <#import "./shared/layout.ftl" as layoutMacros>
+<#import "./shared/message.ftl" as messageMacros>
 
-<@layoutMacros.layout title="Биометрик - Персональный мониторинг здоровья" selectedPage="0" showNavbar=isAtuh>
+<@layoutMacros.layout title="Биометрик - Персональный мониторинг здоровья" selectedPage="0" showNavbar=authenticated>
     <div class="min-h-screen bg-white">
         <div class="container mx-auto px-4 pt-8 pb-20">
+            <@messageMacros.message />
+
             <!-- Логотип и заголовок -->
             <div class="flex flex-col items-center mb-10">
                 <div class="flex items-center gap-3 text-emerald-600">
@@ -17,7 +20,7 @@
             <!-- Приветствие -->
             <div class="text-center mb-12">
                 <h1 class="text-2xl font-semibold text-gray-800 mb-2">
-                    <#if isAtuh>
+                    <#if authenticated>
                         С возвращением!
                     <#else>
                         Добро пожаловать!
@@ -27,7 +30,7 @@
                     Платформа для персонального мониторинга показателей здоровья.
                     Записывайте свои измерения, следите за динамикой и оставайтесь здоровыми.
                 </p>
-                <#if !isAtuh>
+                <#if !authenticated>
                     <div class="flex flex-wrap gap-4 justify-center mt-8">
                         <!-- Кнопка входа (контурная) -->
                         <a href="/login"
