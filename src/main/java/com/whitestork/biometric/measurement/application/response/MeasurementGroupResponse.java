@@ -4,13 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import org.jspecify.annotations.NonNull;
 
 public record MeasurementGroupResponse(
-    LocalDate date,
-    List<MeasurementResponse> items
+    @NonNull LocalDate date,
+    @NonNull List<MeasurementResponse> items
 ) {
 
-  public String dayOfWeek() {
+  public @NonNull String dayOfWeek() {
     return date.format(DateTimeFormatter.ofPattern("EEE", Locale.forLanguageTag("ru")));
   }
 }

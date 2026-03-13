@@ -16,17 +16,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GetMeasurementPageByUserUseCase {
+public class GetUserMeasurementPageUseCase {
   private final MeasurementRepository repository;
 
-  @NonNull
-  public KeysetPage<MeasurementGroupResponse> execute(
+  public @NonNull KeysetPage<MeasurementGroupResponse> execute(
       @NonNull String email,
       @Nullable KeysetCursor cursor,
-      int pageSize
+      @NonNull Integer pageSize
   ) {
     List<MeasurementResponse> measurements;
-    long totalDatesAfter;
+    Long totalDatesAfter;
 
     if (cursor == null) {
       measurements = repository.findFirstPageByUser(email, pageSize);
@@ -47,16 +46,14 @@ public class GetMeasurementPageByUserUseCase {
     return new KeysetPage<>(content, null, hasNextPage);
   }
 
-  @NonNull
-  private String buildNextCursor(@NonNull MeasurementResponse last) {
+  private @NonNull String buildNextCursor(@NonNull MeasurementResponse last) {
     LocalDate nextCursorDate = last.date();
     Long nextCursorId = last.id();
     KeysetCursor cursor = new KeysetCursor(nextCursorDate, nextCursorId);
     return cursor.toString();
   }
 
-  @NonNull
-  private List<MeasurementGroupResponse> buildGroups(
+  private @NonNull List<MeasurementGroupResponse> buildGroups(
       @NonNull List<MeasurementResponse> measurements
   ) {
     return measurements.stream()

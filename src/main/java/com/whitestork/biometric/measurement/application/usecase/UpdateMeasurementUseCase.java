@@ -18,7 +18,7 @@ public class UpdateMeasurementUseCase {
   private final MeasurementSaver saver;
 
   public void execute(@NonNull UpdateMeasurementRequest request) {
-    Measurement oldMeasurement = provider.withId(request.id());
+    Measurement oldMeasurement = provider.withIdAndUserEmail(request.id(), request.userEmail());
     Measurement updatedMeasurement = mapper.toDomain(request)
         .withId(oldMeasurement.id())
         .withUserId(oldMeasurement.userId())

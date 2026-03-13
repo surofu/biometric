@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsService implements UserDetailsService {
   private final UserProvider provider;
 
-  @NonNull
   @Override
-  public UserDetails loadUserByUsername(@NonNull String email) throws UsernameNotFoundException {
+  public @NonNull UserDetails loadUserByUsername(@NonNull String email)
+      throws UsernameNotFoundException {
     try {
       User user = provider.withEmail(email);
       if (user.passwordHash().isEmpty()) {

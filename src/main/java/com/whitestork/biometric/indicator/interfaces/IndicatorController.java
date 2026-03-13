@@ -4,6 +4,7 @@ import com.whitestork.biometric.indicator.application.response.IndicatorResponse
 import com.whitestork.biometric.indicator.application.usecase.GetAllIndicatorsUseCase;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,7 @@ public class IndicatorController {
 
   @GetMapping
   @PreAuthorize("isAuthenticated()")
-  public String all(Model model) {
+  public @NonNull String all(@NonNull Model model) {
     List<IndicatorResponse> indicators = getAllIndicatorsUseCase.execute();
     model.addAttribute("indicators", indicators);
     return "indicator/indicators";

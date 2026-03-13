@@ -3,17 +3,18 @@ package com.whitestork.biometric.shared.application.response;
 import com.whitestork.biometric.shared.domain.exception.DomainException;
 import java.io.Serial;
 import java.io.Serializable;
+import org.jspecify.annotations.NonNull;
 
 public record ErrorMessage(
-    String message,
-    String timestamp
+    @NonNull String message,
+    @NonNull String timestamp
 ) implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
-  public static ErrorMessage from(DomainException ex) {
+  public static @NonNull ErrorMessage from(@NonNull DomainException exception) {
     return new ErrorMessage(
-        ex.getMessage(),
+        exception.getMessage(),
         java.time.Instant.now().toString()
     );
   }

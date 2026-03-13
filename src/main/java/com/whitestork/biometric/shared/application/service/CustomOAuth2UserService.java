@@ -5,6 +5,7 @@ import com.whitestork.biometric.user.application.service.UserSaver;
 import com.whitestork.biometric.user.domain.User;
 import com.whitestork.biometric.user.infrastructure.security.SecurityUser;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -19,7 +20,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   private final UserSaver userSaver;
 
   @Override
-  public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+  public @NonNull OAuth2User loadUser(@NonNull OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
     OAuth2User oAuth2User = new DefaultOAuth2UserService().loadUser(userRequest);
 //    oAuth2User.getAttributes().forEach((key, value) -> System.out.printf("%s: %s\n", key, value));
 

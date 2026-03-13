@@ -11,18 +11,12 @@ import org.springframework.data.relational.core.mapping.Table;
 @With
 @Table("measurements")
 public record Measurement(
-    @Nullable
     @Id
-    Long id,
-    @NonNull
-    Long userId,
-    @NonNull
-    Long indicatorId,
-    @NonNull
-    Double value,
-    @NonNull
-    LocalDate date,
-    @NonNull
-    Instant createdAt
+    @Nullable Long id,
+    @NonNull Long userId,
+    @NonNull Long indicatorId,
+    @NonNull Double value,
+    @NonNull LocalDate date,
+    @NonNull Instant createdAt
 ) {
 }

@@ -1,7 +1,7 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 
 <@layoutMacros.layout title="Выбор показателя для аналитики" selectedPage="3">
-    <div class="container mx-auto px-4 pt-8 pb-16">
+    <div class="container max-w-2xl mx-auto px-4 pt-8 pb-16">
         <!-- Заголовок -->
         <div class="px-4 sm:px-6 pb-4 border-b border-gray-200">
             <h1 class="text-lg sm:text-xl font-semibold text-gray-800">
@@ -11,7 +11,7 @@
         </div>
 
         <!-- Сетка с индикаторами -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+        <div class="grid grid-cols-1 gap-4 mt-6">
             <#list indicators as indicator>
                 <a href="/analytics/${indicator.id()}"
                    class="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-md transition-all hover:border-emerald-300 hover:bg-emerald-50/30 text-lg font-semibold text-gray-800">

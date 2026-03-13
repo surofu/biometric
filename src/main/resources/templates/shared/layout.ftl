@@ -10,7 +10,7 @@
         <meta name="description" content="Биометрик — платформа для персонального мониторинга показателей здоровья. Отслеживайте важные метрики: давление, пульс, инсулин, калий, уровень глюкозы и другие.">
         <meta name="keywords" content="здоровье, мониторинг, показатели, глюкоза, инсулин, калий, трекер здоровья, Биометрик">
         <meta name="author" content="Биометрик">
-        <meta name="theme-color" content="#10b981">
+        <meta name="theme-color" content="#ffffff">
 
         <!-- Для мобильных веб-приложений -->
         <meta name="apple-mobile-web-app-capable" content="yes">

@@ -22,8 +22,6 @@
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </#if>
 
-                <!-- Поле email УДАЛЕНО -->
-
                 <div class="mb-4">
                     <label class="block">
                         <span class="hidden md:block text-sm text-gray-700 mb-1">Старый пароль</span>
@@ -69,16 +67,17 @@
 
                 <button
                         type="submit"
-                        class="w-full bg-linear-to-r from-emerald-400 to-emerald-500 text-white font-medium px-5 py-3 md:py-2 rounded-lg keysetCursor-pointer mt-5 opacity-100 hover:from-emerald-500 hover:to-emerald-600 transition-all"
+                        class="w-full bg-linear-to-r from-emerald-400 to-emerald-500 text-white font-medium px-5 py-3 md:py-2 rounded-lg keysetCursor-pointer mt-5 hover:from-emerald-500 hover:to-emerald-600 transition-all"
                 >
                     Сменить пароль
                 </button>
+                <a
+                        href="/profile"
+                        class="block w-full text-center bg-gray-200 text-gray-800 font-medium px-5 py-3 md:py-2 rounded-lg hover:bg-gray-300 transition-all mt-3"
+                >
+                    Отмена
+                </a>
             </form>
-
-            <div class="mt-6 text-center text-sm">
-                <span class="text-gray-600">Вспомнили пароль?</span>
-                <a href="/login" class="text-emerald-600 hover:text-emerald-800 font-medium ml-1">Войти</a>
-            </div>
         </div>
     </div>
 </@layoutMacros.layout>

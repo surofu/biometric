@@ -10,33 +10,27 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public record SecurityUser(
-    @NonNull
-    String email,
-    @NonNull
-    Boolean emailVerified,
-    @NonNull
-    String passwordHash
+    @NonNull String email,
+    @NonNull Boolean emailVerified,
+    @NonNull String passwordHash
 ) implements UserDetails, OAuth2User {
 
   public SecurityUser(User user) {
     this(user.email(), user.emailVerified(), user.passwordHash());
   }
 
-  @NonNull
   @Override
-  public String getUsername() {
+  public @NonNull String getUsername() {
     return email;
   }
 
-  @NonNull
   @Override
-  public String getPassword() {
+  public @NonNull String getPassword() {
     return passwordHash;
   }
 
-  @NonNull
   @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
+  public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of();
   }
 
@@ -67,9 +61,8 @@ public record SecurityUser(
     );
   }
 
-  @NonNull
   @Override
-  public String getName() {
+  public @NonNull String getName() {
     return email;
   }
 }

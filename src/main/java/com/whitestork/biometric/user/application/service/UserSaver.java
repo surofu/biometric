@@ -12,9 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserSaver {
   private final UserRepository repository;
 
-  @NonNull
   @Transactional
-  public User save(@NonNull User user) {
+  public @NonNull User save(@NonNull User user) {
     return repository.save(user);
   }
 }

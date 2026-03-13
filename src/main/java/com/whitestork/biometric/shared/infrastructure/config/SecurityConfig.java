@@ -58,7 +58,7 @@ public class SecurityConfig {
   private Duration sessionTimeout;
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) {
     return http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
@@ -150,8 +150,7 @@ public class SecurityConfig {
   }
 
   @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
-      throws Exception {
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) {
     return configuration.getAuthenticationManager();
   }
 

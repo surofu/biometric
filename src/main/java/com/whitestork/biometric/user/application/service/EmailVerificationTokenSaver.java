@@ -12,9 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmailVerificationTokenSaver {
   private final EmailVerificationTokenRepository repository;
 
-  @NonNull
   @Transactional
-  public EmailVerificationToken save(@NonNull EmailVerificationToken token) {
+  public @NonNull EmailVerificationToken save(@NonNull EmailVerificationToken token) {
     return repository.save(token);
   }
 }

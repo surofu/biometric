@@ -10,14 +10,11 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("users")
 public record User(
     @Id
-    @Nullable
-    Long id,
-    @NonNull
-    String email,
-    @NonNull
-    Boolean emailVerified,
-    @NonNull
-    String passwordHash
+    @Nullable Long id,
+    @NonNull String email,
+    @NonNull Boolean emailVerified,
+    @NonNull String passwordHash
+
 ) {
   public User(@NonNull String email, @NonNull String passwordHash) {
     this(null, email, false, passwordHash);

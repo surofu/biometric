@@ -22,8 +22,7 @@ public class GetAnalyticsUseCase {
   private final IndicatorProvider indicatorProvider;
   private final MeasurementRepository measurementRepository;
 
-  @NonNull
-  public AnalyticsResponse execute(@NonNull Long indicatorId, @NonNull String email) {
+  public @NonNull AnalyticsResponse execute(@NonNull Long indicatorId, @NonNull String email) {
     Indicator indicator = indicatorProvider.withId(indicatorId);
     List<MeasurementAnalyticsView> measurements = measurementRepository.findAllAnalytics(
         indicatorId,

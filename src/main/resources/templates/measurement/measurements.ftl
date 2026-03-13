@@ -1,7 +1,7 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 
 <@layoutMacros.layout title="Мои показатели" selectedPage="1">
-    <div class="container mx-auto px-4 pt-8 pb-16">
+    <div class="container max-w-2xl mx-auto px-4 pt-8 pb-16">
         <div class="px-4 sm:px-6 pb-4 border-b border-gray-200">
             <h1 class="text-lg sm:text-xl font-semibold text-gray-800">
                 Мои показатели

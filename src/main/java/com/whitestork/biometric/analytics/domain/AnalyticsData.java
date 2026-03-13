@@ -1,12 +1,13 @@
 package com.whitestork.biometric.analytics.domain;
 
 import java.util.List;
+import org.jspecify.annotations.NonNull;
 
 public record AnalyticsData(
-    List<String> labels,
-    List<String> shotLabels,
-    List<Double> values,
-    List<Double> referenceMin,
-    List<Double> referenceMax
+    @NonNull List<String> labels,
+    @NonNull List<String> shotLabels,
+    @NonNull List<Double> values,
+    @NonNull List<Double> referenceMin,
+    @NonNull List<Double> referenceMax
 ) {
 }

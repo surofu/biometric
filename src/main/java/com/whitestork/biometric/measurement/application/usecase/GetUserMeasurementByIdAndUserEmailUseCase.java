@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 public class GetUserMeasurementByIdAndUserEmailUseCase {
   private final MeasurementRepository repository;
 
-  @NonNull
-  public MeasurementResponse execute(@NonNull Long id, @NonNull String email) {
+  public @NonNull MeasurementResponse execute(@NonNull Long id, @NonNull String email) {
     return repository.findResponseByIdAndUserEmail(id, email)
         .orElseThrow(() -> new DomainException("Результат с ID %s не найден".formatted(id)));
   }

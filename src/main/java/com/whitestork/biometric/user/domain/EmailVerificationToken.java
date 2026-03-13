@@ -12,23 +12,16 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("email_verification_tokens")
 public record EmailVerificationToken(
     @Id
-    @Nullable
-    Long id,
-    @NonNull
-    Long userId,
-    @NonNull
-    String token,
-    @NonNull
-    Instant expiresAt,
-    @NonNull
-    Boolean used
+    @Nullable Long id,
+    @NonNull Long userId,
+    @NonNull String token,
+    @NonNull Instant expiresAt,
+    @NonNull Boolean used
 ) {
 
   public EmailVerificationToken(
-      @NonNull
-      Long userId,
-      @NonNull
-      String token
+      @NonNull Long userId,
+      @NonNull String token
   ) {
     this(null, userId, token, Instant.now().plus(Duration.ofHours(24)), false);
   }

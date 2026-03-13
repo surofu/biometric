@@ -3,7 +3,7 @@
 
 <@layoutMacros.layout title="Биометрик - Персональный мониторинг здоровья" selectedPage="0" showNavbar=authenticated>
     <div class="min-h-screen bg-white">
-        <div class="container mx-auto px-4 pt-8 pb-20">
+        <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
             <@messageMacros.message />
 
             <!-- Логотип и заголовок -->
@@ -55,7 +55,7 @@
             </div>
 
             <!-- Карточки с возможностями -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 gap-6 max-w-5xl mx-auto">
                 <!-- Карточка 1: Отслеживание -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow group">
                     <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors">

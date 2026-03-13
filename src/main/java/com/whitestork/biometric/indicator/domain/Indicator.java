@@ -1,15 +1,17 @@
 package com.whitestork.biometric.indicator.domain;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("indicators")
 public record Indicator(
     @Id
-    Long id,
-    String name,
-    String unit,
-    Double referenceMin,
-    Double referenceMax
+    @Nullable Long id,
+    @NonNull String name,
+    @NonNull String unit,
+    @NonNull Double referenceMin,
+    @NonNull Double referenceMax
 ) {
 }

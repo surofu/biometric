@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 public class IndicatorProvider {
   private final IndicatorRepository repository;
 
-  @NonNull
-  public Indicator withId(@NonNull Long id) {
+  public @NonNull Indicator withId(@NonNull Long id) {
     return repository.findById(id)
         .orElseThrow(() -> new DomainException("Показатель с ID %s не найден".formatted(id)));
   }

@@ -1,12 +1,13 @@
-package com.whitestork.biometric.measurement.application.request;
+package com.whitestork.biometric.measurement.interfaces.model;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import lombok.With;
+import org.jspecify.annotations.NonNull;
 
 @With
-public record SaveOrUpdateMeasurementRequest(
+public record SaveOrUpdateMeasurementModel(
     Long id,
     String userEmail,
     Long indicatorId,
@@ -14,11 +15,11 @@ public record SaveOrUpdateMeasurementRequest(
     LocalDate date
 ) {
 
-  public SaveOrUpdateMeasurementRequest() {
+  public SaveOrUpdateMeasurementModel() {
     this(null, null, null, null, LocalDate.now());
   }
 
-  public String formattedDate() {
+  public @NonNull String formattedDate() {
     if (date == null) {
       return "";
     }

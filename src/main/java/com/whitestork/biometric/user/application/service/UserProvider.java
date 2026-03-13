@@ -12,14 +12,12 @@ import org.springframework.stereotype.Component;
 public class UserProvider {
   private final UserRepository repository;
 
-  @NonNull
-  public User withId(@NonNull Long id) {
+  public @NonNull User withId(@NonNull Long id) {
     return repository.findById(id)
         .orElseThrow(() -> new DomainException("Пользователь с ID %s не найден".formatted(id)));
   }
 
-  @NonNull
-  public User withEmail(@NonNull String email) {
+  public @NonNull User withEmail(@NonNull String email) {
     return repository.findByEmail(email)
         .orElseThrow(() -> new DomainException("Пользователь %s не найден".formatted(email)));
   }

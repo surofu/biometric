@@ -3,19 +3,20 @@ package com.whitestork.biometric.measurement.application.response;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import org.jspecify.annotations.NonNull;
 
 public record MeasurementResponse(
-    Long id,
-    Double value,
-    LocalDate date,
-
-    Long indicatorId,
-    String indicatorName,
-    String indicatorUnit,
-    Double indicatorReferenceMin,
-    Double indicatorReferenceMax
+    @NonNull Long id,
+    @NonNull Double value,
+    @NonNull LocalDate date,
+    // Indicator Info
+    @NonNull Long indicatorId,
+    @NonNull String indicatorName,
+    @NonNull String indicatorUnit,
+    @NonNull Double indicatorReferenceMin,
+    @NonNull Double indicatorReferenceMax
 ) {
-  public String formattedDate() {
+  public @NonNull String formattedDate() {
     return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm").withZone(ZoneId.systemDefault())
         .format(date);
   }

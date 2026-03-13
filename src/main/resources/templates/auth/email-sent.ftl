@@ -1,4 +1,5 @@
 <#import "../shared/layout.ftl" as layoutMacros>
+<#import "../shared/message.ftl" as messageMacros>
 
 <@layoutMacros.layout title="Подтвердите почту" showNavbar=false>
     <!-- Логотип -->
@@ -35,6 +36,8 @@
                     Не получили письмо? Проверьте папку&nbsp;<span class="font-medium text-gray-700">«Спам»</span>
                 </p>
             </div>
+
+            <@messageMacros.message />
 
             <a href="/login"
                class="block w-full text-center bg-linear-to-r from-emerald-400 to-emerald-500 text-white font-medium px-5 py-3 md:py-2 rounded-lg hover:from-emerald-500 hover:to-emerald-600 transition-all">

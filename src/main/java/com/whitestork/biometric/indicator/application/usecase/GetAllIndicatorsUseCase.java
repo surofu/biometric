@@ -5,7 +5,6 @@ import com.whitestork.biometric.indicator.infrastructure.persistence.IndicatorRe
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Service;
 public class GetAllIndicatorsUseCase {
   private final IndicatorRepository repository;
 
-  @NonNull
-  @Cacheable(value = "indicators", unless = "#result.empty")
-  public List<IndicatorResponse> execute() {
+  public @NonNull List<IndicatorResponse> execute() {
     return repository.findAllResponses();
   }
 }

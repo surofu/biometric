@@ -8,8 +8,7 @@ import org.jspecify.annotations.NonNull;
 public record KeysetCursor(@NonNull LocalDate date, @NonNull Long id) {
   private static final String SEPARATOR = ":";
 
-  @NonNull
-  public static KeysetCursor fromString(@NonNull String original) {
+  public static @NonNull KeysetCursor fromString(@NonNull String original) {
     try {
       byte[] decoded = Base64.getUrlDecoder().decode(original);
       String raw = new String(decoded);
@@ -25,8 +24,7 @@ public record KeysetCursor(@NonNull LocalDate date, @NonNull Long id) {
     }
   }
 
-  @NonNull
-  public String toString() {
+  public @NonNull String toString() {
     String raw = date + SEPARATOR + id;
     return Base64.getUrlEncoder().withoutPadding().encodeToString(raw.getBytes());
   }

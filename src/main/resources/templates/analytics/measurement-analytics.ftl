@@ -16,7 +16,7 @@
         }
     </style>
 
-    <div class="container mx-auto px-4 pt-8 pb-20">
+    <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
 
         <!-- ── Карточка с графиком ───────────────────────────── -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6">
@@ -233,8 +233,9 @@
                         ctx.restore();
                     }],
                     setCursor: [u => {
-                        const {idx} = u.keysetCursor;
                         const tip = document.getElementById('tooltip');
+                        const {idx} = u.cursor;
+
                         if (idx == null || idx < 0 || idx >= values.length) {
                             tip.style.opacity = 0;
                             return;
@@ -266,6 +267,7 @@
                             : '✓ В пределах нормы';
                         stEl.className = 'text-xs mt-0.5 ' + (out ? 'text-red-400' : 'text-emerald-500');
                     }]
+
                 }
             };
 

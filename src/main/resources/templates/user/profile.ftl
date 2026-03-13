@@ -2,7 +2,7 @@
 <#import "../shared/message.ftl" as messageMacros>
 
 <@layoutMacros.layout title="Мой профиль - Биометрик" selectedPage="4">
-    <div class="container mx-auto px-4 pt-8 pb-16">
+    <div class="container max-w-2xl mx-auto px-4 pt-8 pb-16">
 
         <@messageMacros.message />
 

@@ -25,7 +25,7 @@ public class AnalyticsController {
   private final GetAnalyticsUseCase getAnalyticsUseCase;
 
   @GetMapping
-  public String selectAnalytics(
+  public @NonNull String selectAnalytics(
       @NonNull @AuthenticationPrincipal SecurityUser securityUser,
       @NonNull Model model
   ) {
@@ -37,7 +37,7 @@ public class AnalyticsController {
   }
 
   @GetMapping("{indicatorId}")
-  public String showMeasurementAnalytics(
+  public @NonNull String showMeasurementAnalytics(
       @NonNull @PathVariable Long indicatorId,
       @NonNull @AuthenticationPrincipal SecurityUser securityUser,
       @NonNull Model model

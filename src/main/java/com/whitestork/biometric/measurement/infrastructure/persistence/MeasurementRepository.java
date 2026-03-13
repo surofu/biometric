@@ -6,6 +6,7 @@ import com.whitestork.biometric.measurement.domain.Measurement;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -33,9 +34,9 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
          WHERE date_rank <= :pageSize
          ORDER BY date DESC, id DESC
          """)
-  List<MeasurementResponse> findFirstPageByUser(
-      @Param("email") String email,
-      @Param("pageSize") int pageSize
+  @NonNull List<MeasurementResponse> findFirstPageByUser(
+      @NonNull @Param("email") String email,
+      @NonNull @Param("pageSize") Integer pageSize
   );
 
   @Query("""
@@ -60,11 +61,11 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
          WHERE date_rank <= :pageSize
          ORDER BY date DESC, id DESC
          """)
-  List<MeasurementResponse> findNextPageByUser(
-      @Param("email") String email,
-      @Param("lastDate") LocalDate lastDate,
-      @Param("lastId") long lastId,
-      @Param("pageSize") int pageSize
+  @NonNull List<MeasurementResponse> findNextPageByUser(
+      @NonNull @Param("email") String email,
+      @NonNull @Param("lastDate") LocalDate lastDate,
+      @NonNull @Param("lastId") Long lastId,
+      @NonNull @Param("pageSize") Integer pageSize
   );
 
   @Query("""
@@ -74,14 +75,14 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
          WHERE u.email = :email
            AND (m.date < :lastDate OR (m.date = :lastDate AND m.id < :lastId))
          """)
-  long countDistinctDatesAfter(
-      @Param("email") String email,
-      @Param("lastDate") LocalDate lastDate,
-      @Param("lastId") long lastId
+  @NonNull Long countDistinctDatesAfter(
+      @NonNull @Param("email") String email,
+      @NonNull @Param("lastDate") LocalDate lastDate,
+      @NonNull @Param("lastId") Long lastId
   );
 
   @Query("SELECT COUNT(DISTINCT m.date) FROM measurements m JOIN users u ON m.user_id = u.id WHERE u.email = :email")
-  long countAllDistinctDates(@Param("email") String email);
+  @NonNull Long countAllDistinctDates(@Param("email") String email);
 
 
   @Query("""
@@ -90,9 +91,9 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
          where m.id = :id and u.email = :email
          limit 1
          """)
-  Optional<Measurement> findByIdAndUserEmail(
-      @Param("id") Long id,
-      @Param("email") String email
+  @NonNull Optional<Measurement> findByIdAndUserEmail(
+      @NonNull @Param("id") Long id,
+      @NonNull @Param("email") String email
   );
 
   @Query("""
@@ -101,9 +102,9 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
          where m.id = :id and u.email = :email
          limit 1
          """)
-  Optional<MeasurementResponse> findResponseByIdAndUserEmail(
-      @Param("id") Long id,
-      @Param("email") String email
+  @NonNull Optional<MeasurementResponse> findResponseByIdAndUserEmail(
+      @NonNull @Param("id") Long id,
+      @NonNull @Param("email") String email
   );
 
   @Query("""
@@ -118,9 +119,9 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
              where m.rn <= 5
              order by m.date
          """)
-  List<MeasurementAnalyticsView> findAllAnalytics(
-      @Param("indicatorId") Long indicatorId,
-      @Param("email") String email
+  @NonNull List<MeasurementAnalyticsView> findAllAnalytics(
+      @NonNull @Param("indicatorId") Long indicatorId,
+      @NonNull @Param("email") String email
   );
 
   @Query("""
@@ -128,9 +129,9 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
              join users u on m.user_id = u.id
              where u.email = :email and m.indicator_id = :indicatorId and m.date = :date
          """)
-  boolean existsByUserEmailAndIndicatorIdAndDate(
-      @Param("email") String email,
-      @Param("indicatorId") Long indicatorId,
-      @Param("date") LocalDate date
+  @NonNull Boolean existsByUserEmailAndIndicatorIdAndDate(
+      @NonNull @Param("email") String email,
+      @NonNull @Param("indicatorId") Long indicatorId,
+      @NonNull @Param("date") LocalDate date
   );
 }

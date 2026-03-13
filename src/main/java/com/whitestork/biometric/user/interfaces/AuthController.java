@@ -12,9 +12,13 @@ import com.whitestork.biometric.user.interfaces.model.RegisterUserModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,10 +29,12 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -41,9 +47,9 @@ public class AuthController {
   private final UserDetailsService userDetailsService;
 
   @GetMapping("/register")
-  public String registerPage(
-      @AuthenticationPrincipal SecurityUser securityUser,
-      Model model
+  public @NonNull String registerPage(
+      @Nullable @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull Model model
   ) {
     if (securityUser != null) {
       return "redirect:/";
@@ -54,10 +60,10 @@ public class AuthController {
   }
 
   @GetMapping("/login")
-  public String loginPage(
-      @RequestParam(required = false) String error,
-      @RequestParam(required = false) String logout,
-      @AuthenticationPrincipal SecurityUser securityUser,
+  public @NonNull String loginPage(
+      @Nullable @RequestParam(required = false) String error,
+      @Nullable @RequestParam(required = false) String logout,
+      @Nullable @AuthenticationPrincipal SecurityUser securityUser,
       HttpServletRequest request,
       Model model
   ) {
@@ -77,12 +83,12 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public String register(
-      @Valid @ModelAttribute RegisterUserModel registerModel,
-      BindingResult result,
-      HttpServletRequest httpRequest,
-      HttpServletResponse httpResponse,
-      Model model
+  public @NonNull String register(
+      @NonNull @Valid @ModelAttribute RegisterUserModel registerModel,
+      @NonNull BindingResult result,
+      @NonNull HttpServletRequest httpRequest,
+      @NonNull HttpServletResponse httpResponse,
+      @NonNull Model model
   ) {
     if (result.hasErrors()) {
       model.addAttribute("registerModel", registerModel);
@@ -113,24 +119,39 @@ public class AuthController {
   }
 
   @GetMapping("/email-sent")
-  public String emailSent(
-      @RequestParam String email,
-      @AuthenticationPrincipal SecurityUser securityUser,
-      Model model
+  public @NonNull String emailSent(
+      @RequestParam
+      @Validated
+      @NotBlank(message = "Почта обязательна")
+      @Email(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Некорректный формат почты")
+      @NonNull String email,
+      @NonNull BindingResult result,
+      @Nullable @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull Model model,
+      @NonNull RedirectAttributes redirectAttributes
   ) {
     if (securityUser != null) {
       return "redirect:/";
     }
+
+    if (result.hasErrors()) {
+      redirectAttributes.addFlashAttribute(
+          "errorMessage",
+          result.getAllErrors().getFirst().getDefaultMessage()
+      );
+      return "redirect:/register";
+    }
+
     model.addAttribute("email", email);
     return "auth/email-sent";
   }
 
   @GetMapping("/verify-email")
-  public String verifyEmail(
-      @RequestParam String token,
-      HttpServletRequest httpRequest,
-      HttpServletResponse httpResponse,
-      Model model
+  public @NonNull String verifyEmail(
+      @NonNull @RequestParam String token,
+      @NonNull HttpServletRequest httpRequest,
+      @NonNull HttpServletResponse httpResponse,
+      @NonNull Model model
   ) {
     try {
       String email = verifyTokenUseCase.execute(token);
@@ -144,7 +165,7 @@ public class AuthController {
 
   @GetMapping("/change-password")
   @PreAuthorize("isAuthenticated()")
-  public String changePassword(Model model) {
+  public @NonNull String changePassword(Model model) {
     model.addAttribute("changePasswordModel", new ChangePasswordModel());
     return "auth/change-password";
   }
@@ -152,12 +173,12 @@ public class AuthController {
   @PostMapping("/change-password")
   @PreAuthorize("isAuthenticated()")
   public String changePassword(
-      @Valid @ModelAttribute ChangePasswordModel changePasswordModel,
-      BindingResult result,
-      @AuthenticationPrincipal SecurityUser securityUser,
-      HttpServletRequest httpRequest,
-      HttpServletResponse httpResponse,
-      Model model
+      @NonNull @Valid @ModelAttribute ChangePasswordModel changePasswordModel,
+      @NonNull BindingResult result,
+      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull HttpServletRequest httpRequest,
+      @NonNull HttpServletResponse httpResponse,
+      @NonNull Model model
   ) {
     if (result.hasErrors()) {
       model.addAttribute("changePasswordModel", changePasswordModel);
@@ -189,9 +210,9 @@ public class AuthController {
   }
 
   private void authenticateUserAndSetSession(
-      String email,
-      HttpServletRequest request,
-      HttpServletResponse response
+      @NonNull String email,
+      @NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response
   ) {
     UserDetails userDetails = userDetailsService.loadUserByUsername(email);
     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
