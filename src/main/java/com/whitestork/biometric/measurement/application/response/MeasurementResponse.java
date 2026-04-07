@@ -1,8 +1,6 @@
 package com.whitestork.biometric.measurement.application.response;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import org.jspecify.annotations.NonNull;
 
 public record MeasurementResponse(
@@ -16,8 +14,4 @@ public record MeasurementResponse(
     @NonNull Double indicatorReferenceMin,
     @NonNull Double indicatorReferenceMax
 ) {
-  public @NonNull String formattedDate() {
-    return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm").withZone(ZoneId.systemDefault())
-        .format(date);
-  }
 }

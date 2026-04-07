@@ -33,7 +33,7 @@ public class AnalyticsController {
         securityUser.email()
     );
     model.addAttribute("indicators", indicators);
-    return "analytics/select-analytics";
+    return "analytics/select";
   }
 
   @GetMapping("{indicatorId}")

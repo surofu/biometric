@@ -1,6 +1,5 @@
 package com.whitestork.biometric.shared.domain.exception;
 
-import com.whitestork.biometric.shared.application.response.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authorization.AuthorizationDeniedException;
@@ -19,8 +18,7 @@ public class GlobalExceptionHandler {
       @NonNull RedirectAttributes redirectAttributes
   ) {
     log.error("Domain exception: {}", exception.getMessage(), exception);
-    ErrorMessage errorMessage = ErrorMessage.from(exception);
-    redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+    redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
     return "redirect:/";
   }
 
@@ -34,15 +32,11 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(AuthorizationDeniedException.class)
   public @NonNull String handleAuthorizationDeniedException(
-      @NonNull AuthorizationDeniedException ex,
+      @NonNull AuthorizationDeniedException exception,
       @NonNull RedirectAttributes redirectAttributes
   ) {
-    log.warn("Ошибка авторизации: {}", ex.getAuthorizationResult());
-    ErrorMessage errorMessage = new ErrorMessage(
-        "Ошибка авторизации",
-        java.time.Instant.now().toString()
-    );
-    redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+    log.warn("Ошибка авторизации: {}", exception.getAuthorizationResult());
+    redirectAttributes.addFlashAttribute("errorMessage", "Ошибка авторизации");
     return "redirect:/";
   }
 
@@ -52,11 +46,7 @@ public class GlobalExceptionHandler {
       @NonNull RedirectAttributes redirectAttributes
   ) {
     log.error("Unexpected error", exception);
-    ErrorMessage errorMessage = new ErrorMessage(
-        "Произошла непредвиденная ошибка",
-        java.time.Instant.now().toString()
-    );
-    redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+    redirectAttributes.addFlashAttribute("errorMessage", "Произошла неизвестная ошибка");
     return "redirect:/";
   }
 }

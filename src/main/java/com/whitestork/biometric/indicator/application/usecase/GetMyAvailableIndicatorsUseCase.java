@@ -13,6 +13,6 @@ public class GetMyAvailableIndicatorsUseCase {
   private final IndicatorRepository repository;
 
   public @NonNull List<IndicatorResponse> execute(@NonNull String email) {
-    return repository.findAllAvailable(email);
+    return repository.findAllByUserEmail(email);
   }
 }

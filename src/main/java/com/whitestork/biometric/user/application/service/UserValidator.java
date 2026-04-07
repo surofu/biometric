@@ -13,7 +13,7 @@ public class UserValidator {
 
   public void uniqueEmail(@NonNull String email) {
     if (repository.existsByEmail(email)) {
-      throw new DomainException("Пользователь с почтой %s уже существует".formatted(email));
+      throw new DomainException("Пользователь с почтой \"%s\" уже существует".formatted(email));
     }
   }
 }

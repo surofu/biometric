@@ -5,15 +5,15 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+        <version>4.0.5</version>
+        <relativePath/> </parent>
     <groupId>com.whitestork</groupId>
     <artifactId>biometric</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <name>biometric</name>
-    <description>biometric</description>
+    <description>A minimalist personal health monitoring platform to record medical metrics and analyze trends.</description>
     <url>https://github.com/surofu/biometric</url>
+
     <licenses>
         <license/>
     </licenses>
@@ -44,7 +44,11 @@
         <bouncycastle.version>1.83</bouncycastle.version>
         <resend.version>4.12.0</resend.version>
         <okio.version>3.10.2</okio.version>
-        <jackson.version>2.21.1</jackson.version>
+        <tools.jackson.core.version>3.1.1</tools.jackson.core.version>
+        <com.fasterxml.jackson.core.version>2.21.1</com.fasterxml.jackson.core.version>
+        <maven.plugins.version>3.15.0</maven.plugins.version>
+        <owasp.version>12.2.0</owasp.version>
+        <exec-maven-plugin.version>3.6.3</exec-maven-plugin.version>
     </properties>
     <repositories>
         <repository>
@@ -56,7 +60,6 @@
         </repository>
     </repositories>
     <dependencies>
-        <!--   Spring Boot     -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
@@ -98,14 +101,12 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
-        <!--   Datasource     -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!--   Security     -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk18on</artifactId>
@@ -125,7 +126,6 @@
             <version>${resend.version}</version>
         </dependency>
 
-        <!--    Annotation Processors    -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -144,11 +144,20 @@
             <optional>true</optional>
         </dependency>
 
-        <!--    Misc    -->
         <dependency>
             <groupId>com.squareup.okio</groupId>
             <artifactId>okio-jvm</artifactId>
             <version>${okio.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${tools.jackson.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${com.fasterxml.jackson.core.version}</version>
         </dependency>
     </dependencies>
 
@@ -157,7 +166,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.15.0</version>
+                <version>${maven.plugins.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -211,7 +220,7 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>12.2.0</version>
+                <version>${owasp.version}</version>
                 <configuration>
                     <nvdApiKey>${nvd.api.key}</nvdApiKey>
                     <nvdValidForHours>24</nvdValidForHours>
@@ -239,7 +248,40 @@
                     <password>${env.DB_PASSWORD}</password>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>npm-install</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>install</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm-build-prod</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>build:prod</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
 </project>

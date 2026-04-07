@@ -4,7 +4,7 @@ spring:
   session:
     timeout: 30d
     cookie:
-      name: BIOMETRIC_SESSION_ID
+      remember-me-key: ${REMEMBER_ME_KEY}
   liquibase:
     enabled: false
     change-log: classpath:/db/changelog/db.changelog-master.yaml
@@ -40,7 +40,7 @@ server:
     min-response-size: 1024
   servlet:
     session:
-      persistent: false  # Отключаем создание JSESSIONID
+      persistent: false
 
 management:
   endpoints:

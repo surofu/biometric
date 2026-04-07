@@ -18,7 +18,7 @@ public class ChangePasswordUseCase {
   private final UserSaver userSaver;
   private final PasswordEncoder passwordEncoder;
 
-  public @NonNull User execute(@NonNull ChangePasswordRequest request) {
+  public void execute(@NonNull ChangePasswordRequest request) {
     User user = userProvider.withEmail(request.email());
 
     if (!passwordEncoder.matches(request.oldPassword(), user.passwordHash())) {
@@ -27,6 +27,6 @@ public class ChangePasswordUseCase {
 
     String newPasswordHash = passwordEncoder.encode(request.newPassword());
     Objects.requireNonNull(newPasswordHash, "Новый пароль обязателен");
-    return userSaver.save(user.withPasswordHash(newPasswordHash));
+    userSaver.save(user.withPasswordHash(newPasswordHash));
   }
 }

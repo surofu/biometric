@@ -1,84 +1,78 @@
 <#import "./shared/layout.ftl" as layoutMacros>
 <#import "./shared/message.ftl" as messageMacros>
 
-<@layoutMacros.layout title="Биометрик - Персональный мониторинг здоровья" selectedPage="0" showNavbar=authenticated>
+<@layoutMacros.layout title="Биометрик — мониторинг здоровья" selectedPage="0" showNavbar=authenticated>
     <div class="min-h-screen bg-white">
-        <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
+        <div class="container max-w-2xl mx-auto px-4 pt-16 pb-20">
             <@messageMacros.message />
 
-            <!-- Логотип и заголовок -->
-            <div class="flex flex-col items-center mb-10">
-                <div class="flex items-center gap-3 text-emerald-600">
-                    <svg width="48" height="48" class="text-emerald-500">
-                        <use href="/favicon.svg#content" width="48" height="48"></use>
-                    </svg>
-                    <span class="text-3xl font-bold bg-linear-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">Биометрик</span>
-                </div>
-                <p class="text-gray-500 mt-3 text-center max-w-md">Ваш персональный помощник в отслеживании здоровья</p>
+            <div class="flex justify-center mb-16">
+                <a href="/" class="group flex items-center gap-3.5 transition-transform hover:scale-[1.02] duration-200">
+                    <div class="flex items-center justify-center w-10 h-10 bg-white border-2 border-slate-100 rounded-xl group-hover:border-emerald-500 transition-colors duration-300">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 12H7L9 5L12 19L15 12H20"
+                                  stroke="#059669"
+                                  stroke-width="2.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+
+                    <div class="flex items-center tracking-tight gap-1">
+                        <span class="text-2xl font-light text-slate-400">Био</span>
+                        <span class="text-2xl font-black text-slate-800 -ml-0.5 relative">
+                            метрик
+                            <span class="absolute -right-1.5 bottom-1.5 w-1 h-1 bg-emerald-500 rounded-full"></span>
+                        </span>
+                    </div>
+                </a>
             </div>
 
-            <!-- Приветствие -->
-            <div class="text-center mb-12">
-                <h1 class="text-2xl font-semibold text-gray-800 mb-2">
+            <div class="text-center mb-16">
+                <h1 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">
                     <#if authenticated>
-                        С возвращением!
+                        С возвращением
                     <#else>
-                        Добро пожаловать!
+                        Мониторинг здоровья
                     </#if>
                 </h1>
-                <p class="text-gray-600 max-w-2xl mx-auto">
-                    Платформа для персонального мониторинга показателей здоровья.
-                    Записывайте свои измерения, следите за динамикой и оставайтесь здоровыми.
+                <p class="text-slate-500 leading-relaxed max-w-md mx-auto text-sm">
+                    Простая и эффективная платформа для записи медицинских показателей и отслеживания их динамики в реальном времени.
                 </p>
+
                 <#if !authenticated>
-                    <div class="flex flex-wrap gap-4 justify-center mt-8">
-                        <!-- Кнопка входа (контурная) -->
-                        <a href="/login"
-                           class="inline-flex items-center justify-center w-full max-w-xs px-6 py-3 border border-emerald-600 text-emerald-600 font-medium rounded-lg hover:bg-emerald-50 transition-colors shadow-sm">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                            </svg>
-                            Войти
-                        </a>
-                        <!-- Кнопка регистрации (градиентная) -->
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center items-center mt-10">
                         <a href="/register"
-                           class="inline-flex items-center justify-center w-full max-w-xs px-6 py-3 bg-linear-to-r from-emerald-400 to-emerald-500 text-white font-medium rounded-lg hover:from-emerald-500 hover:to-emerald-600 transition-colors shadow-sm">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
-                            Зарегистрироваться
+                           class="w-full sm:w-auto px-8 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors text-center text-sm">
+                            Создать аккаунт
+                        </a>
+                        <a href="/login"
+                           class="w-full sm:w-auto px-8 py-3 bg-white text-slate-600 font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors text-center text-sm">
+                            Войти
                         </a>
                     </div>
                 </#if>
             </div>
 
-            <!-- Карточки с возможностями -->
-            <div class="grid grid-cols-1 gap-6 max-w-5xl mx-auto">
-                <!-- Карточка 1: Отслеживание -->
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow group">
-                    <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors">
-                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-6 border border-slate-100 rounded-2xl bg-slate-50/30">
+                    <div class="text-emerald-600 mb-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-gray-800 mb-2">Отслеживайте показатели</h3>
-                    <p class="text-sm text-gray-600">Фиксируйте важные метрики здоровья</p>
+                    <h3 class="font-bold text-slate-800 text-sm mb-1">Запись данных</h3>
+                    <p class="text-xs text-slate-500 leading-normal">Добавляйте результаты анализов и измерений за несколько секунд.</p>
                 </div>
 
-                <!-- Карточка 2: Анализ -->
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow group">
-                    <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors">
-                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                <div class="p-6 border border-slate-100 rounded-2xl bg-slate-50/30">
+                    <div class="text-emerald-600 mb-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M3 4h18"/>
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-gray-800 mb-2">Анализируйте динамику</h3>
-                    <p class="text-sm text-gray-600">Просматривайте историю изменений, сравнивайте с нормами и
-                        отслеживайте прогресс.</p>
+                    <h3 class="font-bold text-slate-800 text-sm mb-1">Анализ трендов</h3>
+                    <p class="text-xs text-slate-500 leading-normal">Визуальное представление изменений ваших показателей на графиках.</p>
                 </div>
             </div>
         </div>

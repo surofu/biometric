@@ -1,11 +1,10 @@
-<#-- measurement-groups.ftl: рендерит список групп, ожидает переменную page -->
 <#list page.content() as group>
     <details class="measurement-group bg-white rounded-lg border border-gray-200 overflow-hidden"
              <#if (isFirstPage && group?is_first)>open</#if>>
         <summary
                 class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center keysetCursor-pointer hover:bg-gray-300 transition-colors list-none [&::-webkit-details-marker]:hidden">
-            <h2 class="font-medium text-gray-700">${group.date()} <span
-                        class="text-xs text-gray-500">(${group.dayOfWeek()})</span></h2>
+            <h2 class="font-medium text-gray-700">${dateFormatter.format(group.date())} <span
+                        class="text-xs text-gray-500">(${dateFormatter.dayOfWeek(group.date())})</span></h2>
             <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200 chevron-icon"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -56,9 +55,7 @@
                                   method="post"
                                   onsubmit="return confirm('Вы уверены, что хотите удалить этот показатель?');"
                             >
-                                <#if _csrf??>
-                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                </#if>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <button type="submit"
                                         class="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-full transition-colors"
                                         title="Удалить">

@@ -25,7 +25,7 @@ public class UserController {
     model.addAttribute("email", securityUser.email());
 
     if (passwordChanged != null) {
-      model.addAttribute("infoMessage", "Пароль успешно изменён");
+      model.addAttribute("successMessage", "Пароль успешно изменён");
     }
 
     return "user/profile";

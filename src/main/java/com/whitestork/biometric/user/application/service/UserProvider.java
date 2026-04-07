@@ -14,11 +14,11 @@ public class UserProvider {
 
   public @NonNull User withId(@NonNull Long id) {
     return repository.findById(id)
-        .orElseThrow(() -> new DomainException("Пользователь с ID %s не найден".formatted(id)));
+        .orElseThrow(() -> new DomainException("Пользователь с ID \"%s\" не найден".formatted(id)));
   }
 
   public @NonNull User withEmail(@NonNull String email) {
     return repository.findByEmail(email)
-        .orElseThrow(() -> new DomainException("Пользователь %s не найден".formatted(email)));
+        .orElseThrow(() -> new DomainException("Пользователь \"%s\" не найден".formatted(email)));
   }
 }

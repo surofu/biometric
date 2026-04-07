@@ -10,7 +10,7 @@
 
         <div class="flex justify-between items-start sm:items-center gap-4 w-full py-6">
             <a href="/measurements/new"
-               class="w-full sm:w-auto px-4 py-2 bg-emerald-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors text-center">
+               class="w-full sm:w-auto px-4 py-2 bg-emerald-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none transition-colors text-center">
                 Добавить показатель
             </a>
             <div class="flex gap-2">
@@ -39,6 +39,7 @@
 
         <#if page.content()?size == 0>
             <div class="bg-white rounded-lg border border-gray-200 p-8 text-center">
+            <div class="bg-white rounded-lg border border-gray-200 p-8 text-center">
                 <div class="flex flex-col items-center space-y-3">
                     <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
@@ -52,7 +53,7 @@
             </div>
         <#else>
             <div id="measurementGroups" class="space-y-3">
-                <#include "measurement-groups.ftl">
+                <#include "groups.ftl">
                 <div id="scroll-trigger" style="height: 10px; background: transparent;"></div>
             </div>
         </#if>

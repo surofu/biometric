@@ -34,7 +34,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -45,17 +45,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @EnableJdbcHttpSession
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-  private static final String REMEMBER_ME_KEY = "uniqueAndSecret";
   private static final String SESSION_COOKIE = "BIOMETRIC_SESSION_ID";
   private static final String REMEMBER_ME_COOKIE = "BIOMETRIC_REMEMBER_ME";
   private static final String CSRF_COOKIE = "BIOMETRIC-XSRF-TOKEN";
-
   private final UserDetailsService userDetailsService;
   private final CustomOAuth2UserService customOAuth2UserService;
 
   @Value("${spring.session.timeout}")
   private Duration sessionTimeout;
+  @Value("${spring.session.cookie.remember-me-key}")
+  private String rememberMeKey;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) {
@@ -95,7 +94,7 @@ public class SecurityConfig {
             .permitAll()
         )
         .rememberMe(remember -> remember
-            .key(REMEMBER_ME_KEY)
+            .key(rememberMeKey)
             .rememberMeParameter("rememberMe")
             .tokenValiditySeconds((int) sessionTimeout.toSeconds())
             .userDetailsService(userDetailsService)
@@ -117,7 +116,7 @@ public class SecurityConfig {
         )
         .csrf(csrf -> csrf
             .csrfTokenRepository(cookieCsrfTokenRepository())
-            .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+            .csrfTokenRequestHandler(xorHandler())
         )
         .addFilterAfter(csrfCookieFilter(), CsrfFilter.class)
         .build();
@@ -126,7 +125,7 @@ public class SecurityConfig {
   @Bean
   public RememberMeServices rememberMeServices() {
     TokenBasedRememberMeServices services = new TokenBasedRememberMeServices(
-        REMEMBER_ME_KEY,
+        rememberMeKey,
         userDetailsService
     );
     services.setParameter("rememberMe");
@@ -171,6 +170,13 @@ public class SecurityConfig {
       request.getSession().setAttribute("errorMessage", message);
       response.sendRedirect("/login?error=true");
     };
+  }
+
+  @Bean
+  public XorCsrfTokenRequestAttributeHandler xorHandler() {
+    XorCsrfTokenRequestAttributeHandler xorHandler = new XorCsrfTokenRequestAttributeHandler();
+    xorHandler.setCsrfRequestAttributeName("_csrf");
+    return xorHandler;
   }
 
   @Bean
