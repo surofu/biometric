@@ -11,9 +11,6 @@ import com.whitestork.biometric.user.interfaces.model.ChangePasswordModel;
 import com.whitestork.biometric.user.interfaces.model.RegisterUserModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +25,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -84,18 +78,11 @@ public class AuthController {
 
   @PostMapping("/register")
   public @NonNull String register(
-      @NonNull @Valid @ModelAttribute RegisterUserModel registerModel,
-      @NonNull BindingResult result,
+      @NonNull @ModelAttribute RegisterUserModel registerModel,
       @NonNull HttpServletRequest httpRequest,
       @NonNull HttpServletResponse httpResponse,
       @NonNull Model model
   ) {
-    if (result.hasErrors()) {
-      model.addAttribute("registerModel", registerModel);
-      model.addAttribute("errorMessage", result.getAllErrors().getFirst().getDefaultMessage());
-      return "auth/register";
-    }
-
     if (!Objects.equals(registerModel.password(), registerModel.confirmPassword())) {
       model.addAttribute("registerModel", registerModel);
       model.addAttribute("errorMessage", "Пароли должны совпадать");
@@ -121,25 +108,12 @@ public class AuthController {
   @GetMapping("/email-sent")
   public @NonNull String emailSent(
       @RequestParam
-      @Validated
-      @NotBlank(message = "Почта обязательна")
-      @Email(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Некорректный формат почты")
       @NonNull String email,
-      @NonNull BindingResult result,
       @Nullable @AuthenticationPrincipal SecurityUser securityUser,
-      @NonNull Model model,
-      @NonNull RedirectAttributes redirectAttributes
+      @NonNull Model model
   ) {
     if (securityUser != null) {
       return "redirect:/";
-    }
-
-    if (result.hasErrors()) {
-      redirectAttributes.addFlashAttribute(
-          "errorMessage",
-          result.getAllErrors().getFirst().getDefaultMessage()
-      );
-      return "redirect:/register";
     }
 
     model.addAttribute("email", email);
@@ -173,19 +147,12 @@ public class AuthController {
   @PostMapping("/change-password")
   @PreAuthorize("isAuthenticated()")
   public String changePassword(
-      @NonNull @Valid @ModelAttribute ChangePasswordModel changePasswordModel,
-      @NonNull BindingResult result,
+      @NonNull @ModelAttribute ChangePasswordModel changePasswordModel,
       @NonNull @AuthenticationPrincipal SecurityUser securityUser,
       @NonNull HttpServletRequest httpRequest,
       @NonNull HttpServletResponse httpResponse,
       @NonNull Model model
   ) {
-    if (result.hasErrors()) {
-      model.addAttribute("changePasswordModel", changePasswordModel);
-      model.addAttribute("errorMessage", result.getAllErrors().getFirst().getDefaultMessage());
-      return "auth/change-password";
-    }
-
     if (!Objects.equals(changePasswordModel.newPassword(),
         changePasswordModel.confirmNewPassword())) {
       model.addAttribute("changePasswordModel", changePasswordModel);

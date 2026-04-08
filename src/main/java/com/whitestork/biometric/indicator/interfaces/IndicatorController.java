@@ -7,13 +7,11 @@ import com.whitestork.biometric.indicator.application.usecase.DeleteIndicatorByI
 import com.whitestork.biometric.indicator.application.usecase.GetAllIndicatorsUseCase;
 import com.whitestork.biometric.indicator.application.usecase.SaveOrUpdateIndicatorUseCase;
 import com.whitestork.biometric.indicatorcategory.application.usecase.GetAllIndicatorCategoriesUseCase;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,22 +57,9 @@ public class IndicatorController {
   @PostMapping("/save")
   @PreAuthorize("isAuthenticated()")
   public @NonNull String save(
-      @NonNull @Valid @ModelAttribute("request") SaveOrUpdateIndicatorRequest request,
-      @NonNull BindingResult bindingResult,
+      @NonNull @ModelAttribute("request") SaveOrUpdateIndicatorRequest request,
       @NonNull RedirectAttributes redirectAttributes
   ) {
-    if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute(
-          "errorMessage",
-          bindingResult.getAllErrors().getFirst().getDefaultMessage()
-      );
-
-      if (request.id() != null) {
-        return "redirect:/admin/indicators/%s/edit".formatted(request.id());
-      }
-      return "redirect:/admin/indicators/add";
-    }
-
     try {
       IndicatorResponse saved = saveOrUpdateIndicatorUseCase.execute(request);
       redirectAttributes.addFlashAttribute("successMessage", "Индикатор успешно сохранен");

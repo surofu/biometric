@@ -17,7 +17,6 @@ import com.whitestork.biometric.shared.domain.exception.DomainException;
 import com.whitestork.biometric.user.infrastructure.security.SecurityUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
@@ -26,7 +25,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,7 +91,8 @@ public class MeasurementController {
       @NonNull @AuthenticationPrincipal SecurityUser securityUser,
       @NonNull Model model
   ) {
-    MeasurementResponse measurement = getUserMeasurementByIdAndUserEmailUseCase.execute(id, securityUser.email());
+    MeasurementResponse measurement =
+        getUserMeasurementByIdAndUserEmailUseCase.execute(id, securityUser.email());
     SaveOrUpdateMeasurementModel formModel = new SaveOrUpdateMeasurementModel(
         measurement.id(),
         securityUser.email(),
@@ -108,8 +107,7 @@ public class MeasurementController {
   @PostMapping
   @PreAuthorize("isAuthenticated()")
   public @NonNull String save(
-      @NonNull @Valid @ModelAttribute("measurement") SaveOrUpdateMeasurementModel request,
-      @NonNull BindingResult bindingResult,
+      @NonNull @ModelAttribute("measurement") SaveOrUpdateMeasurementModel request,
       @NonNull @AuthenticationPrincipal SecurityUser securityUser,
       @NonNull Model model
   ) {
@@ -120,12 +118,6 @@ public class MeasurementController {
         request.value(),
         request.date()
     );
-
-    if (bindingResult.hasErrors()) {
-      model.addAttribute("validationErrors", bindingResult);
-      populateFormModel(model, formModel);
-      return "measurement/save-form";
-    }
 
     try {
       if (formModel.id() != null) {
@@ -174,7 +166,8 @@ public class MeasurementController {
     return "redirect:/measurements";
   }
 
-  private void populateFormModel(@NonNull Model model, @NonNull SaveOrUpdateMeasurementModel measurement) {
+  private void populateFormModel(@NonNull Model model,
+                                 @NonNull SaveOrUpdateMeasurementModel measurement) {
     model.addAttribute("measurement", measurement);
     model.addAttribute("categories", getAllIndicatorCategoriesUseCase.execute());
     model.addAttribute("indicators", getAllIndicatorsUseCase.execute());

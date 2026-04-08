@@ -6,14 +6,12 @@ import com.whitestork.biometric.indicatorcategory.application.usecase.DeleteIndi
 import com.whitestork.biometric.indicatorcategory.application.usecase.GetAllIndicatorCategoriesUseCase;
 import com.whitestork.biometric.indicatorcategory.application.usecase.GetIndicatorCategoryByIdUseCase;
 import com.whitestork.biometric.indicatorcategory.application.usecase.SaveOrUpdateIndicatorCategoryUseCase;
-import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,22 +57,9 @@ public class IndicatorCategoryController {
   @PostMapping("/save")
   @PreAuthorize("isAuthenticated()")
   public @NonNull String save(
-      @NonNull @Valid @ModelAttribute("request") SaveOrUpdateIndicatorCategoryRequest request,
-      @NonNull BindingResult bindingResult,
+      @NonNull @ModelAttribute("request") SaveOrUpdateIndicatorCategoryRequest request,
       @NonNull RedirectAttributes redirectAttributes
   ) {
-    if (bindingResult.hasErrors()) {
-      redirectAttributes.addFlashAttribute(
-          "errorMessage",
-          bindingResult.getAllErrors().getFirst().getDefaultMessage()
-      );
-
-      if (request.id() != null) {
-        return "redirect:/admin/indicator-categories/%s/edit".formatted(request.id());
-      }
-      return "redirect:/admin/indicator-categories/add";
-    }
-
     try {
       IndicatorCategoryResponse saved = saveOrUpdateIndicatorCategoryUseCase.execute(request);
       redirectAttributes.addFlashAttribute("successMessage", "Категория успешно сохранена");
