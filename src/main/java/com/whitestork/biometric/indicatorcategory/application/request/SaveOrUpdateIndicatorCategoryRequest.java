@@ -10,6 +10,10 @@ public record SaveOrUpdateIndicatorCategoryRequest(
     @NonNull String description
 ) {
 
+  public SaveOrUpdateIndicatorCategoryRequest() {
+    this(null, null, null);
+  }
+
   public SaveOrUpdateIndicatorCategoryRequest(IndicatorCategoryResponse category) {
       this(category.id(), category.name(), category.description());
   }

@@ -43,6 +43,14 @@ COPY --from=builder --chown=spring:spring /app/extracted/spring-boot-loader/ ./
 COPY --from=builder --chown=spring:spring /app/extracted/snapshot-dependencies/ ./
 COPY --from=builder --chown=spring:spring /app/extracted/application/ ./
 
+ENV JAVA_OPTS="-XX:+UseCompactObjectHeaders \
+    -XX:+UseG1GC \
+    -XX:+UseStringDeduplication \
+    -XX:MaxRAMPercentage=75 \
+    -XX:+ExitOnOutOfMemoryError \
+    -XX:+HeapDumpOnOutOfMemoryError \
+    -XX:HeapDumpPath=/tmp/heapdump.hprof"
+
 ENV SERVER_PORT=8088
 ENV SPRING_PROFILES_ACTIVE=prod
 

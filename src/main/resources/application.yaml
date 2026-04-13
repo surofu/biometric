@@ -21,6 +21,10 @@ spring:
   jackson:
     serialization:
       indent-output: false
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
   security:
     oauth2:
       client:

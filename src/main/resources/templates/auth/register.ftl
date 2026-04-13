@@ -25,7 +25,7 @@
     </div>
 
     <div class="min-h-screen flex flex-col items-center justify-center bg-white md:bg-slate-50 px-4 py-8 overflow-hidden">
-        <div class="relative bg-white md:rounded-xl md:shadow-md w-full max-w-md p-4 md:p-8 md:border border-slate-200">
+        <div class="relative bg-white md:rounded-xl w-full max-w-md p-4 md:p-8 md:border border-slate-200">
             <h1 class="text-2xl font-bold text-center mb-2">Регистрация</h1>
             <p class="text-gray-500 text-center mb-6 text-sm">Создайте новый аккаунт</p>
 
@@ -58,7 +58,7 @@
                         <span class="hidden md:block text-sm text-gray-700 mb-1">Email</span>
                         <input type="email" name="email" value="${registerModel.email()!}" required
                                placeholder="Электронный адрес"
-                               class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-shadow">
+                               class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                     </label>
                 </div>
 
@@ -67,7 +67,7 @@
                         <span class="hidden md:block text-sm text-gray-700 mb-1">Пароль</span>
                         <input type="password" name="password" required
                                placeholder="Пароль"
-                               class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-shadow">
+                               class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                     </label>
                 </div>
 
@@ -76,7 +76,7 @@
                         <span class="hidden md:block text-sm text-gray-700 mb-1">Подтверждение пароля</span>
                         <input type="password" name="confirmPassword" required
                                placeholder="Подтвердите пароль"
-                               class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-shadow">
+                               class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                     </label>
                 </div>
 

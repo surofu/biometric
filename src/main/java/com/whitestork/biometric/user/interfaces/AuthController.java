@@ -6,7 +6,7 @@ import com.whitestork.biometric.user.application.request.RegisterUserRequest;
 import com.whitestork.biometric.user.application.usecase.ChangePasswordUseCase;
 import com.whitestork.biometric.user.application.usecase.RegisterUserUseCase;
 import com.whitestork.biometric.user.application.usecase.VerifyTokenUseCase;
-import com.whitestork.biometric.user.infrastructure.security.SecurityUser;
+import com.whitestork.biometric.user.domain.User;
 import com.whitestork.biometric.user.interfaces.model.ChangePasswordModel;
 import com.whitestork.biometric.user.interfaces.model.RegisterUserModel;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,10 +42,10 @@ public class AuthController {
 
   @GetMapping("/register")
   public @NonNull String registerPage(
-      @Nullable @AuthenticationPrincipal SecurityUser securityUser,
+      @Nullable @AuthenticationPrincipal User user,
       @NonNull Model model
   ) {
-    if (securityUser != null) {
+    if (user != null) {
       return "redirect:/";
     }
 
@@ -57,7 +57,7 @@ public class AuthController {
   public @NonNull String loginPage(
       @Nullable @RequestParam(required = false) String error,
       @Nullable @RequestParam(required = false) String logout,
-      @Nullable @AuthenticationPrincipal SecurityUser securityUser,
+      @Nullable @AuthenticationPrincipal User user,
       HttpServletRequest request,
       Model model
   ) {
@@ -70,7 +70,7 @@ public class AuthController {
     if (logout != null) {
       model.addAttribute("infoMessage", "Вы вышли из системы");
     }
-    if (securityUser != null) {
+    if (user != null) {
       return "redirect:/";
     }
     return "auth/login";
@@ -109,10 +109,10 @@ public class AuthController {
   public @NonNull String emailSent(
       @RequestParam
       @NonNull String email,
-      @Nullable @AuthenticationPrincipal SecurityUser securityUser,
+      @Nullable @AuthenticationPrincipal User user,
       @NonNull Model model
   ) {
-    if (securityUser != null) {
+    if (user != null) {
       return "redirect:/";
     }
 
@@ -148,7 +148,7 @@ public class AuthController {
   @PreAuthorize("isAuthenticated()")
   public String changePassword(
       @NonNull @ModelAttribute ChangePasswordModel changePasswordModel,
-      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull @AuthenticationPrincipal User user,
       @NonNull HttpServletRequest httpRequest,
       @NonNull HttpServletResponse httpResponse,
       @NonNull Model model
@@ -162,12 +162,12 @@ public class AuthController {
 
     try {
       ChangePasswordRequest request = new ChangePasswordRequest(
-          securityUser.email(),
+          user.email(),
           changePasswordModel.oldPassword(),
           changePasswordModel.newPassword()
       );
       changePasswordUseCase.execute(request);
-      authenticateUserAndSetSession(securityUser.email(), httpRequest, httpResponse);
+      authenticateUserAndSetSession(user.email(), httpRequest, httpResponse);
       return "redirect:/profile?passwordChanged";
     } catch (DomainException exception) {
       model.addAttribute("changePasswordModel", changePasswordModel);

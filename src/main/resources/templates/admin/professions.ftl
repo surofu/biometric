@@ -1,65 +1,77 @@
-<#import "../shared/layout.ftl" as layoutMacros>
+<#import "../shared/admin-layout.ftl" as adminLayoutMacros>
 
-<@layoutMacros.layout title="Профессии - Биометрик" selectedPage="professions">
-    <div class="container max-w-6xl mx-auto px-4 pt-8 pb-20">
-
-        <!-- Адаптивный заголовок с кнопкой добавления -->
-        <div class="bg-linear-to-r from-emerald-400 to-emerald-500 p-4 sm:p-6 text-white rounded-xl shadow-sm mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div class="flex items-center gap-3 sm:gap-4">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm shrink-0">
-                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-lg sm:text-xl font-semibold">Профессии</h1>
-                    <p class="text-emerald-100 text-xs sm:text-sm mt-0.5">Список профессий, требующих регулярного медицинского осмотра</p>
-                </div>
+<@adminLayoutMacros.adminLayout title="Профессии" selectedPage="professions">
+    <div class="py-6 sm:py-8 pb-16">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div class="min-w-0">
+                <h1 class="text-xl sm:text-2xl font-semibold text-slate-800 tracking-tight break-words">Профессии</h1>
+                <p class="text-slate-500 text-sm mt-1">Список специальностей</p>
             </div>
-            <a href="/admin/professions/add"
-               class="bg-white text-emerald-600 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-50 transition-colors flex items-center gap-1 sm:gap-2 self-end sm:self-auto">
-                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                </svg>
-                Добавить
-            </a>
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                <div class="relative w-full sm:w-64">
+                    <input type="text" id="searchInput" placeholder="Поиск..."
+                           class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                    <svg class="absolute left-3 top-2.5 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <a href="/admin/professions/add" class="w-full sm:w-auto bg-emerald-600 text-white px-6 py-2 rounded-md text-sm font-semibold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2"/></svg> Добавить
+                </a>
+            </div>
         </div>
 
-        <!-- Список профессий -->
-        <#if professions?has_content>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                <#list professions as profession>
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
-                        <div class="p-6">
-                            <h2 class="text-lg font-semibold text-gray-800 mb-2">${profession.name()}</h2>
-                            <div class="flex justify-end gap-2">
-                                <a href="/admin/professions/${profession.id()}/edit"
-                                   class="text-emerald-600 hover:text-emerald-800 p-1 rounded-full hover:bg-emerald-50 transition-colors"
-                                   title="Редактировать">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                    </svg>
-                                </a>
-                                <a href="/admin/professions/${profession.id()}/delete"
-                                   class="text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 transition-colors"
-                                   title="Удалить"
-                                   onclick="return confirm('Вы уверены, что хотите удалить эту профессию?')">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                    </svg>
-                                </a>
+        <div class="bg-white border border-slate-100 rounded-md overflow-hidden">
+            <div class="block sm:hidden divide-y divide-slate-100">
+                <#list professions as item>
+                    <div class="p-4 search-item" data-search="${item.name()?lower_case}">
+                        <div class="flex justify-between items-center gap-4">
+                            <div class="min-w-0 flex-1">
+                                <h3 class="text-sm font-bold text-slate-800 break-words leading-snug">${item.name()}</h3>
+                                <p class="text-[10px] text-slate-400 font-mono mt-1 uppercase tracking-wider">ID: ${item.id()}</p>
+                            </div>
+                            <div class="flex gap-2 shrink-0">
+                                <a href="/admin/professions/${item.id()}/edit" class="p-2.5 bg-slate-100 text-slate-500 rounded-md hover:bg-slate-200 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-width="2"/></svg></a>
+                                <form method="post" action="/admin/professions/${item.id()}" onsubmit="return confirm('Удалить?')">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="hidden" name="_method" value="delete"><button type="submit" class="p-2.5 bg-red-50 text-red-500 rounded-md hover:bg-red-100 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2"/></svg></button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </#list>
             </div>
-        <#else>
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center text-gray-400">
-                <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-                <p class="text-gray-400 text-sm">Список профессий пуст</p>
-            </div>
-        </#if>
+
+            <table class="hidden sm:table min-w-full">
+                <thead class="bg-slate-50/50 border-b border-slate-100">
+                <tr>
+                    <th class="px-6 py-4 text-left text-[10px] font-bold text-slate-400 uppercase tracking-widest w-24">ID</th>
+                    <th class="px-6 py-4 text-left text-[10px] font-bold text-slate-400 uppercase tracking-widest">Название</th>
+                    <th class="px-6 py-4 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest w-32">Действия</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                <#list professions as item>
+                    <tr class="hover:bg-slate-50/50 transition-colors search-item" data-search="${item.name()?lower_case}">
+                        <td class="px-6 py-4 text-[10px] text-slate-400 font-mono tracking-wider uppercase">${item.id()}</td>
+                        <td class="px-6 py-4 text-sm font-semibold text-slate-800 break-words">${item.name()}</td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex justify-center gap-2">
+                                <a href="/admin/professions/${item.id()}/edit" class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-width="2"/></svg></a>
+                                <form method="post" action="/admin/professions/${item.id()}" onsubmit="return confirm('Удалить?')">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="hidden" name="_method" value="delete"><button type="submit" class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-all"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2"/></svg></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        </div>
     </div>
-</@layoutMacros.layout>
+    <script>
+        document.getElementById('searchInput')?.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('.search-item').forEach(el => {
+                el.style.display = el.dataset.search.includes(val) ? '' : 'none';
+            });
+        });
+    </script>
+</@adminLayoutMacros.adminLayout>

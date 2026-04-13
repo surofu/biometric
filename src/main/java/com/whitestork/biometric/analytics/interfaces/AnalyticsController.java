@@ -4,7 +4,7 @@ import com.whitestork.biometric.analytics.application.response.AnalyticsResponse
 import com.whitestork.biometric.analytics.application.usecase.GetAnalyticsUseCase;
 import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.application.usecase.GetMyAvailableIndicatorsUseCase;
-import com.whitestork.biometric.user.infrastructure.security.SecurityUser;
+import com.whitestork.biometric.user.domain.User;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -26,11 +26,11 @@ public class AnalyticsController {
 
   @GetMapping
   public @NonNull String selectAnalytics(
-      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model
   ) {
     List<IndicatorResponse> indicators = getMyAvailableIndicatorsUseCase.execute(
-        securityUser.email()
+        user.email()
     );
     model.addAttribute("indicators", indicators);
     return "analytics/select";
@@ -39,12 +39,12 @@ public class AnalyticsController {
   @GetMapping("{indicatorId}")
   public @NonNull String showMeasurementAnalytics(
       @NonNull @PathVariable Long indicatorId,
-      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model
   ) {
     AnalyticsResponse analyticsResponse = getAnalyticsUseCase.execute(
         indicatorId,
-        securityUser.email()
+        user.email()
     );
     model.addAttribute("analytics", analyticsResponse);
     return "analytics/measurement-analytics";

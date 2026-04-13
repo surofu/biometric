@@ -1,6 +1,6 @@
 package com.whitestork.biometric.user.interfaces;
 
-import com.whitestork.biometric.user.infrastructure.security.SecurityUser;
+import com.whitestork.biometric.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -19,10 +19,10 @@ public class UserController {
   @PreAuthorize("isAuthenticated()")
   public @NonNull String profilePage(
       @Nullable @RequestParam(required = false) String passwordChanged,
-      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model
   ) {
-    model.addAttribute("email", securityUser.email());
+    model.addAttribute("email", user.email());
 
     if (passwordChanged != null) {
       model.addAttribute("successMessage", "Пароль успешно изменён");

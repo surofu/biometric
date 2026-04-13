@@ -1,9 +1,10 @@
 package com.whitestork.biometric.user.infrastructure.security;
 
 import com.whitestork.biometric.shared.domain.exception.DomainException;
-import com.whitestork.biometric.user.application.service.UserProvider;
+import com.whitestork.biometric.user.application.component.UserProvider;
 import com.whitestork.biometric.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -24,8 +26,9 @@ public class CustomUserDetailsService implements UserDetailsService {
       if (user.passwordHash().isEmpty()) {
         throw new DisabledException("google_account:" + email);
       }
-      return new SecurityUser(user);
+      return user;
     } catch (DomainException exception) {
+      log.warn("Unable to load UserDetails for {}", email, exception);
       throw new UsernameNotFoundException(exception.getMessage());
     }
   }

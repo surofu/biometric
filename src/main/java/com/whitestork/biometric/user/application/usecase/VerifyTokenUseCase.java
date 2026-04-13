@@ -1,10 +1,10 @@
 package com.whitestork.biometric.user.application.usecase;
 
 import com.whitestork.biometric.shared.domain.exception.DomainException;
-import com.whitestork.biometric.user.application.service.EmailVerificationTokenProvider;
-import com.whitestork.biometric.user.application.service.EmailVerificationTokenSaver;
-import com.whitestork.biometric.user.application.service.UserProvider;
-import com.whitestork.biometric.user.application.service.UserSaver;
+import com.whitestork.biometric.user.application.component.EmailVerificationTokenProvider;
+import com.whitestork.biometric.user.application.component.EmailVerificationTokenSaver;
+import com.whitestork.biometric.user.application.component.UserProvider;
+import com.whitestork.biometric.user.application.component.UserSaver;
 import com.whitestork.biometric.user.domain.EmailVerificationToken;
 import com.whitestork.biometric.user.domain.User;
 import lombok.RequiredArgsConstructor;

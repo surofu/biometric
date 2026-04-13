@@ -1,8 +1,8 @@
 package com.whitestork.biometric.user.application.usecase;
 
 import com.whitestork.biometric.user.application.request.RegisterUserRequest;
-import com.whitestork.biometric.user.application.service.UserSaver;
-import com.whitestork.biometric.user.application.service.UserValidator;
+import com.whitestork.biometric.user.application.component.UserSaver;
+import com.whitestork.biometric.user.application.component.UserValidator;
 import com.whitestork.biometric.user.domain.User;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class RegisterUserUseCase {
     validator.uniqueEmail(request.email());
     String passwordHash = passwordEncoder.encode(request.password());
     Objects.requireNonNull(passwordHash, "Пароль обязателен");
-    User user = new User(request.email(), passwordHash).withEmailVerified(true);
+    User user = User.defaultUser(request.email(), passwordHash).withEmailVerified(true);
     User savedUser = saver.save(user);
 //    sendVerificationEmailUseCase.execute(savedUser);
   }

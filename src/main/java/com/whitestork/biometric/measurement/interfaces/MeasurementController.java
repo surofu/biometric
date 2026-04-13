@@ -14,7 +14,7 @@ import com.whitestork.biometric.measurement.interfaces.model.SaveOrUpdateMeasure
 import com.whitestork.biometric.shared.domain.KeysetCursor;
 import com.whitestork.biometric.shared.domain.KeysetPage;
 import com.whitestork.biometric.shared.domain.exception.DomainException;
-import com.whitestork.biometric.user.infrastructure.security.SecurityUser;
+import com.whitestork.biometric.user.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +25,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,13 +54,13 @@ public class MeasurementController {
   public @NonNull String list(
       @NonNull @RequestParam(defaultValue = "20", required = false) Integer pageSize,
       @Nullable @RequestParam(required = false) String cursor,
-      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model,
       @NonNull HttpServletRequest request,
       @NonNull HttpServletResponse response
   ) {
     KeysetPage<MeasurementGroupResponse> page = getUserMeasurementPageUseCase.execute(
-        securityUser.email(),
+        user.email(),
         cursor != null ? KeysetCursor.fromString(cursor) : null,
         pageSize
     );
@@ -77,25 +78,25 @@ public class MeasurementController {
     return "measurement/all";
   }
 
-  @GetMapping("/new")
+  @GetMapping("/add")
   @PreAuthorize("isAuthenticated()")
-  public @NonNull String newForm(@NonNull Model model) {
+  public @NonNull String add(@NonNull Model model) {
     populateFormModel(model, new SaveOrUpdateMeasurementModel());
     return "measurement/save-form";
   }
 
   @GetMapping("/{id}/edit")
   @PreAuthorize("isAuthenticated()")
-  public @NonNull String editForm(
+  public @NonNull String edit(
       @NonNull @PathVariable Long id,
-      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model
   ) {
     MeasurementResponse measurement =
-        getUserMeasurementByIdAndUserEmailUseCase.execute(id, securityUser.email());
+        getUserMeasurementByIdAndUserEmailUseCase.execute(id, user.email());
     SaveOrUpdateMeasurementModel formModel = new SaveOrUpdateMeasurementModel(
         measurement.id(),
-        securityUser.email(),
+        user.email(),
         measurement.indicatorId(),
         measurement.value(),
         measurement.date()
@@ -108,12 +109,12 @@ public class MeasurementController {
   @PreAuthorize("isAuthenticated()")
   public @NonNull String save(
       @NonNull @ModelAttribute("measurement") SaveOrUpdateMeasurementModel request,
-      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model
   ) {
     SaveOrUpdateMeasurementModel formModel = new SaveOrUpdateMeasurementModel(
         request.id(),
-        securityUser.email(),
+        user.email(),
         request.indicatorId(),
         request.value(),
         request.date()
@@ -133,29 +134,29 @@ public class MeasurementController {
       populateFormModel(model, new SaveOrUpdateMeasurementModel().withDate(request.date()));
       return "measurement/save-form";
 
-    } catch (DomainException e) {
-      log.warn("DomainException при сохранении: {}", e.getMessage());
-      model.addAttribute("errorMessage", e.getMessage());
+    } catch (DomainException exception) {
+      log.warn("DomainException при сохранении: {}", exception.getMessage());
+      model.addAttribute("errorMessage", exception.getMessage());
       populateFormModel(model, formModel);
       return "measurement/save-form";
 
-    } catch (Exception e) {
-      log.error("Неизвестная ошибка при сохранении: {}", e.getMessage(), e);
-      model.addAttribute("errorMessage", e.getMessage());
+    } catch (Exception exception) {
+      log.error("Неизвестная ошибка при сохранении: {}", exception.getMessage(), exception);
+      model.addAttribute("errorMessage", exception.getMessage());
       populateFormModel(model, formModel);
       return "measurement/save-form";
     }
   }
 
-  @PostMapping("/{id}/delete")
+  @DeleteMapping("/{id}")
   @PreAuthorize("isAuthenticated()")
   public @NonNull String delete(
       @NonNull @PathVariable Long id,
-      @NonNull @AuthenticationPrincipal SecurityUser securityUser,
+      @NonNull @AuthenticationPrincipal User user,
       @NonNull RedirectAttributes redirectAttributes
   ) {
     try {
-      deleteMeasurementUseCase.execute(id, securityUser.email());
+      deleteMeasurementUseCase.execute(id, user.email());
     } catch (DomainException e) {
       log.warn("DomainException при удалении: {}", e.getMessage());
       redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -166,8 +167,10 @@ public class MeasurementController {
     return "redirect:/measurements";
   }
 
-  private void populateFormModel(@NonNull Model model,
-                                 @NonNull SaveOrUpdateMeasurementModel measurement) {
+  private void populateFormModel(
+      @NonNull Model model,
+      @NonNull SaveOrUpdateMeasurementModel measurement
+  ) {
     model.addAttribute("measurement", measurement);
     model.addAttribute("categories", getAllIndicatorCategoriesUseCase.execute());
     model.addAttribute("indicators", getAllIndicatorsUseCase.execute());

@@ -25,7 +25,7 @@
     </div>
 
     <div class="min-h-screen flex flex-col items-center justify-center bg-white md:bg-slate-50 px-4 py-8 overflow-hidden">
-        <div class="relative bg-white md:rounded-xl md:shadow-sm w-full max-w-md p-4 md:p-8 md:border border-slate-200">
+        <div class="relative bg-white md:rounded-xl w-full max-w-md p-4 md:p-8 md:border border-slate-200">
             <h1 class="text-2xl font-bold text-center mb-2 text-gray-800">Смена пароля</h1>
             <p class="text-gray-500 text-center mb-6 text-sm">Введите старый и новый пароль для защиты аккаунта</p>
 
@@ -40,7 +40,7 @@
                                 name="oldPassword"
                                 required
                                 placeholder="Старый пароль"
-                                class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-shadow"
+                                class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         >
                     </label>
                 </div>
@@ -54,7 +54,7 @@
                                 required
                                 minlength="6"
                                 placeholder="Новый пароль"
-                                class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-shadow"
+                                class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         >
                     </label>
                 </div>
@@ -68,7 +68,7 @@
                                 required
                                 minlength="6"
                                 placeholder="Повторите новый пароль"
-                                class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-shadow"
+                                class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         >
                     </label>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="flex flex-col gap-3 pt-2">
                     <button
                             type="submit"
-                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-3 md:py-2 rounded-lg transition-colors shadow-sm"
+                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-3 md:py-2 rounded-lg transition-colors"
                     >
                         Сменить пароль
                     </button>

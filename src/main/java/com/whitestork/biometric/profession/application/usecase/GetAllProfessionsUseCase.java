@@ -1,18 +1,22 @@
 package com.whitestork.biometric.profession.application.usecase;
 
+import com.whitestork.biometric.profession.application.mapper.ProfessionMapper;
 import com.whitestork.biometric.profession.application.response.ProfessionResponse;
 import com.whitestork.biometric.profession.infrastructrure.persistence.ProfessionRepository;
+import com.whitestork.biometric.shared.application.annotation.UseCase;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.springframework.stereotype.Service;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class GetAllProfessionsUseCase {
   private final ProfessionRepository repository;
+  private final ProfessionMapper mapper;
 
   public @NonNull List<ProfessionResponse> execute() {
-    return repository.findAllResponses();
+    return repository.findAllByOrderByNameAscIdDesc().stream()
+        .map(mapper::toResponse)
+        .toList();
   }
 }

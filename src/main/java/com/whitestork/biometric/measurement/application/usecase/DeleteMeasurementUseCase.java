@@ -1,7 +1,7 @@
 package com.whitestork.biometric.measurement.application.usecase;
 
-import com.whitestork.biometric.measurement.application.service.MeasurementDeleter;
-import com.whitestork.biometric.measurement.application.service.MeasurementProvider;
+import com.whitestork.biometric.measurement.application.component.MeasurementDeleter;
+import com.whitestork.biometric.measurement.application.component.MeasurementProvider;
 import com.whitestork.biometric.measurement.domain.Measurement;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;

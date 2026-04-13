@@ -64,7 +64,7 @@
 
                 <!-- Тултип -->
                 <div id="tooltip"
-                     class="absolute opacity-0 pointer-events-none z-10 bg-white rounded-lg shadow-lg border border-slate-200 px-3 py-2 text-sm min-w-[140px]"
+                     class="absolute opacity-0 pointer-events-none z-10 bg-white rounded-lg border border-slate-200 px-3 py-2 text-sm min-w-[140px]"
                      style="transition: opacity 0.15s ease;">
                     <p id="tooltip-label" class="text-gray-500 text-xs mb-1"></p>
                     <p id="tooltip-value" class="font-semibold"></p>

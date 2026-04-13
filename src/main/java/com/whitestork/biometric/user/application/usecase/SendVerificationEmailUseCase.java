@@ -1,8 +1,8 @@
 package com.whitestork.biometric.user.application.usecase;
 
-import com.whitestork.biometric.shared.application.service.ResendEmailSender;
-import com.whitestork.biometric.user.application.service.EmailVerificationTokenDeleter;
-import com.whitestork.biometric.user.application.service.EmailVerificationTokenSaver;
+import com.whitestork.biometric.shared.application.component.ResendEmailSender;
+import com.whitestork.biometric.user.application.component.EmailVerificationTokenDeleter;
+import com.whitestork.biometric.user.application.component.EmailVerificationTokenSaver;
 import com.whitestork.biometric.user.domain.EmailVerificationToken;
 import com.whitestork.biometric.user.domain.User;
 import java.util.Objects;

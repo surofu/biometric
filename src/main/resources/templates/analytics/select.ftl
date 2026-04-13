@@ -29,7 +29,7 @@
             <#list indicators as indicator>
                 <a href="/analytics/${indicator.id()}"
                    data-name="${indicator.name()?lower_case?js_string}"
-                   class="indicator-item bg-white rounded-md border border-slate-200 px-5 py-2.5 hover:shadow-md transition-all hover:border-emerald-300 hover:bg-emerald-50/30 font-medium text-gray-800 text-sm">
+                   class="indicator-item bg-white rounded-md border border-slate-200 px-5 py-2.5 transition-all hover:border-emerald-300 hover:bg-emerald-50/30 font-medium text-gray-800 text-sm">
                     ${indicator.name()}
                 </a>
             <#else>
@@ -40,7 +40,7 @@
                                   d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                         </svg>
                         <span class="text-lg text-gray-600">Нет доступных показателей</span>
-                        <a href="/measurements/new" class="text-emerald-600 hover:text-emerald-800 font-medium">
+                        <a href="/measurements/add" class="text-emerald-600 hover:text-emerald-800 font-medium">
                             Добавить первый показатель →
                         </a>
                     </div>

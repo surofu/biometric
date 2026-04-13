@@ -13,7 +13,7 @@
     </div>
 
     <div class="min-h-screen flex flex-col items-center justify-center bg-white md:bg-slate-50 px-4 py-8 overflow-hidden">
-        <div class="relative bg-white md:rounded-xl md:shadow-md w-full max-w-md p-4 md:p-8 md:border border-slate-200">
+        <div class="relative bg-white md:rounded-xl w-full max-w-md p-4 md:p-8 md:border border-slate-200">
 
             <!-- Иконка письма -->
             <div class="flex justify-center mb-6">

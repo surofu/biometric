@@ -7,7 +7,7 @@ import com.whitestork.biometric.analytics.infrastructure.view.MeasurementAnalyti
 import com.whitestork.biometric.indicator.application.service.IndicatorProvider;
 import com.whitestork.biometric.indicator.domain.Indicator;
 import com.whitestork.biometric.measurement.infrastructure.persistence.MeasurementRepository;
-import com.whitestork.biometric.shared.application.service.DateFormatter;
+import com.whitestork.biometric.shared.application.component.DateFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

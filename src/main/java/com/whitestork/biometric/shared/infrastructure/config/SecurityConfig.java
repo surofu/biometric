@@ -1,6 +1,6 @@
 package com.whitestork.biometric.shared.infrastructure.config;
 
-import com.whitestork.biometric.shared.application.service.CustomOAuth2UserService;
+import com.whitestork.biometric.user.infrastructure.security.CustomOAuth2UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +18,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -41,6 +42,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
 @Configuration
+@EnableWebSecurity
 @EnableMethodSecurity
 @EnableJdbcHttpSession
 @RequiredArgsConstructor
@@ -61,9 +63,8 @@ public class SecurityConfig {
     return http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
-                "/",
+                "/", "/about",
                 "/login", "/register", "/verify-email", "/email-sent",
-                "/logout",
                 "/css/**", "/js/**",
                 "/favicon.svg", "/favicon.ico",
                 "/favicon-96x96.png", "/apple-touch-icon.png",

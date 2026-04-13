@@ -12,6 +12,7 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,11 @@ public class IndicatorCategoryController {
   private final SaveOrUpdateIndicatorCategoryUseCase saveOrUpdateIndicatorCategoryUseCase;
   private final DeleteIndicatorCategoryByIdUseCase deleteIndicatorCategoryByIdUseCase;
 
+  @ModelAttribute
+  public void commonAttributes(Model model) {
+    model.addAttribute("request", new SaveOrUpdateIndicatorCategoryRequest());
+  }
+
   @GetMapping
   @PreAuthorize("isAuthenticated()")
   public @NonNull String all(@NonNull Model model) {
@@ -38,14 +44,13 @@ public class IndicatorCategoryController {
 
   @GetMapping("/add")
   @PreAuthorize("isAuthenticated()")
-  public @NonNull String addForm(@NonNull Model model) {
-    model.addAttribute("request", new SaveOrUpdateIndicatorCategoryRequest(null, "", ""));
+  public @NonNull String add() {
     return "admin/indicator-category-form";
   }
 
   @GetMapping("/{id}/edit")
   @PreAuthorize("isAuthenticated()")
-  public @NonNull String editForm(@NonNull @PathVariable Long id, @NonNull Model model) {
+  public @NonNull String edit(@NonNull @PathVariable Long id, @NonNull Model model) {
     IndicatorCategoryResponse category = getIndicatorCategoryByIdUseCase.execute(id);
     SaveOrUpdateIndicatorCategoryRequest request = new SaveOrUpdateIndicatorCategoryRequest(
         category
@@ -77,7 +82,7 @@ public class IndicatorCategoryController {
     }
   }
 
-  @PostMapping("/{id}/delete")
+  @DeleteMapping("/{id}")
   @PreAuthorize("isAuthenticated()")
   public @NonNull String delete(
       @NonNull @PathVariable Long id,

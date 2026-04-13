@@ -1,7 +1,7 @@
 package com.whitestork.biometric.indicatorcategory.application.usecase;
 
-import com.whitestork.biometric.indicatorcategory.application.service.IndicatorCategoryDeleter;
-import com.whitestork.biometric.indicatorcategory.application.service.IndicatorCategoryProvider;
+import com.whitestork.biometric.indicatorcategory.application.component.IndicatorCategoryDeleter;
+import com.whitestork.biometric.indicatorcategory.application.component.IndicatorCategoryProvider;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;

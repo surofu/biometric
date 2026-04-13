@@ -2,10 +2,10 @@ package com.whitestork.biometric.measurement.application.usecase;
 
 import com.whitestork.biometric.measurement.application.mapper.MeasurementMapper;
 import com.whitestork.biometric.measurement.application.request.SaveMeasurementRequest;
-import com.whitestork.biometric.measurement.application.service.MeasurementSaver;
-import com.whitestork.biometric.measurement.application.service.MeasurementValidator;
+import com.whitestork.biometric.measurement.application.component.MeasurementSaver;
+import com.whitestork.biometric.measurement.application.component.MeasurementValidator;
 import com.whitestork.biometric.measurement.domain.Measurement;
-import com.whitestork.biometric.user.application.service.UserProvider;
+import com.whitestork.biometric.user.application.component.UserProvider;
 import com.whitestork.biometric.user.domain.User;
 import java.time.Instant;
 import java.util.Objects;

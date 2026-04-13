@@ -1,5 +1,6 @@
 package com.whitestork.biometric.doctor.application.usecase;
 
+import com.whitestork.biometric.doctor.application.mapper.DoctorMapper;
 import com.whitestork.biometric.doctor.application.response.DoctorResponse;
 import com.whitestork.biometric.doctor.infrastructure.persistence.DoctorRepository;
 import java.util.List;
@@ -11,8 +12,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetAllDoctorsUseCase {
   private final DoctorRepository repository;
+  private final DoctorMapper mapper;
 
   public @NonNull List<DoctorResponse> execute() {
-    return repository.findAllResponses();
+    return repository.findAllByOrderByNameAscIdDesc().stream()
+        .map(mapper::toResponse)
+        .toList();
   }
 }

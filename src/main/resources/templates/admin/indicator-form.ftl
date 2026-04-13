@@ -1,14 +1,14 @@
-<#import "../shared/layout.ftl" as layoutMacros>
+<#import "../shared/admin-layout.ftl" as adminLayoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
 
-<@layoutMacros.layout title="${(request.id()??)?then('Редактирование', 'Добавление')} индикатора" selectedPage="admin">
+<@adminLayoutMacros.adminLayout title="${(request.id()??)?then('Редактирование', 'Добавление')} индикатора" selectedPage="indicators">
     <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="bg-linear-to-r from-emerald-400 to-emerald-500 p-6 text-white">
-                <h1 class="text-xl font-semibold">
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            <div class="px-6 py-5 border-b border-slate-100">
+                <h1 class="text-lg font-bold text-slate-800">
                     <#if request.id()??>Редактирование индикатора<#else>Новый индикатор</#if>
                 </h1>
-                <p class="text-emerald-100 text-sm mt-1">Заполните основные параметры медицинского показателя</p>
+                <p class="text-slate-400 text-xs mt-1">Параметры медицинского показателя</p>
             </div>
 
             <div class="p-6">
@@ -20,95 +20,52 @@
                         <input type="hidden" name="id" value="${request.id()}"/>
                     </#if>
 
-                    <!-- Название -->
-                    <div class="mb-4">
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Название *</label>
-                        <input type="text"
-                               id="name"
-                               name="name"
-                               value="${request.name()!''}"
-                               required
-                               maxlength="100"
-                               class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-shadow"
-                               placeholder="Например: Общий тестостерон">
-                    </div>
-
-                    <!-- Категория (выпадающий список) -->
-                    <div class="mb-4">
-                        <label for="categoryId" class="block text-sm font-medium text-gray-700 mb-1">Категория *</label>
-                        <select id="categoryId"
-                                name="categoryId"
-                                required
-                                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-shadow bg-white">
-                            <option value="">-- Выберите категорию --</option>
-                            <#if categories?has_content>
-                                <#list categories as cat>
-                                    <option value="${cat.id()}" <#if request.categoryId()?? && request.categoryId() == cat.id()>selected</#if>>
-                                        ${cat.name()}
-                                    </option>
-                                </#list>
-                            </#if>
-                        </select>
-                        <#if !categories?has_content>
-                            <p class="mt-1 text-sm text-amber-600">
-                                Нет доступных категорий.
-                                <a href="/admin/indicator-categories/add" class="text-emerald-600 hover:underline">Создайте категорию</a> сначала.
-                            </p>
-                        </#if>
-                    </div>
-
-                    <!-- Единица измерения -->
-                    <div class="mb-4">
-                        <label for="unit" class="block text-sm font-medium text-gray-700 mb-1">Единица измерения *</label>
-                        <input type="text"
-                               id="unit"
-                               name="unit"
-                               value="${request.unit()!''}"
-                               required
-                               maxlength="20"
-                               class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-shadow"
-                               placeholder="Например: нмоль/л, пг/мл">
-                    </div>
-
-                    <!-- Референсные значения (мин и макс в одной строке) -->
-                    <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="space-y-5">
                         <div>
-                            <label for="referenceMin" class="block text-sm font-medium text-gray-700 mb-1">Мин. норма *</label>
-                            <input type="number"
-                                   id="referenceMin"
-                                   name="referenceMin"
-                                   value="${request.referenceMin()!''}"
-                                   required
-                                   step="any"
-                                   class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-shadow"
-                                   placeholder="0.0">
+                            <label for="name" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Название *</label>
+                            <input type="text" id="name" name="name" value="${request.name()!''}" required
+                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm">
                         </div>
+
                         <div>
-                            <label for="referenceMax" class="block text-sm font-medium text-gray-700 mb-1">Макс. норма *</label>
-                            <input type="number"
-                                   id="referenceMax"
-                                   name="referenceMax"
-                                   value="${request.referenceMax()!''}"
-                                   required
-                                   step="any"
-                                   class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-shadow"
-                                   placeholder="0.0">
+                            <label for="categoryId" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Категория *</label>
+                            <select id="categoryId" name="categoryId" required
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm">
+                                <option value="">-- Выберите --</option>
+                                <#if categories?has_content>
+                                    <#list categories as cat>
+                                        <option value="${cat.id()}" <#if request.categoryId()?? && request.categoryId() == cat.id()>selected</#if>>${cat.name()}</option>
+                                    </#list>
+                                </#if>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="unit" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Единица измерения *</label>
+                            <input type="text" id="unit" name="unit" value="${request.unit()!''}" required
+                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="referenceMin" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Мин. норма</label>
+                                <input type="number" id="referenceMin" name="referenceMin" value="${request.referenceMin()?c!''}" step="any" required
+                                       class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm">
+                            </div>
+                            <div>
+                                <label for="referenceMax" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Макс. норма</label>
+                                <input type="number" id="referenceMax" name="referenceMax" value="${request.referenceMax()?c!''}" step="any" required
+                                       class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm">
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Кнопки действий -->
-                    <div class="flex justify-end gap-3">
-                        <a href="/admin/indicators"
-                           class="px-5 py-2 border border-slate-300 rounded-lg text-gray-700 hover:bg-slate-50 transition-colors">
-                            Отмена
-                        </a>
-                        <button type="submit"
-                                class="px-5 py-2 bg-linear-to-r from-emerald-400 to-emerald-500 text-white rounded-lg hover:from-emerald-500 hover:to-emerald-600 transition-colors">
-                            Сохранить
-                        </button>
+                    <div class="flex justify-end gap-3 border-t border-slate-50 mt-8 pt-6">
+                        <a href="/admin/indicators" class="px-6 py-2.5 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium">Отмена</a>
+                        <button type="submit" class="px-6 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm font-semibold">Сохранить</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</@layoutMacros.layout>
+</@adminLayoutMacros.adminLayout>

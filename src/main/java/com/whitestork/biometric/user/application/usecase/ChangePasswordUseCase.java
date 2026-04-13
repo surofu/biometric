@@ -2,8 +2,8 @@ package com.whitestork.biometric.user.application.usecase;
 
 import com.whitestork.biometric.shared.domain.exception.DomainException;
 import com.whitestork.biometric.user.application.request.ChangePasswordRequest;
-import com.whitestork.biometric.user.application.service.UserProvider;
-import com.whitestork.biometric.user.application.service.UserSaver;
+import com.whitestork.biometric.user.application.component.UserProvider;
+import com.whitestork.biometric.user.application.component.UserSaver;
 import com.whitestork.biometric.user.domain.User;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
