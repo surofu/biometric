@@ -113,7 +113,7 @@
             </div>
         </div>
         <div class="flex-1 overflow-y-auto py-3">
-            <div class="space-y-4 max-w-2xl mx-auto" id="indicatorGroups"></div>
+            <div class="space-y-4 max-w-2xl mx-auto mb-16" id="indicatorGroups"></div>
             <p id="noResults" class="hidden text-sm text-gray-500 py-8 text-center">Ничего не найдено</p>
         </div>
     </div>

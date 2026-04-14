@@ -1,25 +1,19 @@
 <#import "../shared/admin-layout.ftl" as adminLayoutMacros>
+<#import "../shared/message.ftl" as messageMacros>
 
 <@adminLayoutMacros.adminLayout title="Профессия" selectedPage="professions">
-    <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
-
-        <a href="/admin/professions"
-           class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-emerald-600 transition-colors mb-6">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M10 19l-7-7 m0 0l7-7 m-7 7h18"/>
-            </svg>
-            Назад к списку
-        </a>
-
-        <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
-            <div class="p-6 border-b border-gray-50">
-                <h1 class="text-xl font-bold text-gray-800">
+    <div class="container max-w-2xl mx-auto sm:px-4 sm:pt-8 pb-20">
+        <div class="bg-white rounded-xl sm:border border-slate-200 overflow-hidden">
+            <div class="mx-2 sm:px-6 py-5 border-b border-slate-100">
+                <h1 class="text-lg font-bold text-slate-800">
                     <#if request.id??>Редактирование профессии<#else>Новая профессия</#if>
                 </h1>
+                <p class="text-slate-400 text-xs mt-1">Параметры профессии</p>
             </div>
 
-            <form action="/admin/professions/save" method="post" id="professionForm" class="p-6 space-y-6">
+            <@messageMacros.message />
+
+            <form action="/admin/professions/save" method="post" id="professionForm" class="p-2 pt-0 sm:p-6 space-y-6">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <#if request.id??>
                     <input type="hidden" name="id" value="${request.id}">
@@ -27,36 +21,35 @@
 
                 <div id="doctorInputsContainer"></div>
 
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                        Название профессии <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" id="name" name="name" value="${(request.name)!}" required
-                           placeholder="Например: Водитель категории C"
-                           class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-3">
-                        Состав медицинской комиссии
-                    </label>
-
-                    <div id="selectedDoctorsList" class="flex flex-wrap gap-2 mb-4">
+                <div class="space-y-5">
+                    <div>
+                        <label for="name" class="block text-xs text-slate-400 mb-2">Название профессии *</label>
+                        <input type="text" id="name" name="name" value="${(request.name)!}" required
+                               placeholder="Например: Водитель категории C"
+                               class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm">
                     </div>
 
-                    <button type="button" id="openDoctorPopup"
-                            class="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm text-gray-500 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 transition-all">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        Добавить врача
-                    </button>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-2">Состав медицинской комиссии</label>
+
+                        <div id="selectedDoctorsList" class="flex flex-wrap gap-2 mb-3">
+                        </div>
+
+                        <button type="button" id="openDoctorPopup"
+                                class="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-slate-200 rounded-lg text-sm text-slate-400 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            Добавить врача
+                        </button>
+                    </div>
                 </div>
 
-                <div class="pt-4 flex items-center justify-end gap-3 border-t border-gray-50">
-                    <a href="/admin/professions" class="px-5 py-2.5 text-sm text-gray-600 hover:bg-gray-50 rounded-lg">Отмена</a>
+                <div class="flex sm:justify-end gap-3 border-t border-slate-100 mt-6 pt-6">
+                    <a href="/admin/professions"
+                       class="not-sm:w-full px-8 py-2.5 text-center border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors text-sm">Отмена</a>
                     <button type="submit"
-                            class="px-6 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors">
+                            class="not-sm:w-full px-6 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm font-semibold">
                         Сохранить
                     </button>
                 </div>
@@ -65,30 +58,28 @@
     </div>
 
     <div id="doctorPopup" class="fixed sm:pl-64 inset-0 z-50 hidden flex-col bg-white" style="display: none;">
-        <div class="flex items-center gap-3 py-3 px-4 border-b border-gray-200 bg-white">
-            <button type="button" id="closePopupBtn" class="p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full">
+        <div class="flex items-center gap-3 py-3 px-4 border-b border-slate-100 bg-white">
+            <button type="button" id="closePopupBtn" class="p-2 -ml-2 text-slate-400 hover:bg-slate-100 rounded-full">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
             </button>
-            <h2 class="text-lg font-semibold text-gray-800 flex-1">Добавление специалиста</h2>
+            <h2 class="text-lg font-bold text-slate-800 flex-1">Добавление специалиста</h2>
         </div>
 
-        <div class="p-4 bg-gray-50 border-b border-gray-100">
+        <div class="p-4 bg-slate-50 border-b border-slate-100">
             <div class="relative max-w-2xl mx-auto">
                 <input type="text" id="doctorSearchInput" placeholder="Введите название (например: Хирург)..."
-                       class="w-full px-4 py-3 pl-11 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
-                <svg class="absolute left-4 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
-                     viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+                       class="w-full px-4 py-2.5 pl-11 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm">
+                <svg class="absolute left-4 top-3 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
                 </svg>
             </div>
         </div>
 
         <div class="flex-1 overflow-y-auto p-4">
             <div id="doctorResults" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto"></div>
-            <p id="noResults" class="hidden text-center py-10 text-gray-400">Врачи не найдены</p>
+            <p id="noResults" class="hidden text-center py-10 text-slate-400">Врачи не найдены</p>
         </div>
     </div>
 
@@ -134,7 +125,7 @@
                 });
 
                 if (selected.length === 0) {
-                    selectedList.innerHTML = '<p class="text-sm text-gray-400 py-2">Специалисты не выбраны</p>';
+                    selectedList.innerHTML = '<p class="text-sm text-slate-400 py-2">Специалисты не выбраны</p>';
                 }
             }
 
@@ -154,9 +145,9 @@
                 filtered.forEach(doc => {
                     const btn = document.createElement('button');
                     btn.type = 'button';
-                    btn.className = 'flex items-center justify-between px-4 py-3 border border-gray-200 rounded-xl hover:border-emerald-500 hover:bg-emerald-50 transition-all text-left';
-                    btn.innerHTML = '<span class="text-sm font-medium text-gray-700">' + doc.name + '</span>' +
-                        '<svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>';
+                    btn.className = 'flex items-center justify-between px-4 py-3 border border-slate-200 rounded-lg hover:border-emerald-500 hover:bg-emerald-50 transition-all text-left';
+                    btn.innerHTML = '<span class="text-sm font-medium text-slate-700">' + doc.name + '</span>' +
+                        '<svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>';
 
                     btn.onclick = () => {
                         selected.push(doc);
