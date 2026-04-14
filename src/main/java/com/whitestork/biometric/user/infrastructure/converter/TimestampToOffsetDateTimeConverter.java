@@ -1,5 +1,6 @@
 package com.whitestork.biometric.user.infrastructure.converter;
 
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import org.jspecify.annotations.Nullable;
@@ -9,12 +10,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ReadingConverter
-public class TimestampToOffsetDateTimeConverter implements Converter<OffsetDateTime, OffsetDateTime> {
+public class TimestampToOffsetDateTimeConverter implements Converter<Timestamp, OffsetDateTime> {
 
   @Override
-  public @Nullable OffsetDateTime convert(@Nullable OffsetDateTime source) {
+  public @Nullable OffsetDateTime convert(@Nullable Timestamp source) {
     if (source != null) {
-      return source.withOffsetSameInstant(ZoneOffset.UTC);
+      return OffsetDateTime.ofInstant(source.toInstant(), ZoneOffset.UTC);
     }
 
     return null;

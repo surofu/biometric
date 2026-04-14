@@ -10,6 +10,7 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +25,8 @@ public record User(
     @NonNull String email,
     @NonNull Boolean emailVerified,
     @NonNull String passwordHash,
-    @NonNull UserRole role,
+    @Column("role")
+    @NonNull Integer roleId,
     @CreatedDate
     @Nullable OffsetDateTime registeredAt,
     @LastModifiedDate
@@ -49,20 +51,24 @@ public record User(
         email,
         emailVerified,
         passwordHash,
-        UserRole.USER,
+        UserRole.USER.id(),
         null,
         null
     );
   }
 
+  public @NonNull UserRole role() {
+    return UserRole.fromId(roleId);
+  }
+
   // Security
 
   public boolean isAdmin() {
-    return role == UserRole.ADMIN;
+    return UserRole.ADMIN.id() == roleId;
   }
 
   public boolean isModerator() {
-    return role == UserRole.MODERATOR;
+    return UserRole.MODERATOR.id() == roleId;
   }
 
   @Override
@@ -77,7 +83,7 @@ public record User(
 
   @Override
   public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority(role.fullName()));
+    return List.of(new SimpleGrantedAuthority(role().fullName()));
   }
 
   @Override
@@ -104,7 +110,7 @@ public record User(
   public Map<String, Object> getAttributes() {
     return Map.of(
         "email", email,
-        "role", role.name()
+        "role", roleId
     );
   }
 

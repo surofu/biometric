@@ -30,4 +30,10 @@ public enum UserRole {
   public @NonNull String fullName() {
     return "ROLE_" + name();
   }
+
+
+  @Override
+  public String toString() {
+    return description;
+  }
 }

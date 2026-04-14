@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <div id="doctorPopup" class="fixed pl-64 inset-0 z-50 hidden flex-col bg-white" style="display: none;">
+    <div id="doctorPopup" class="fixed sm:pl-64 inset-0 z-50 hidden flex-col bg-white" style="display: none;">
         <div class="flex items-center gap-3 py-3 px-4 border-b border-gray-200 bg-white">
             <button type="button" id="closePopupBtn" class="p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
