@@ -54,4 +54,90 @@
         details[open] .chevron-icon { transform: rotate(180deg); }
         .measurement-group summary::-webkit-details-marker { display: none; }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const expandAllBtn = document.getElementById('expandAll');
+            const collapseAllBtn = document.getElementById('collapseAll');
+            const details = document.querySelectorAll('.measurement-group');
+
+            if (expandAllBtn) {
+                expandAllBtn.addEventListener('click', () => {
+                    details.forEach(detail => detail.open = true);
+                });
+            }
+            if (collapseAllBtn) {
+                collapseAllBtn.addEventListener('click', () => {
+                    details.forEach(detail => detail.open = false);
+                });
+            }
+
+            const container = document.getElementById('measurementGroups');
+            const paginationData = document.getElementById('pagination-data');
+            const scrollTrigger = document.getElementById('scroll-trigger');
+
+            if (!container || !paginationData || !scrollTrigger) return;
+
+            let nextCursor = paginationData.dataset.nextCursor || null;
+            let hasNext = paginationData.dataset.hasNext === 'true';
+            const pageSize = parseInt(paginationData.dataset.pageSize, 20) || 20;
+            let loading = false;
+
+            if (!hasNext) {
+                scrollTrigger.style.display = 'none';
+            }
+
+            async function loadNextPage() {
+                if (!hasNext || loading || !nextCursor) return;
+
+                loading = true;
+                scrollTrigger.innerText = 'Загрузка...';
+
+                try {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('cursor', nextCursor);
+                    url.searchParams.set('pageSize', pageSize);
+
+                    const response = await fetch(url, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки');
+                    }
+
+                    const html = await response.text();
+                    // Вставляем новые группы перед триггером
+                    scrollTrigger.insertAdjacentHTML('beforebegin', html);
+
+                    // Обновляем курсор и флаг из заголовков ответа
+                    nextCursor = response.headers.get('X-Next-Cursor') || null;
+                    hasNext = response.headers.get('X-Has-Next') === 'true';
+
+                    if (!hasNext) {
+                        scrollTrigger.style.display = 'none';
+                    } else {
+                        scrollTrigger.innerText = '';
+                    }
+                } catch (error) {
+                    console.error('Ошибка загрузки следующей страницы:', error);
+                    scrollTrigger.innerText = 'Ошибка загрузки';
+                } finally {
+                    loading = false;
+                }
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                for (let entry of entries) {
+                    if (entry.isIntersecting && hasNext && !loading) {
+                        loadNextPage();
+                    }
+                }
+            }, {threshold: 0.1});
+
+            observer.observe(scrollTrigger);
+        });
+    </script>
 </@layoutMacros.layout>
