@@ -9,7 +9,6 @@ import com.whitestork.biometric.professiondoctor.application.component.Professio
 import com.whitestork.biometric.professiondoctor.domain.ProfessionDoctor;
 import com.whitestork.biometric.shared.application.annotation.UseCase;
 import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +26,7 @@ public class SaveProfessionUseCase {
     professionValidator.uniqueName(request.name());
     Profession newProfession = professionMapper.toDomain(request);
     Profession savedProfession = professionSaver.save(newProfession);
-    Objects.requireNonNull(savedProfession.id(), "Профессия должна иметь ID");
-    saveProfessionDoctors(savedProfession.id(), request.doctorIds());
+    saveProfessionDoctors(savedProfession.savedId(), request.doctorIds());
   }
 
   @Transactional

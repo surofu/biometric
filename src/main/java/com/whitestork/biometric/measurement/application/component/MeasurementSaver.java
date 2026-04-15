@@ -13,7 +13,7 @@ public class MeasurementSaver {
   private final MeasurementRepository repository;
 
   @Transactional
-  public void save(@NonNull Measurement measurement) {
-    repository.save(measurement);
+  public Measurement save(@NonNull Measurement measurement) {
+    return repository.save(measurement);
   }
 }

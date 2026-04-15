@@ -1,13 +1,13 @@
-<#import "../shared/admin-layout.ftl" as adminLayoutMacros>
+<#import "layout.ftl" as adminLayoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
 
-<@adminLayoutMacros.adminLayout title="${(request.id()??)?then('Редактирование', 'Добавление')} категории" selectedPage="indicator-categories">
+<@adminLayoutMacros.adminLayout title="${(request.id??)?then('Редактирование', 'Добавление')} категории" selectedPage="indicator-categories">
     <div class="container max-w-2xl mx-auto sm:px-4 sm:pt-8 pb-20">
         <div class="bg-white rounded-xl sm:border border-slate-200 overflow-hidden">
 
             <div class="mx-2 sm:px-6 py-5 border-b border-slate-100">
                 <h1 class="text-lg font-bold text-slate-800">
-                    <#if request.id()??>Редактирование категории<#else>Новая категория</#if>
+                    <#if request.id??>Редактирование категории<#else>Новая категория</#if>
                 </h1>
                 <p class="text-slate-400 text-xs mt-1">Группировка медицинских показателей</p>
             </div>
@@ -16,8 +16,8 @@
 
             <form method="post" action="/admin/indicator-categories/save" class="p-2 pt-6 sm:p-6 space-y-6">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <#if request.id()??>
-                    <input type="hidden" name="id" value="${request.id()}"/>
+                <#if request.id??>
+                    <input type="hidden" name="id" value="${request.id}"/>
                 </#if>
 
                 <div class="space-y-5">
@@ -26,7 +26,7 @@
                         <input type="text"
                                id="name"
                                name="name"
-                               value="${request.name()!''}"
+                               value="${request.name!''}"
                                required
                                maxlength="50"
                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm"
@@ -40,7 +40,7 @@
                                   required
                                   rows="4"
                                   class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm resize-none"
-                                  placeholder="Краткое описание категории">${request.description()!''}</textarea>
+                                  placeholder="Краткое описание категории">${request.description!''}</textarea>
                     </div>
                 </div>
 

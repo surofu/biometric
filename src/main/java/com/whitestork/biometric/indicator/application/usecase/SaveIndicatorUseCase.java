@@ -7,7 +7,6 @@ import com.whitestork.biometric.indicator.application.service.IndicatorProvider;
 import com.whitestork.biometric.indicator.application.service.IndicatorSaver;
 import com.whitestork.biometric.indicator.application.service.IndicatorValidator;
 import com.whitestork.biometric.indicator.domain.Indicator;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ public class SaveIndicatorUseCase {
     validator.uniqueName(request.name());
     Indicator newIndicator = mapper.toDomain(request);
     Indicator savedIndicator = saver.save(newIndicator);
-    Objects.requireNonNull(savedIndicator.id(), "ID индикатора обязателен");
-    return provider.withIdResponse(savedIndicator.id());
+    return provider.withIdResponse(savedIndicator.savedId());
   }
 }

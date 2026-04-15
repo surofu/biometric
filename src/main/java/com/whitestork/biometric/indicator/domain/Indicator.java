@@ -1,11 +1,14 @@
 package com.whitestork.biometric.indicator.domain;
 
+import com.whitestork.biometric.shared.domain.exception.DomainException;
 import lombok.With;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+@Slf4j
 @With
 @Table("indicators")
 public record Indicator(
@@ -17,4 +20,13 @@ public record Indicator(
     @NonNull Double referenceMin,
     @NonNull Double referenceMax
 ) {
+
+    public @NonNull Long savedId() {
+        if (id == null) {
+            log.error("Индикатор без ID");
+            throw new DomainException("Что-то пошло не так");
+        }
+
+        return id;
+    }
 }

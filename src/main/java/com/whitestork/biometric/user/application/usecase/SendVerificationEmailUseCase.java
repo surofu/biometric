@@ -5,7 +5,6 @@ import com.whitestork.biometric.user.application.component.EmailVerificationToke
 import com.whitestork.biometric.user.application.component.EmailVerificationTokenSaver;
 import com.whitestork.biometric.user.domain.EmailVerificationToken;
 import com.whitestork.biometric.user.domain.User;
-import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -23,15 +22,9 @@ public class SendVerificationEmailUseCase {
   private String baseUrl;
 
   public void execute(@NonNull User user) {
-    Objects.requireNonNull(
-        user.id(),
-        "Пользователь должен быть сохранен перед отправкой письма для подтверждения почты"
-    );
-    deleter.deleteWithUserId(user.id());
-
+    deleter.deleteWithUserId(user.savedId());
     String token = UUID.randomUUID().toString();
-    saver.save(new EmailVerificationToken(user.id(), token));
-
+    saver.save(new EmailVerificationToken(user.savedId(), token));
     String link = "%s/verify-email?token=%s".formatted(baseUrl, token);
 
     emailSender.send(

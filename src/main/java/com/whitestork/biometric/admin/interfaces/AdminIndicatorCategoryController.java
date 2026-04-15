@@ -1,5 +1,7 @@
-package com.whitestork.biometric.indicatorcategory.interfaces;
+package com.whitestork.biometric.admin.interfaces;
 
+import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateIndicatorCategoryModel;
+import com.whitestork.biometric.indicatorcategory.application.mapper.IndicatorCategoryMapper;
 import com.whitestork.biometric.indicatorcategory.application.request.SaveOrUpdateIndicatorCategoryRequest;
 import com.whitestork.biometric.indicatorcategory.application.response.IndicatorCategoryResponse;
 import com.whitestork.biometric.indicatorcategory.application.usecase.DeleteIndicatorCategoryByIdUseCase;
@@ -23,15 +25,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/indicator-categories")
-public class IndicatorCategoryController {
+public class AdminIndicatorCategoryController {
   private final GetAllIndicatorCategoriesUseCase getAllIndicatorCategoriesUseCase;
   private final GetIndicatorCategoryByIdUseCase getIndicatorCategoryByIdUseCase;
   private final SaveOrUpdateIndicatorCategoryUseCase saveOrUpdateIndicatorCategoryUseCase;
   private final DeleteIndicatorCategoryByIdUseCase deleteIndicatorCategoryByIdUseCase;
+  private final IndicatorCategoryMapper mapper;
 
   @ModelAttribute
   public void commonAttributes(Model model) {
-    model.addAttribute("request", new SaveOrUpdateIndicatorCategoryRequest());
+    model.addAttribute("request", new SaveOrUpdateIndicatorCategoryModel());
   }
 
   @GetMapping
@@ -52,10 +55,7 @@ public class IndicatorCategoryController {
   @PreAuthorize("isAuthenticated()")
   public @NonNull String edit(@NonNull @PathVariable Long id, @NonNull Model model) {
     IndicatorCategoryResponse category = getIndicatorCategoryByIdUseCase.execute(id);
-    SaveOrUpdateIndicatorCategoryRequest request = new SaveOrUpdateIndicatorCategoryRequest(
-        category
-    );
-    model.addAttribute("request", request);
+    model.addAttribute("request", mapper.toSaveOrUpdateModel(category));
     return "admin/indicator-category-form";
   }
 
@@ -65,21 +65,9 @@ public class IndicatorCategoryController {
       @NonNull @ModelAttribute("request") SaveOrUpdateIndicatorCategoryRequest request,
       @NonNull RedirectAttributes redirectAttributes
   ) {
-    try {
-      IndicatorCategoryResponse saved = saveOrUpdateIndicatorCategoryUseCase.execute(request);
-      redirectAttributes.addFlashAttribute("successMessage", "Категория успешно сохранена");
-      return "redirect:/admin/indicator-categories/%s/edit".formatted(saved.id());
-    } catch (Exception exception) {
-      redirectAttributes.addFlashAttribute(
-          "errorMessage",
-          "Ошибка при сохранении: " + exception.getMessage()
-      );
-
-      if (request.id() != null) {
-        return "redirect:/admin/indicator-categories/%s/edit".formatted(request.id());
-      }
-      return "redirect:/admin/indicator-categories/add";
-    }
+    saveOrUpdateIndicatorCategoryUseCase.execute(request);
+    redirectAttributes.addFlashAttribute("successMessage", "Категория успешно сохранена");
+    return "redirect:/admin/indicator-categories";
   }
 
   @DeleteMapping("/{id}")
@@ -88,15 +76,8 @@ public class IndicatorCategoryController {
       @NonNull @PathVariable Long id,
       @NonNull RedirectAttributes redirectAttributes
   ) {
-    try {
-      deleteIndicatorCategoryByIdUseCase.execute(id);
-      redirectAttributes.addFlashAttribute("successMessage", "Категория успешно удалена");
-    } catch (Exception exception) {
-      redirectAttributes.addFlashAttribute(
-          "errorMessage",
-          "Ошибка при удалении: " + exception.getMessage()
-      );
-    }
+    deleteIndicatorCategoryByIdUseCase.execute(id);
+    redirectAttributes.addFlashAttribute("successMessage", "Категория успешно удалена");
     return "redirect:/admin/indicator-categories";
   }
 }

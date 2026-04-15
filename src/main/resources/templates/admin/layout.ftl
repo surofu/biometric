@@ -1,15 +1,15 @@
-<#import "./layout.ftl" as layoutMacros>
+<#import "../shared/layout.ftl" as layoutMacros>
 
 <#macro adminLayout title="Админ-панель" selectedPage="">
     <@layoutMacros.layout title=title showNavbar=false bodyClass="bg-white">
         <div class="flex min-h-screen relative">
 
-            <#-- 1. Мобильная шапка -->
             <header class="md:hidden fixed top-0 left-0 w-full bg-white border-b border-slate-100 z-50 h-16 flex items-center justify-between px-4">
                 <a href="/" class="flex items-center gap-2">
                     <div class="flex items-center justify-center w-8 h-8 bg-white border border-slate-100 rounded-lg">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                            <path d="M4 12H7L9 5L12 19L15 12H20" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 12H7L9 5L12 19L15 12H20" stroke="#059669" stroke-width="2.5"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <span class="text-sm font-black text-slate-800 tracking-tight uppercase">Биометрик</span>
@@ -17,21 +17,24 @@
 
                 <button id="mobile-menu-open" class="p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16m-7 6h7"/>
                     </svg>
                 </button>
             </header>
 
-            <#-- 2. Затемнение фона при открытом меню -->
-            <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 z-60 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
+            <div id="sidebar-overlay"
+                 class="fixed inset-0 bg-slate-900/50 z-60 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
-            <#-- 3. Сайдбар (адаптивный) -->
-            <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-70 w-72 bg-white border-r border-slate-100 flex flex-col transition-transform duration-300 transform -translate-x-full md:translate-x-0 md:w-64">
+            <aside id="admin-sidebar"
+                   class="fixed inset-y-0 left-0 z-70 w-72 bg-white border-r border-slate-100 flex flex-col transition-transform duration-300 transform -translate-x-full md:translate-x-0 md:w-64">
                 <div class="p-8 pb-6 flex items-center justify-between">
-                    <a href="/" class="group flex items-center gap-3 transition-transform hover:scale-[1.01] duration-200">
+                    <a href="/"
+                       class="group flex items-center gap-3 transition-transform hover:scale-[1.01] duration-200">
                         <div class="flex items-center justify-center w-8 h-8 bg-white border-2 border-slate-100 rounded-lg group-hover:border-emerald-500 transition-colors">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                <path d="M4 12H7L9 5L12 19L15 12H20" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 12H7L9 5L12 19L15 12H20" stroke="#059669" stroke-width="2.5"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
                         <div class="flex items-center tracking-tight gap-0.5">
@@ -41,7 +44,8 @@
                     </a>
                     <button id="mobile-menu-close" class="md:hidden p-2 text-slate-400 hover:text-slate-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
@@ -57,7 +61,8 @@
                         <a href="${item.url}"
                            class="flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-all
                            <#if selectedPage == item.id>bg-emerald-50 text-emerald-700 shadow-sm shadow-emerald-100/50<#else>text-slate-500 hover:bg-slate-50 hover:text-slate-900</#if>">
-                            <svg class="w-5 h-5 <#if selectedPage == item.id>text-emerald-600<#else>text-slate-400</#if>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 <#if selectedPage == item.id>text-emerald-600<#else>text-slate-400</#if>"
+                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${item.icon}"/>
                             </svg>
                             ${item.label}
@@ -66,16 +71,18 @@
                 </nav>
 
                 <div class="p-6 border-t border-slate-50">
-                    <a href="/" class="flex items-center gap-2.5 text-xs font-semibold text-slate-400 hover:text-emerald-600 transition-colors group">
-                        <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    <a href="/"
+                       class="flex items-center gap-2.5 text-xs font-semibold text-slate-400 hover:text-emerald-600 transition-colors group">
+                        <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none"
+                             stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>
                         На главную
                     </a>
                 </div>
             </aside>
 
-            <#-- 4. Контентная область -->
             <main class="flex-1 md:ml-64 min-h-screen bg-white pt-16 md:pt-0">
                 <div class="max-w-5xl mx-auto px-4 sm:px-6">
                     <#nested>
@@ -83,7 +90,6 @@
             </main>
         </div>
 
-    <#-- 5. Логика открытия/закрытия -->
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const sidebar = document.getElementById('admin-sidebar');

@@ -2,11 +2,17 @@ package com.whitestork.biometric.profession.application.response;
 
 import com.whitestork.biometric.doctor.application.response.DoctorResponse;
 import java.util.List;
-import org.jspecify.annotations.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record ProfessionDetailsResponse(
-    @NonNull Long id,
-    @NonNull String name,
-    @NonNull List<DoctorResponse> doctors
-    ) {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProfessionDetailsResponse {
+  private Long id;
+  private String name;
+  private List<DoctorResponse> doctors;
 }

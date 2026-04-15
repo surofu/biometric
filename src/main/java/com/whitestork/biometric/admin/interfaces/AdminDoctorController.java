@@ -1,12 +1,12 @@
-package com.whitestork.biometric.doctor.interfaces;
+package com.whitestork.biometric.admin.interfaces;
 
+import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateDoctorModel;
 import com.whitestork.biometric.doctor.application.mapper.DoctorMapper;
 import com.whitestork.biometric.doctor.application.response.DoctorResponse;
 import com.whitestork.biometric.doctor.application.usecase.DeleteDoctorUseCase;
 import com.whitestork.biometric.doctor.application.usecase.GetAllDoctorsUseCase;
 import com.whitestork.biometric.doctor.application.usecase.GetDoctorByIdUseCase;
 import com.whitestork.biometric.doctor.application.usecase.SaveOrUpdateDoctorUseCase;
-import com.whitestork.biometric.doctor.interfaces.model.SaveOrUpdateDoctorModel;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -18,11 +18,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/doctors")
-public class DoctorController {
+public class AdminDoctorController {
   private final GetAllDoctorsUseCase getAllDoctorsUseCase;
   private final GetDoctorByIdUseCase getDoctorByIdUseCase;
   private final SaveOrUpdateDoctorUseCase saveOrUpdateDoctorUseCase;
@@ -54,14 +55,22 @@ public class DoctorController {
   }
 
   @PostMapping("/save")
-  public @NonNull String save(@NonNull @ModelAttribute SaveOrUpdateDoctorModel request) {
+  public @NonNull String save(
+      @NonNull @ModelAttribute SaveOrUpdateDoctorModel request,
+      @NonNull RedirectAttributes redirectAttributes
+  ) {
     saveOrUpdateDoctorUseCase.execute(mapper.toSaveOrUpdateDoctorRequest(request));
+    redirectAttributes.addFlashAttribute("successMessage", "Доктор успешно сохранен");
     return "redirect:/admin/doctors";
   }
 
   @DeleteMapping("/{id}")
-  public @NonNull String delete(@NonNull @PathVariable Long id) {
+  public @NonNull String delete(
+      @NonNull @PathVariable Long id,
+      @NonNull RedirectAttributes redirectAttributes
+  ) {
     deleteDoctorUseCase.execute(id);
+    redirectAttributes.addFlashAttribute("successMessage", "Доктор успешно удален");
     return "redirect:/admin/doctors";
   }
 }

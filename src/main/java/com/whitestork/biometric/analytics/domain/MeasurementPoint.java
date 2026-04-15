@@ -1,9 +1,15 @@
 package com.whitestork.biometric.analytics.domain;
 
-import org.jspecify.annotations.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record MeasurementPoint(
-    @NonNull String label,
-    @NonNull Double value
-) {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class MeasurementPoint {
+  private String label;
+  private Double value;
 }

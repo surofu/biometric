@@ -1,6 +1,6 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 
-<@layoutMacros.layout title="${analytics.indicatorName()} - Биометрик" selectedPage="3">
+<@layoutMacros.layout title="${analytics.indicatorName} - Биометрик" selectedPage="3">
     <link href="https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.min.css" rel="stylesheet">
     <style>
         .u-wrap {
@@ -21,9 +21,9 @@
         <!-- Заголовок -->
         <div class="px-4 sm:px-6 pb-4 border-b border-gray-200">
             <h1 class="text-lg sm:text-xl font-semibold text-gray-800">
-                ${analytics.indicatorName()}
+                ${analytics.indicatorName}
             </h1>
-            <p class="text-sm text-gray-500 mt-1">${analytics.intervalName()}</p>
+            <p class="text-sm text-gray-500 mt-1">${analytics.intervalName}</p>
         </div>
 
         <!-- Сводная статистика -->
@@ -47,7 +47,7 @@
             <div class="px-5 py-4 border-b border-slate-100">
                 <h2 class="font-medium text-gray-800">График</h2>
                 <p class="text-xs text-gray-400 mt-0.5">
-                    Норма: ${analytics.referenceMin()?string["0.##"]} – ${analytics.referenceMax()?string["0.##"]}
+                    Норма: ${analytics.referenceMin?string["0.##"]} – ${analytics.referenceMax?string["0.##"]}
                 </p>
             </div>
 
@@ -87,24 +87,24 @@
                 <h2 class="font-medium text-gray-800">История измерений</h2>
             </div>
             <ul class="divide-y divide-slate-100">
-                <#list analytics.measurements() as m>
-                    <#assign out = (m.value() > analytics.referenceMax()) || (m.value() < analytics.referenceMin())>
+                <#list analytics.measurements as m>
+                    <#assign out = (m.value > analytics.referenceMax) || (m.value < analytics.referenceMin)>
                     <li class="flex items-center justify-between px-6 py-3">
                         <div class="flex items-center gap-3">
                             <span class="w-2.5 h-2.5 rounded-full shrink-0 ${out?then('bg-red-400', 'bg-emerald-400')}"></span>
-                            <span class="text-sm text-gray-700">${m.label()}</span>
+                            <span class="text-sm text-gray-700">${m.label}</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span class="font-semibold ${out?then('text-red-600', 'text-gray-800')}">${m.value()?string["0.##"]}</span>
+                            <span class="font-semibold ${out?then('text-red-600', 'text-gray-800')}">${m.value?string["0.##"]}</span>
                             <#if out>
                                 <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">
-                                    ${(m.value() > analytics.referenceMax())?then('↑ выше нормы', '↓ ниже нормы')}
+                                    ${(m.value > analytics.referenceMax)?then('↑ выше нормы', '↓ ниже нормы')}
                                 </span>
                             </#if>
                         </div>
                     </li>
                 </#list>
-                <#if !analytics.measurements()?has_content>
+                <#if !analytics.measurements?has_content>
                     <li class="px-6 py-8 text-center text-sm text-gray-400">Нет данных для отображения</li>
                 </#if>
             </ul>
@@ -115,13 +115,13 @@
     <script src="https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.iife.min.js"></script>
     <script>
         (function () {
-            const NORM_HIGH = ${analytics.referenceMax()?c};
-            const NORM_LOW = ${analytics.referenceMin()?c};
+            const NORM_HIGH = ${analytics.referenceMax?c};
+            const NORM_LOW = ${analytics.referenceMin?c};
 
-            const labels = [<#list analytics.data().shotLabels() as l>"${l}"<#sep>, </#sep></#list>];
-            const values = [<#list analytics.data().values() as v>${v?c}<#sep>, </#sep></#list>];
-            const refMax = [<#list analytics.data().referenceMax() as v>${v?c}<#sep>, </#sep></#list>];
-            const refMin = [<#list analytics.data().referenceMin() as v>${v?c}<#sep>, </#sep></#list>];
+            const labels = [<#list analytics.data.shotLabels as l>"${l}"<#sep>, </#sep></#list>];
+            const values = [<#list analytics.data.values as v>${v?c}<#sep>, </#sep></#list>];
+            const refMax = [<#list analytics.data.referenceMax as v>${v?c}<#sep>, </#sep></#list>];
+            const refMin = [<#list analytics.data.referenceMin as v>${v?c}<#sep>, </#sep></#list>];
 
             const xs = labels.map((_, i) => i);
             const chartData = [xs, values, refMax, refMin];
@@ -154,7 +154,7 @@
                 series: [
                     {},
                     {
-                        label: '${analytics.indicatorName()}',
+                        label: '${analytics.indicatorName}',
                         scale: 'y', stroke: C_GREEN, width: 2.5,
                     },
                     {

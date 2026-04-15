@@ -1,14 +1,16 @@
 package com.whitestork.biometric.user.interfaces.model;
 
-import lombok.With;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@With
-public record ChangePasswordModel(
-    String oldPassword,
-    String newPassword,
-    String confirmNewPassword
-) {
-  public ChangePasswordModel() {
-    this(null, null, null);
-  }
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ChangePasswordModel {
+  private String oldPassword;
+  private String newPassword;
+  private String confirmNewPassword;
 }

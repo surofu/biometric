@@ -1,8 +1,7 @@
 package com.whitestork.biometric.user.interfaces;
 
 import com.whitestork.biometric.shared.domain.exception.DomainException;
-import com.whitestork.biometric.user.application.request.ChangePasswordRequest;
-import com.whitestork.biometric.user.application.request.RegisterUserRequest;
+import com.whitestork.biometric.user.application.mapper.UserMapper;
 import com.whitestork.biometric.user.application.usecase.ChangePasswordUseCase;
 import com.whitestork.biometric.user.application.usecase.RegisterUserUseCase;
 import com.whitestork.biometric.user.application.usecase.VerifyTokenUseCase;
@@ -39,6 +38,7 @@ public class AuthController {
   private final VerifyTokenUseCase verifyTokenUseCase;
   private final ChangePasswordUseCase changePasswordUseCase;
   private final UserDetailsService userDetailsService;
+  private final UserMapper mapper;
 
   @GetMapping("/register")
   public @NonNull String registerPage(
@@ -49,7 +49,7 @@ public class AuthController {
       return "redirect:/";
     }
 
-    model.addAttribute("registerModel", new RegisterUserModel());
+    model.addAttribute("request", new RegisterUserModel());
     return "auth/register";
   }
 
@@ -63,8 +63,10 @@ public class AuthController {
   ) {
     if (error != null) {
       String sessionError = (String) request.getSession().getAttribute("errorMessage");
-      model.addAttribute("errorMessage",
-          sessionError != null ? sessionError : "Неверный email или пароль");
+      model.addAttribute("errorMessage", sessionError != null
+          ? sessionError
+          : "Неверный email или пароль"
+      );
       request.getSession().removeAttribute("errorMessage");
     }
     if (logout != null) {
@@ -78,29 +80,25 @@ public class AuthController {
 
   @PostMapping("/register")
   public @NonNull String register(
-      @NonNull @ModelAttribute RegisterUserModel registerModel,
+      @NonNull @ModelAttribute RegisterUserModel request,
       @NonNull HttpServletRequest httpRequest,
       @NonNull HttpServletResponse httpResponse,
       @NonNull Model model
   ) {
-    if (!Objects.equals(registerModel.password(), registerModel.confirmPassword())) {
-      model.addAttribute("registerModel", registerModel);
+    if (!Objects.equals(request.getPassword(), request.getConfirmPassword())) {
+      model.addAttribute("request", request);
       model.addAttribute("errorMessage", "Пароли должны совпадать");
       return "auth/register";
     }
 
     try {
-      RegisterUserRequest request = new RegisterUserRequest(
-          registerModel.email(),
-          registerModel.password()
-      );
-      registerUserUseCase.execute(request);
-      authenticateUserAndSetSession(registerModel.email(), httpRequest, httpResponse);
+      registerUserUseCase.execute(mapper.toRequest(request));
+      authenticateUserAndSetSession(request.getEmail(), httpRequest, httpResponse);
       return "redirect:/";
 //      return "redirect:/email-sent?email=" + request.email();
-    } catch (DomainException exception) {
+    } catch (Exception exception) {
       model.addAttribute("errorMessage", exception.getMessage());
-      model.addAttribute("registerModel", registerModel);
+      model.addAttribute("request", request);
       return "auth/register";
     }
   }
@@ -131,8 +129,8 @@ public class AuthController {
       String email = verifyTokenUseCase.execute(token);
       authenticateUserAndSetSession(email, httpRequest, httpResponse);
       return "redirect:/";
-    } catch (DomainException e) {
-      model.addAttribute("errorMessage", e.getMessage());
+    } catch (Exception exception) {
+      model.addAttribute("errorMessage", exception.getMessage());
       return "auth/login";
     }
   }
@@ -140,37 +138,34 @@ public class AuthController {
   @GetMapping("/change-password")
   @PreAuthorize("isAuthenticated()")
   public @NonNull String changePassword(Model model) {
-    model.addAttribute("changePasswordModel", new ChangePasswordModel());
+    model.addAttribute("request", new ChangePasswordModel());
     return "auth/change-password";
   }
 
   @PostMapping("/change-password")
   @PreAuthorize("isAuthenticated()")
   public String changePassword(
-      @NonNull @ModelAttribute ChangePasswordModel changePasswordModel,
+      @NonNull @ModelAttribute ChangePasswordModel request,
       @NonNull @AuthenticationPrincipal User user,
       @NonNull HttpServletRequest httpRequest,
       @NonNull HttpServletResponse httpResponse,
       @NonNull Model model
   ) {
-    if (!Objects.equals(changePasswordModel.newPassword(),
-        changePasswordModel.confirmNewPassword())) {
-      model.addAttribute("changePasswordModel", changePasswordModel);
+    if (!Objects.equals(
+        request.getNewPassword(),
+        request.getConfirmNewPassword()
+    )) {
+      model.addAttribute("request", request);
       model.addAttribute("errorMessage", "Новые пароли не совпадают");
       return "auth/change-password";
     }
 
     try {
-      ChangePasswordRequest request = new ChangePasswordRequest(
-          user.email(),
-          changePasswordModel.oldPassword(),
-          changePasswordModel.newPassword()
-      );
-      changePasswordUseCase.execute(request);
+      changePasswordUseCase.execute(mapper.toRequest(request));
       authenticateUserAndSetSession(user.email(), httpRequest, httpResponse);
       return "redirect:/profile?passwordChanged";
-    } catch (DomainException exception) {
-      model.addAttribute("changePasswordModel", changePasswordModel);
+    } catch (Exception exception) {
+      model.addAttribute("request", request);
       model.addAttribute("errorMessage", exception.getMessage());
       return "auth/change-password";
     }

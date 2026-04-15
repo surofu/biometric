@@ -47,8 +47,8 @@ public class GetUserMeasurementPageUseCase {
   }
 
   private @NonNull String buildNextCursor(@NonNull MeasurementResponse last) {
-    LocalDate nextCursorDate = last.date();
-    Long nextCursorId = last.id();
+    LocalDate nextCursorDate = last.getDate();
+    Long nextCursorId = last.getId();
     KeysetCursor cursor = new KeysetCursor(nextCursorDate, nextCursorId);
     return cursor.toString();
   }
@@ -58,7 +58,7 @@ public class GetUserMeasurementPageUseCase {
   ) {
     return measurements.stream()
         .collect(Collectors.groupingBy(
-            MeasurementResponse::date,
+            MeasurementResponse::getDate,
             LinkedHashMap::new,
             Collectors.toList()
         ))

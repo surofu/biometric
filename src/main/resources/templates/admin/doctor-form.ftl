@@ -1,4 +1,4 @@
-<#import "../shared/admin-layout.ftl" as adminLayoutMacros>
+<#import "layout.ftl" as adminLayoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
 
 <@adminLayoutMacros.adminLayout title="${(request.id??)?then('Редактирование', 'Добавление')} врача" selectedPage="doctors">

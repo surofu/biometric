@@ -1,6 +1,7 @@
-package com.whitestork.biometric.indicator.interfaces;
+package com.whitestork.biometric.admin.interfaces;
 
-import com.whitestork.biometric.indicator.application.request.SaveOrUpdateIndicatorRequest;
+import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateIndicatorModel;
+import com.whitestork.biometric.indicator.application.mapper.IndicatorMapper;
 import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.application.service.IndicatorProvider;
 import com.whitestork.biometric.indicator.application.usecase.DeleteIndicatorByIdUseCase;
@@ -23,16 +24,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("admin/indicators")
-public class IndicatorController {
+public class AdminIndicatorController {
   private final GetAllIndicatorsUseCase getAllIndicatorsUseCase;
   private final IndicatorProvider indicatorProvider;
   private final SaveOrUpdateIndicatorUseCase saveOrUpdateIndicatorUseCase;
   private final DeleteIndicatorByIdUseCase deleteIndicatorByIdUseCase;
   private final GetAllIndicatorCategoriesUseCase getAllIndicatorCategoriesUseCase;
+  private final IndicatorMapper mapper;
 
   @ModelAttribute
   public void commonAttributes(@NonNull Model model) {
-    model.addAttribute("request", new SaveOrUpdateIndicatorRequest());
+    model.addAttribute("request", new SaveOrUpdateIndicatorModel());
   }
 
   @GetMapping
@@ -53,8 +55,7 @@ public class IndicatorController {
   @PreAuthorize("isAuthenticated()")
   public @NonNull String edit(@NonNull @PathVariable Long id, @NonNull Model model) {
     IndicatorResponse response = indicatorProvider.withIdResponse(id);
-    SaveOrUpdateIndicatorRequest request = new SaveOrUpdateIndicatorRequest(response);
-    model.addAttribute("request", request);
+    model.addAttribute("request", mapper.toSaveOrUpdateModel(response));
     model.addAttribute("categories", getAllIndicatorCategoriesUseCase.execute());
     return "admin/indicator-form";
   }
@@ -62,24 +63,12 @@ public class IndicatorController {
   @PostMapping("/save")
   @PreAuthorize("isAuthenticated()")
   public @NonNull String save(
-      @NonNull @ModelAttribute("request") SaveOrUpdateIndicatorRequest request,
+      @NonNull @ModelAttribute SaveOrUpdateIndicatorModel request,
       @NonNull RedirectAttributes redirectAttributes
   ) {
-    try {
-      IndicatorResponse saved = saveOrUpdateIndicatorUseCase.execute(request);
-      redirectAttributes.addFlashAttribute("successMessage", "Индикатор успешно сохранен");
-      return "redirect:/admin/indicators/%s/edit".formatted(saved.id());
-    } catch (Exception exception) {
-      redirectAttributes.addFlashAttribute(
-          "errorMessage",
-          "Ошибка при сохранении: " + exception.getMessage()
-      );
-
-      if (request.id() != null) {
-        return "redirect:/admin/indicators/%s/edit".formatted(request.id());
-      }
-      return "redirect:/admin/indicators/add";
-    }
+    saveOrUpdateIndicatorUseCase.execute(mapper.toSaveOrUpdateRequest(request));
+    redirectAttributes.addFlashAttribute("successMessage", "Индикатор успешно сохранен");
+    return "redirect:/admin/indicators";
   }
 
   @DeleteMapping("/{id}")
@@ -88,15 +77,8 @@ public class IndicatorController {
       @NonNull @PathVariable Long id,
       @NonNull RedirectAttributes redirectAttributes
   ) {
-    try {
-      deleteIndicatorByIdUseCase.execute(id);
-      redirectAttributes.addFlashAttribute("successMessage", "Индикатор успешно удален");
-    } catch (Exception exception) {
-      redirectAttributes.addFlashAttribute(
-          "errorMessage",
-          "Ошибка при удалении: " + exception.getMessage()
-      );
-    }
+    deleteIndicatorByIdUseCase.execute(id);
+    redirectAttributes.addFlashAttribute("successMessage", "Индикатор успешно удален");
     return "redirect:/admin/indicators";
   }
 }

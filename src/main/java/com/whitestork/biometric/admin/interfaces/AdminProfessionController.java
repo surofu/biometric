@@ -1,5 +1,6 @@
-package com.whitestork.biometric.profession.interfaces;
+package com.whitestork.biometric.admin.interfaces;
 
+import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateProfessionModel;
 import com.whitestork.biometric.doctor.application.usecase.GetAllDoctorsUseCase;
 import com.whitestork.biometric.profession.application.mapper.ProfessionMapper;
 import com.whitestork.biometric.profession.application.response.ProfessionDetailsResponse;
@@ -8,7 +9,6 @@ import com.whitestork.biometric.profession.application.usecase.DeleteProfessionU
 import com.whitestork.biometric.profession.application.usecase.GetAllProfessionsUseCase;
 import com.whitestork.biometric.profession.application.usecase.GetProfessionByIdUseCase;
 import com.whitestork.biometric.profession.application.usecase.SaveOrUpdateProfessionUseCase;
-import com.whitestork.biometric.profession.interfaces.model.SaveOrUpdateProfessionModel;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -20,11 +20,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/professions")
-public class ProfessionController {
+public class AdminProfessionController {
   private final GetAllProfessionsUseCase getAllProfessionsUseCase;
   private final GetProfessionByIdUseCase getProfessionByIdUseCase;
   private final SaveOrUpdateProfessionUseCase saveOrUpdateProfessionUseCase;
@@ -59,14 +60,22 @@ public class ProfessionController {
   }
 
   @PostMapping("/save")
-  public @NonNull String save(@NonNull @ModelAttribute SaveOrUpdateProfessionModel request) {
+  public @NonNull String save(
+      @NonNull @ModelAttribute SaveOrUpdateProfessionModel request,
+      @NonNull RedirectAttributes redirectAttributes
+  ) {
     saveOrUpdateProfessionUseCase.execute(mapper.toRequest(request));
+    redirectAttributes.addFlashAttribute("successMessage", "Профессия успешно сохранена");
     return "redirect:/admin/professions";
   }
 
   @DeleteMapping("/{id}")
-  public @NonNull String delete(@NonNull @PathVariable Long id) {
+  public @NonNull String delete(
+      @NonNull @PathVariable Long id,
+      @NonNull RedirectAttributes redirectAttributes
+  ) {
     deleteProfessionUseCase.execute(id);
+    redirectAttributes.addFlashAttribute("successMessage", "Профессия успешно удалена");
     return "redirect:/admin/professions";
   }
 }

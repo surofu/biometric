@@ -21,7 +21,7 @@ public class UpdateIndicatorUseCase {
   private final IndicatorProvider provider;
 
   public @NonNull IndicatorResponse execute(@NonNull UpdateIndicatorRequest request) {
-    IndicatorResponse oldIndicator = provider.withIdResponse(request.id());
+    Indicator oldIndicator = provider.withId(request.id());
 
     if (!Objects.equals(oldIndicator.name(), request.name())) {
       validator.uniqueName(request.name());
@@ -29,7 +29,6 @@ public class UpdateIndicatorUseCase {
 
     Indicator updatedIndicator = mapper.toDomain(request).withId(oldIndicator.id());
     Indicator savedIndicator = saver.save(updatedIndicator);
-    Objects.requireNonNull(savedIndicator.id(), "ID индикатора обязателен");
-    return provider.withIdResponse(savedIndicator.id());
+    return provider.withIdResponse(savedIndicator.savedId());
   }
 }

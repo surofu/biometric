@@ -1,14 +1,16 @@
 package com.whitestork.biometric.user.interfaces.model;
 
-import lombok.With;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@With
-public record RegisterUserModel(
-    String email,
-    String password,
-    String confirmPassword
-) {
-  public RegisterUserModel() {
-    this(null, null, null);
-  }
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class RegisterUserModel {
+  private String email;
+  private String password;
+  private String confirmPassword;
 }

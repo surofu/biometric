@@ -8,12 +8,10 @@ import com.whitestork.biometric.measurement.application.response.MeasurementResp
 import com.whitestork.biometric.measurement.application.usecase.DeleteMeasurementUseCase;
 import com.whitestork.biometric.measurement.application.usecase.GetUserMeasurementByIdAndUserEmailUseCase;
 import com.whitestork.biometric.measurement.application.usecase.GetUserMeasurementPageUseCase;
-import com.whitestork.biometric.measurement.application.usecase.SaveMeasurementUseCase;
-import com.whitestork.biometric.measurement.application.usecase.UpdateMeasurementUseCase;
+import com.whitestork.biometric.measurement.application.usecase.SaveOrUpdateMeasurementUseCase;
 import com.whitestork.biometric.measurement.interfaces.model.SaveOrUpdateMeasurementModel;
 import com.whitestork.biometric.shared.domain.KeysetCursor;
 import com.whitestork.biometric.shared.domain.KeysetPage;
-import com.whitestork.biometric.shared.domain.exception.DomainException;
 import com.whitestork.biometric.user.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,15 +37,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/measurements")
 @RequiredArgsConstructor
 public class MeasurementController {
-
   private final GetAllIndicatorsUseCase getAllIndicatorsUseCase;
   private final GetAllIndicatorCategoriesUseCase getAllIndicatorCategoriesUseCase;
   private final GetUserMeasurementPageUseCase getUserMeasurementPageUseCase;
   private final GetUserMeasurementByIdAndUserEmailUseCase getUserMeasurementByIdAndUserEmailUseCase;
-  private final SaveMeasurementUseCase saveMeasurementUseCase;
-  private final UpdateMeasurementUseCase updateMeasurementUseCase;
   private final DeleteMeasurementUseCase deleteMeasurementUseCase;
-  private final MeasurementMapper measurementMapper;
+  private final SaveOrUpdateMeasurementUseCase saveOrUpdateMeasurementUseCase;
+  private final MeasurementMapper mapper;
 
   @GetMapping
   @PreAuthorize("isAuthenticated()")
@@ -92,58 +88,37 @@ public class MeasurementController {
       @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model
   ) {
-    MeasurementResponse measurement =
-        getUserMeasurementByIdAndUserEmailUseCase.execute(id, user.email());
-    SaveOrUpdateMeasurementModel formModel = new SaveOrUpdateMeasurementModel(
-        measurement.id(),
-        user.email(),
-        measurement.indicatorId(),
-        measurement.value(),
-        measurement.date()
+    MeasurementResponse measurement = getUserMeasurementByIdAndUserEmailUseCase.execute(
+        id,
+        user.email()
     );
-    populateFormModel(model, formModel);
+    populateFormModel(model, mapper.toSaveOrUpdateModel(measurement).withUserEmail(user.email()));
     return "measurement/save-form";
   }
 
   @PostMapping
   @PreAuthorize("isAuthenticated()")
   public @NonNull String save(
-      @NonNull @ModelAttribute("measurement") SaveOrUpdateMeasurementModel request,
+      @NonNull @ModelAttribute SaveOrUpdateMeasurementModel request,
       @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model
   ) {
-    SaveOrUpdateMeasurementModel formModel = new SaveOrUpdateMeasurementModel(
-        request.id(),
-        user.email(),
-        request.indicatorId(),
-        request.value(),
-        request.date()
-    );
-
     try {
-      if (formModel.id() != null) {
-        updateMeasurementUseCase.execute(measurementMapper.toUpdateMeasurementRequest(formModel));
-      } else {
-        saveMeasurementUseCase.execute(measurementMapper.toSaveMeasurementRequest(formModel));
-      }
-
-      String successMessage = request.id() == null
+      saveOrUpdateMeasurementUseCase.execute(
+          mapper.toSaveOrUpdateRequest(request),
+          user
+      );
+      String successMessage = request.getId() == null
           ? "Показатель успешно добавлен!"
           : "Показатель успешно изменён!";
       model.addAttribute("successMessage", successMessage);
-      populateFormModel(model, new SaveOrUpdateMeasurementModel().withDate(request.date()));
-      return "measurement/save-form";
-
-    } catch (DomainException exception) {
-      log.warn("DomainException при сохранении: {}", exception.getMessage());
-      model.addAttribute("errorMessage", exception.getMessage());
-      populateFormModel(model, formModel);
+      populateFormModel(model, new SaveOrUpdateMeasurementModel().withDate(request.getDate()));
       return "measurement/save-form";
 
     } catch (Exception exception) {
-      log.error("Неизвестная ошибка при сохранении: {}", exception.getMessage(), exception);
+      log.warn("Ошибка при сохранении показателя: {}", exception.getMessage());
       model.addAttribute("errorMessage", exception.getMessage());
-      populateFormModel(model, formModel);
+      populateFormModel(model, request);
       return "measurement/save-form";
     }
   }
@@ -157,12 +132,10 @@ public class MeasurementController {
   ) {
     try {
       deleteMeasurementUseCase.execute(id, user.email());
-    } catch (DomainException e) {
-      log.warn("DomainException при удалении: {}", e.getMessage());
-      redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-    } catch (Exception e) {
-      log.error("Неизвестная ошибка при удалении: {}", e.getMessage(), e);
-      redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+      redirectAttributes.addFlashAttribute("successMessage", "Показатель успешно удален");
+    } catch (Exception exception) {
+      log.warn("DomainException при удалении: {}", exception.getMessage());
+      redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
     }
     return "redirect:/measurements";
   }

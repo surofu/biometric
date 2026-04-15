@@ -56,7 +56,7 @@
                 <div class="mb-3">
                     <label class="block">
                         <span class="hidden md:block text-sm text-gray-700 mb-1">Email</span>
-                        <input type="email" name="email" value="${registerModel.email()!}" required
+                        <input type="email" name="email" value="${request.email!}" required
                                placeholder="Электронный адрес"
                                class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                     </label>

@@ -1,4 +1,4 @@
-package com.whitestork.biometric.indicator.application.response;
+package com.whitestork.biometric.admin.interfaces.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class IndicatorResponse {
+public class SaveOrUpdateIndicatorModel {
   private Long id;
+  private Long categoryId;
   private String name;
   private String unit;
-  private Long categoryId;
-  private String categoryName;
   private Double referenceMin;
   private Double referenceMax;
 }

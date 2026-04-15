@@ -1,17 +1,19 @@
-<#import "../shared/admin-layout.ftl" as adminLayoutMacros>
+<#import "layout.ftl" as adminLayoutMacros>
 
 <@adminLayoutMacros.adminLayout title="Индикаторы" selectedPage="indicators">
     <div class="py-6 sm:py-8 pb-16">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div class="min-w-0">
-                <h1 class="text-xl sm:text-2xl font-semibold text-slate-800 tracking-tight break-words">Медицинские
+                <h1 class="text-xl sm:text-2xl font-semibold text-slate-800 tracking-tight wrap-break-word">Медицинские
                     показатели</h1>
                 <p class="text-slate-500 text-sm mt-1">Список анализов и норм</p>
             </div>
             <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
                 <div class="relative w-full sm:w-64">
-                    <input type="text" id="searchInput" placeholder="Поиск..."
-                           class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                    <label>
+                        <input type="text" id="searchInput" placeholder="Поиск..."
+                               class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                    </label>
                     <svg class="absolute left-3 top-2.5 w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
                          viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -31,27 +33,27 @@
         <div class="bg-white border border-slate-100 rounded-md overflow-hidden">
             <div class="block sm:hidden divide-y divide-slate-100" id="mobileCardsContainer">
                 <#list indicators as item>
-                    <div class="p-4 bg-white search-item" data-search="${item.name()?lower_case}">
+                    <div class="p-4 bg-white search-item" data-search="${item.name?lower_case}">
                         <div class="flex justify-between items-start gap-4">
                             <div class="min-w-0 flex-1">
-                                <h3 class="text-sm font-bold text-slate-800 break-words leading-snug">${item.name()}</h3>
+                                <h3 class="text-sm font-bold text-slate-800 wrap-break-word leading-snug">${item.name}</h3>
                                 <p class="text-[10px] text-slate-400 font-mono mt-1 uppercase tracking-wider">
-                                    ID: ${item.id()}</p>
+                                    ID: ${item.id}</p>
                                 <div class="mt-3 space-y-1 text-[11px]">
-                                    <p class="text-slate-600 break-words">${item.categoryName()}</p>
-                                    <p class="text-emerald-700 font-semibold">${item.referenceMin()}
-                                        — ${item.referenceMax()}</p>
+                                    <p class="text-slate-600 wrap-break-word">${item.categoryName}</p>
+                                    <p class="text-emerald-700 font-semibold">${item.referenceMin}
+                                        — ${item.referenceMax}</p>
                                 </div>
                             </div>
                             <div class="flex flex-col gap-2 shrink-0">
-                                <a href="/admin/indicators/${item.id()}/edit"
+                                <a href="/admin/indicators/${item.id}/edit"
                                    class="p-2.5 bg-slate-100 text-slate-500 rounded-md flex items-center justify-center hover:bg-slate-200 transition-colors">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                                               stroke-width="2"/>
                                     </svg>
                                 </a>
-                                <form method="post" action="/admin/indicators/${item.id()}"
+                                <form method="post" action="/admin/indicators/${item.id}"
                                       onsubmit="return confirm('Удалить?')" class="inline">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     <input type="hidden" name="_method" value="delete">
@@ -89,24 +91,24 @@
                 <tbody class="divide-y divide-slate-100" id="tableBody">
                 <#list indicators as item>
                     <tr class="hover:bg-slate-50/50 transition-colors search-item"
-                        data-search="${item.name()?lower_case}">
-                        <td class="px-6 py-4 text-[10px] text-slate-400 font-mono">${item.id()}</td>
-                        <td class="px-6 py-4 text-sm font-semibold text-slate-800 break-words max-w-xs">${item.name()}</td>
+                        data-search="${item.name?lower_case}">
+                        <td class="px-6 py-4 text-[10px] text-slate-400 font-mono">${item.id}</td>
+                        <td class="px-6 py-4 text-sm font-semibold text-slate-800 wrap-break-word max-w-xs">${item.name}</td>
                         <td class="px-6 py-4">
-                            <p class="text-xs text-slate-600 break-words">${item.categoryName()}</p>
-                            <p class="text-[11px] text-emerald-700 font-medium mt-0.5">${item.referenceMin()}
-                                —${item.referenceMax()}</p>
+                            <p class="text-xs text-slate-600 wrap-break-word">${item.categoryName}</p>
+                            <p class="text-[11px] text-emerald-700 font-medium mt-0.5">${item.referenceMin}
+                                —${item.referenceMax}</p>
                         </td>
                         <td class="px-6 py-4 text-center">
                             <div class="flex justify-center gap-2">
-                                <a href="/admin/indicators/${item.id()}/edit"
+                                <a href="/admin/indicators/${item.id}/edit"
                                    class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                                               stroke-width="2"/>
                                     </svg>
                                 </a>
-                                <form method="post" action="/admin/indicators/${item.id()}"
+                                <form method="post" action="/admin/indicators/${item.id}"
                                       onsubmit="return confirm('Удалить?')" class="inline">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     <input type="hidden" name="_method" value="delete">

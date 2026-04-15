@@ -1,13 +1,19 @@
 package com.whitestork.biometric.analytics.domain;
 
 import java.util.List;
-import org.jspecify.annotations.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record AnalyticsData(
-    @NonNull List<String> labels,
-    @NonNull List<String> shotLabels,
-    @NonNull List<Double> values,
-    @NonNull List<Double> referenceMin,
-    @NonNull List<Double> referenceMax
-) {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class AnalyticsData {
+  private List<String> labels;
+  private List<String> shotLabels;
+  private List<Double> values;
+  private List<Double> referenceMin;
+  private List<Double> referenceMax;
 }

@@ -1,4 +1,4 @@
-<#import "../shared/admin-layout.ftl" as adminLayoutMacros>
+<#import "layout.ftl" as adminLayoutMacros>
 
 <@adminLayoutMacros.adminLayout title="Панель управления" selectedPage="dashboard">
     <div class="max-w-5xl mx-auto px-4 sm:px-8 pt-8 pb-16">

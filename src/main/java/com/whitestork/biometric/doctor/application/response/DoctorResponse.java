@@ -1,9 +1,15 @@
 package com.whitestork.biometric.doctor.application.response;
 
-import org.jspecify.annotations.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record DoctorResponse(
-    @NonNull Long id,
-    @NonNull String name
-) {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class DoctorResponse {
+  private Long id;
+  private String name;
 }

@@ -1,17 +1,17 @@
 package com.whitestork.biometric.measurement.application.response;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
-import org.jspecify.annotations.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record MeasurementGroupResponse(
-    @NonNull LocalDate date,
-    @NonNull List<MeasurementResponse> items
-) {
-
-  public @NonNull String dayOfWeek() {
-    return date.format(DateTimeFormatter.ofPattern("EEE", Locale.forLanguageTag("ru")));
-  }
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class MeasurementGroupResponse {
+  private LocalDate date;
+  private List<MeasurementResponse> items;
 }

@@ -5,7 +5,7 @@ import com.whitestork.biometric.doctor.application.request.SaveOrUpdateDoctorReq
 import com.whitestork.biometric.doctor.application.request.UpdateDoctorRequest;
 import com.whitestork.biometric.doctor.application.response.DoctorResponse;
 import com.whitestork.biometric.doctor.domain.Doctor;
-import com.whitestork.biometric.doctor.interfaces.model.SaveOrUpdateDoctorModel;
+import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateDoctorModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 

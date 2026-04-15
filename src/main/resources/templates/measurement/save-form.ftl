@@ -3,23 +3,22 @@
 
 <@layoutMacros.layout title="Добавление показателя" selectedPage="2" showNavbar=true>
     <div class="container max-w-2xl mx-auto px-4 pt-8 pb-18">
-
         <@messageMacros.message />
 
         <div class="px-4 pb-4 border-b border-gray-200 flex items-center">
             <h1 class="text-lg sm:text-xl font-semibold text-gray-800">
-                <#if measurement.id()??>Редактирование показателя<#else>Добавление нового показателя</#if>
+                <#if measurement.id??>Редактирование показателя<#else>Добавление нового показателя</#if>
             </h1>
         </div>
 
         <form action="/measurements" method="post" id="measurementForm" class="pt-4">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <#if measurement.id()??>
-                <input type="hidden" name="id" value="${measurement.id()}">
+            <#if measurement.id??>
+                <input type="hidden" name="id" value="${measurement.id}">
             </#if>
-            <input type="hidden" name="indicatorId" id="hiddenIndicatorId" value="${(measurement.indicatorId()?c)!}">
-            <input type="hidden" name="value" id="hiddenValue" value="${(measurement.value()?c)!}">
-            <input type="hidden" name="date" id="hiddenDate" value="${dateFormatter.htmlInput(measurement.date())}">
+            <input type="hidden" name="indicatorId" id="hiddenIndicatorId" value="${(measurement.indicatorId?c)!}">
+            <input type="hidden" name="value" id="hiddenValue" value="${(measurement.value?c)!}">
+            <input type="hidden" name="date" id="hiddenDate" value="${dateFormatter.htmlInput(measurement.date)}">
 
             <div id="step-1">
                 <p class="text-base font-semibold text-gray-800 mb-1">Выберите показатель</p>
@@ -27,15 +26,19 @@
 
                 <button type="button" id="selectedIndicatorCard"
                         class="hidden w-full mb-4 items-center gap-3 bg-emerald-50 border-2 border-emerald-300 rounded-lg px-4 py-3 hover:border-emerald-500 hover:bg-emerald-100 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 text-left">
-                    <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-semibold text-emerald-800 truncate" id="selectedIndicatorName"></p>
-                        <p class="text-xs text-emerald-600" id="selectedIndicatorRef"></p>
-                    </div>
-                    <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    <span class="flex-1 min-w-0">
+                        <span class="text-sm font-semibold text-emerald-800 truncate" id="selectedIndicatorName"></span>
+                        <span class="text-xs text-emerald-600" id="selectedIndicatorRef"></span>
+                    </span>
+                    <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                     </svg>
                 </button>
 
@@ -61,7 +64,7 @@
                     Дата измерения <span class="text-red-500">*</span>
                 </label>
                 <input type="date" id="dateInput"
-                       value="${dateFormatter.htmlInput(measurement.date())}"
+                       value="${dateFormatter.htmlInput(measurement.date)}"
                        class="w-full px-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
             </div>
 
@@ -73,7 +76,7 @@
                     Значение <span class="text-red-500">*</span>
                 </label>
                 <div class="flex items-center gap-3">
-                    <input type="number" id="valueInput" value="${(measurement.value()?c)!}" step="0.01"
+                    <input type="number" id="valueInput" value="${(measurement.value?c)!}" step="0.01"
                            placeholder="Введите значение"
                            class="flex-1 px-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
                     <span id="unitLabel" class="text-sm text-gray-500 shrink-0 min-w-8"></span>
@@ -84,31 +87,42 @@
         <div class="w-full pt-6 flex justify-between items-center gap-3">
             <button type="button" id="navBack"
                     class="flex items-center justify-center w-full max-w-36 gap-1.5 px-5 py-2.5 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
                 Назад
             </button>
             <button type="button" id="navNext"
                     class="flex items-center justify-center w-full max-w-48 gap-1.5 px-5 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-md hover:bg-emerald-700 focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled>
                 <span id="navNextText">Далее</span>
-                <svg id="navNextIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                <svg id="navNextIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
             </button>
         </div>
     </div>
 
     <div id="indicatorPopup" class="fixed inset-0 z-50 hidden flex-col bg-white px-4" style="display: none;">
         <div class="flex items-center gap-3 py-3 border-b border-gray-200 bg-white shrink-0 w-full max-w-2xl mx-auto">
-            <button type="button" id="closePopupBtn" class="p-2 -ml-2 rounded-md text-gray-500 hover:bg-gray-100 transition-colors focus:outline-none">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            <button type="button" id="closePopupBtn"
+                    class="p-2 -ml-2 rounded-md text-gray-500 hover:bg-gray-100 transition-colors focus:outline-none">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
             </button>
             <h2 class="text-base font-semibold text-gray-800 flex-1">Выбор показателя</h2>
         </div>
         <div class="py-3 border-b border-gray-100 bg-white shrink-0 w-full max-w-2xl mx-auto">
             <div class="relative w-full">
-                <input type="text" id="searchInput" placeholder="Поиск по названию…" autocomplete="off"
-                       class="w-full px-3 py-2 pl-9 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                <svg class="absolute left-2.5 top-2.5 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+                <label>
+                    <input type="text" id="searchInput" placeholder="Поиск по названию…" autocomplete="off"
+                           class="w-full px-3 py-2 pl-9 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                </label>
+                <svg class="absolute left-2.5 top-2.5 w-4 h-4 text-gray-400 pointer-events-none" fill="none"
+                     stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
                 </svg>
             </div>
         </div>
@@ -123,13 +137,13 @@
             const allIndicators = [
                 <#list indicators as ind>
                 {
-                    id: ${ind.id()?c},
-                    name: '${ind.name()?js_string}',
-                    unit: '${ind.unit()?js_string}',
-                    categoryId: <#if ind.categoryId()??>${ind.categoryId()?c}<#else>null</#if>,
-                    categoryName: '${ind.categoryName()?js_string}',
-                    referenceMin: <#if ind.referenceMin()??>${ind.referenceMin()?c}<#else>null</#if>,
-                    referenceMax: <#if ind.referenceMax()??>${ind.referenceMax()?c}<#else>null</#if>
+                    id: ${ind.id?c},
+                    name: '${ind.name?js_string}',
+                    unit: '${ind.unit?js_string}',
+                    categoryId: <#if ind.categoryId??>${ind.categoryId?c}<#else>null</#if>,
+                    categoryName: '${ind.categoryName?js_string}',
+                    referenceMin: <#if ind.referenceMin??>${ind.referenceMin?c}<#else>null</#if>,
+                    referenceMax: <#if ind.referenceMax??>${ind.referenceMax?c}<#else>null</#if>
                 }<#sep>, </#sep>
                 </#list>
             ];
@@ -180,7 +194,7 @@
 
                 if (currentStep === 3) {
                     navNextIcon.classList.add("hidden");
-                    navNextText.textContent = '<#if measurement.id()??>Сохранить<#else>Добавить</#if>';
+                    navNextText.textContent = '<#if measurement.id??>Сохранить<#else>Добавить</#if>';
                     navNext.disabled = false;
                     navNext.onclick = submitForm;
                 } else {
@@ -195,13 +209,19 @@
                 if (currentStep === 1 && selectedIndicator) {
                     goTo(2);
                 } else if (currentStep === 2) {
-                    if (!qs('#dateInput').value) { highlightError('#dateInput'); return; }
+                    if (!qs('#dateInput').value) {
+                        highlightError('#dateInput');
+                        return;
+                    }
                     goTo(3);
                 }
             }
 
             function submitForm() {
-                if (!qs('#valueInput').value) { highlightError('#valueInput'); return; }
+                if (!qs('#valueInput').value) {
+                    highlightError('#valueInput');
+                    return;
+                }
                 qs('#hiddenValue').value = qs('#valueInput').value;
                 qs('#hiddenDate').value = qs('#dateInput').value;
                 qs('#measurementForm').submit();
@@ -238,7 +258,10 @@
                 const q = query.trim().toLowerCase();
                 const filtered = q ? allIndicators.filter(i => i.name.toLowerCase().includes(q)) : allIndicators;
 
-                if (filtered.length === 0) { noResults.classList.remove('hidden'); return; }
+                if (filtered.length === 0) {
+                    noResults.classList.remove('hidden');
+                    return;
+                }
                 noResults.classList.add('hidden');
 
                 const groups = new Map();
@@ -276,9 +299,11 @@
                 });
             }
 
-            qs('#searchInput').oninput = function() { renderIndicators(this.value); };
+            qs('#searchInput').oninput = function () {
+                renderIndicators(this.value);
+            };
 
-            const editIndicatorId = <#if measurement.indicatorId()??>${measurement.indicatorId()?c}<#else>null</#if>;
+            const editIndicatorId = <#if measurement.indicatorId??>${measurement.indicatorId?c}<#else>null</#if>;
             if (editIndicatorId) {
                 const ind = allIndicators.find(i => i.id === editIndicatorId);
                 if (ind) {
@@ -292,8 +317,13 @@
                 updateNav();
             }
 
-            function qs(sel) { return document.querySelector(sel); }
-            function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+            function qs(sel) {
+                return document.querySelector(sel);
+            }
+
+            function esc(s) {
+                return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
         })();
     </script>
 </@layoutMacros.layout>

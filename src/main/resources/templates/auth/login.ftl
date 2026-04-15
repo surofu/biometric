@@ -53,7 +53,9 @@
             <form action="/login" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="hidden" name="rememberMe" value="true">
-                <input type="checkbox" name="rememberMe" id="rememberMe" checked class="hidden">
+                <label>
+                    <input type="checkbox" name="rememberMe" id="rememberMe" checked class="hidden">
+                </label>
 
                 <div class="mb-3">
                     <label class="block">

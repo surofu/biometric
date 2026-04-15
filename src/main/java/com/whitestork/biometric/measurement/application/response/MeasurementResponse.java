@@ -1,17 +1,22 @@
 package com.whitestork.biometric.measurement.application.response;
 
 import java.time.LocalDate;
-import org.jspecify.annotations.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record MeasurementResponse(
-    @NonNull Long id,
-    @NonNull Double value,
-    @NonNull LocalDate date,
-    // Indicator Info
-    @NonNull Long indicatorId,
-    @NonNull String indicatorName,
-    @NonNull String indicatorUnit,
-    @NonNull Double indicatorReferenceMin,
-    @NonNull Double indicatorReferenceMax
-) {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class MeasurementResponse {
+  private Long id;
+  private Double value;
+  private LocalDate date;
+  private Long indicatorId;
+  private String indicatorName;
+  private String indicatorUnit;
+  private Double indicatorReferenceMin;
+  private Double indicatorReferenceMax;
 }

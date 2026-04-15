@@ -1,9 +1,15 @@
 package com.whitestork.biometric.user.application.response;
 
-import org.jspecify.annotations.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record UserResponse(
-    @NonNull Long id,
-    @NonNull String email
-) {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserResponse {
+  private Long id;
+  private String email;
 }

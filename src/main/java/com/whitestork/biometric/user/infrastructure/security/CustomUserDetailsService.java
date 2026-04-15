@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         throw new DisabledException("google_account:" + email);
       }
       return user;
-    } catch (DomainException exception) {
+    } catch (Exception exception) {
       log.warn("Unable to load UserDetails for {}", email, exception);
       throw new UsernameNotFoundException(exception.getMessage());
     }
