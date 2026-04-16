@@ -46,7 +46,12 @@ public class AnalyticsController {
         indicatorId,
         user.email()
     );
+
     model.addAttribute("analytics", analyticsResponse);
-    return "analytics/measurement-analytics";
+
+    if (analyticsResponse.getData().getValues().size() < 2) {
+      return "analytics/not-enough-data";
+    }
+    return "analytics/chart";
   }
 }

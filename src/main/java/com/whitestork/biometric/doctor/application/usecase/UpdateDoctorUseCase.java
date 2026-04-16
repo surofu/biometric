@@ -5,7 +5,6 @@ import com.whitestork.biometric.doctor.application.component.DoctorSaver;
 import com.whitestork.biometric.doctor.application.component.DoctorValidator;
 import com.whitestork.biometric.doctor.application.mapper.DoctorMapper;
 import com.whitestork.biometric.doctor.application.request.UpdateDoctorRequest;
-import com.whitestork.biometric.doctor.application.response.DoctorResponse;
 import com.whitestork.biometric.doctor.domain.Doctor;
 import com.whitestork.biometric.shared.application.annotation.UseCase;
 import java.util.Objects;
@@ -20,7 +19,7 @@ public class UpdateDoctorUseCase {
   private final DoctorMapper mapper;
   private final DoctorSaver saver;
 
-  public @NonNull DoctorResponse execute(@NonNull UpdateDoctorRequest request) {
+  public void execute(@NonNull UpdateDoctorRequest request) {
     Doctor oldDoctor = provider.withId(request.id());
 
     if (!Objects.equals(oldDoctor.name(), request.name())) {
@@ -29,6 +28,6 @@ public class UpdateDoctorUseCase {
 
     Doctor updatedDoctor = mapper.toDomain(request);
     Doctor savedDoctor = saver.save(updatedDoctor);
-    return mapper.toResponse(savedDoctor);
+    mapper.toResponse(savedDoctor);
   }
 }

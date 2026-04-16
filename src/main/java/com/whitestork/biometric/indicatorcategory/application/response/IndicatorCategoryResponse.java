@@ -12,5 +12,4 @@ import lombok.Setter;
 public class IndicatorCategoryResponse {
   private Long id;
   private String name;
-  private String description;
 }

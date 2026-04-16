@@ -1,6 +1,7 @@
 package com.whitestork.biometric.profession.application.response;
 
 import com.whitestork.biometric.doctor.application.response.DoctorResponse;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,5 +15,6 @@ import lombok.Setter;
 public class ProfessionDetailsResponse {
   private Long id;
   private String name;
-  private List<DoctorResponse> doctors;
+  private String description;
+  private List<DoctorResponse> doctors = new ArrayList<>();
 }

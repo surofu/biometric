@@ -4,6 +4,7 @@ import org.jspecify.annotations.NonNull;
 
 public record UpdateDoctorRequest(
     @NonNull Long id,
-    @NonNull String name
+    @NonNull String name,
+    @NonNull String description
 ) {
 }

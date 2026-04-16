@@ -63,9 +63,9 @@ public class SecurityConfig {
     return http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
-                "/", "/about",
+                "/", "/about", "/reference/**",
                 "/login", "/register", "/verify-email", "/email-sent",
-                "/css/**", "/js/**",
+                "/css/**", "/js/**", "/images/**",
                 "/favicon.svg", "/favicon.ico",
                 "/favicon-96x96.png", "/apple-touch-icon.png",
                 "/site.webmanifest", "/manifest.json",

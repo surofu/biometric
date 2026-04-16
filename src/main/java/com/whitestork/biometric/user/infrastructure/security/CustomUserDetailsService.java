@@ -1,6 +1,5 @@
 package com.whitestork.biometric.user.infrastructure.security;
 
-import com.whitestork.biometric.shared.domain.exception.DomainException;
 import com.whitestork.biometric.user.application.component.UserProvider;
 import com.whitestork.biometric.user.domain.User;
 import lombok.RequiredArgsConstructor;

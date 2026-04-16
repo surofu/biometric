@@ -4,6 +4,7 @@ import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateIndicatorCate
 import com.whitestork.biometric.indicatorcategory.application.request.SaveIndicatorCategoryRequest;
 import com.whitestork.biometric.indicatorcategory.application.request.SaveOrUpdateIndicatorCategoryRequest;
 import com.whitestork.biometric.indicatorcategory.application.request.UpdateIndicatorCategoryRequest;
+import com.whitestork.biometric.indicatorcategory.application.response.IndicatorCategoryDetailsResponse;
 import com.whitestork.biometric.indicatorcategory.application.response.IndicatorCategoryResponse;
 import com.whitestork.biometric.indicatorcategory.domain.IndicatorCategory;
 import org.mapstruct.Mapper;
@@ -18,11 +19,7 @@ public interface IndicatorCategoryMapper {
 
   IndicatorCategory toDomain(UpdateIndicatorCategoryRequest request);
 
-  SaveOrUpdateIndicatorCategoryModel toSaveOrUpdateModel(IndicatorCategoryResponse response);
-
-  SaveOrUpdateIndicatorCategoryRequest toSaveOrUpdateRequest(
-      SaveOrUpdateIndicatorCategoryModel model
-  );
+  SaveOrUpdateIndicatorCategoryModel toSaveOrUpdateModel(IndicatorCategoryDetailsResponse response);
 
   SaveIndicatorCategoryRequest toSaveRequest(SaveOrUpdateIndicatorCategoryRequest request);
 

@@ -1,6 +1,5 @@
 package com.whitestork.biometric.user.interfaces;
 
-import com.whitestork.biometric.shared.domain.exception.DomainException;
 import com.whitestork.biometric.user.application.mapper.UserMapper;
 import com.whitestork.biometric.user.application.usecase.ChangePasswordUseCase;
 import com.whitestork.biometric.user.application.usecase.RegisterUserUseCase;

@@ -54,8 +54,10 @@ public class AdminIndicatorCategoryController {
   @GetMapping("/{id}/edit")
   @PreAuthorize("isAuthenticated()")
   public @NonNull String edit(@NonNull @PathVariable Long id, @NonNull Model model) {
-    IndicatorCategoryResponse category = getIndicatorCategoryByIdUseCase.execute(id);
-    model.addAttribute("request", mapper.toSaveOrUpdateModel(category));
+    model.addAttribute(
+        "request",
+        mapper.toSaveOrUpdateModel(getIndicatorCategoryByIdUseCase.execute(id))
+    );
     return "admin/indicator-category-form";
   }
 

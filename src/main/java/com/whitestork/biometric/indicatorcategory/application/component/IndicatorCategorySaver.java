@@ -13,7 +13,7 @@ public class IndicatorCategorySaver {
   private final IndicatorCategoryRepository repository;
 
   @Transactional
-  public @NonNull IndicatorCategory save(@NonNull IndicatorCategory indicatorCategory) {
-    return repository.save(indicatorCategory);
+  public void save(@NonNull IndicatorCategory indicatorCategory) {
+    repository.save(indicatorCategory);
   }
 }

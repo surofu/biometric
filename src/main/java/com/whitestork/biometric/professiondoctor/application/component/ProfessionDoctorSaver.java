@@ -14,7 +14,7 @@ public class ProfessionDoctorSaver {
   private final ProfessionDoctorRepository repository;
 
   @Transactional
-  public List<ProfessionDoctor> saveAll(@NonNull List<ProfessionDoctor> professionDoctors) {
-    return repository.saveAll(professionDoctors);
+  public void saveAll(@NonNull List<ProfessionDoctor> professionDoctors) {
+    repository.saveAll(professionDoctors);
   }
 }

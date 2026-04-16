@@ -15,8 +15,6 @@ public class GetAllDoctorsUseCase {
   private final DoctorMapper mapper;
 
   public @NonNull List<DoctorResponse> execute() {
-    return repository.findAllByOrderByNameAscIdDesc().stream()
-        .map(mapper::toResponse)
-        .toList();
+    return repository.findAllResponses();
   }
 }

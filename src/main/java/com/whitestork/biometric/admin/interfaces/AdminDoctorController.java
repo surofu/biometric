@@ -49,8 +49,10 @@ public class AdminDoctorController {
 
   @GetMapping("/{id}/edit")
   public @NonNull String edit(@NonNull @PathVariable Long id, @NonNull Model model) {
-    DoctorResponse doctor = getDoctorByIdUseCase.execute(id);
-    model.addAttribute("request", mapper.toSaveOrUpdateDoctorModel(doctor));
+    model.addAttribute(
+        "request",
+        mapper.toSaveOrUpdateDoctorModel(getDoctorByIdUseCase.execute(id))
+    );
     return "admin/doctor-form";
   }
 

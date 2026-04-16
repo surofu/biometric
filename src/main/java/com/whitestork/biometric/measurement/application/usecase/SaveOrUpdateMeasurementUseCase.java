@@ -4,7 +4,6 @@ import com.whitestork.biometric.measurement.application.mapper.MeasurementMapper
 import com.whitestork.biometric.measurement.application.request.SaveMeasurementRequest;
 import com.whitestork.biometric.measurement.application.request.SaveOrUpdateMeasurementRequest;
 import com.whitestork.biometric.measurement.application.request.UpdateMeasurementRequest;
-import com.whitestork.biometric.measurement.application.response.MeasurementResponse;
 import com.whitestork.biometric.shared.application.annotation.UseCase;
 import com.whitestork.biometric.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ public class SaveOrUpdateMeasurementUseCase {
   private final SaveMeasurementUseCase saveMeasurementUseCase;
   private final UpdateMeasurementUseCase updateMeasurementUseCase;
 
-  public @NonNull MeasurementResponse execute(
+  public void execute(
       @NonNull SaveOrUpdateMeasurementRequest request,
       @NonNull User user
   ) {
@@ -25,10 +24,11 @@ public class SaveOrUpdateMeasurementUseCase {
 
     if (request.id() != null) {
       UpdateMeasurementRequest updateRequest = mapper.toUpdateRequest(requestWithUserEmail);
-      return updateMeasurementUseCase.execute(updateRequest);
+      updateMeasurementUseCase.execute(updateRequest);
+      return;
     }
 
     SaveMeasurementRequest saveRequest = mapper.toSaveRequest(requestWithUserEmail);
-    return saveMeasurementUseCase.execute(saveRequest);
+    saveMeasurementUseCase.execute(saveRequest);
   }
 }

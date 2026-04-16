@@ -3,6 +3,7 @@ package com.whitestork.biometric.doctor.application.mapper;
 import com.whitestork.biometric.doctor.application.request.SaveDoctorRequest;
 import com.whitestork.biometric.doctor.application.request.SaveOrUpdateDoctorRequest;
 import com.whitestork.biometric.doctor.application.request.UpdateDoctorRequest;
+import com.whitestork.biometric.doctor.application.response.DoctorDetailsResponse;
 import com.whitestork.biometric.doctor.application.response.DoctorResponse;
 import com.whitestork.biometric.doctor.domain.Doctor;
 import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateDoctorModel;
@@ -14,7 +15,7 @@ public interface DoctorMapper {
 
   SaveOrUpdateDoctorRequest toSaveOrUpdateDoctorRequest(SaveOrUpdateDoctorModel model);
 
-  SaveOrUpdateDoctorModel toSaveOrUpdateDoctorModel(DoctorResponse response);
+  SaveOrUpdateDoctorModel toSaveOrUpdateDoctorModel(DoctorDetailsResponse response);
 
   SaveDoctorRequest toSaveRequest(SaveOrUpdateDoctorRequest request);
 

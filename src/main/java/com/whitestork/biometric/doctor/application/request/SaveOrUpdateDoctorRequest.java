@@ -5,6 +5,7 @@ import org.jspecify.annotations.Nullable;
 
 public record SaveOrUpdateDoctorRequest(
     @Nullable Long id,
-    @NonNull String name
+    @NonNull String name,
+    @NonNull String description
 ) {
 }

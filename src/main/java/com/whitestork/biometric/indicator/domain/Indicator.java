@@ -1,6 +1,5 @@
 package com.whitestork.biometric.indicator.domain;
 
-import com.whitestork.biometric.shared.domain.exception.DomainException;
 import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
@@ -18,15 +17,7 @@ public record Indicator(
     @NonNull String name,
     @NonNull String unit,
     @NonNull Double referenceMin,
-    @NonNull Double referenceMax
+    @NonNull Double referenceMax,
+    @NonNull String description
 ) {
-
-    public @NonNull Long savedId() {
-        if (id == null) {
-            log.error("Индикатор без ID");
-            throw new DomainException("Что-то пошло не так");
-        }
-
-        return id;
-    }
 }

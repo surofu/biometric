@@ -1,11 +1,10 @@
 package com.whitestork.biometric.indicatorcategory.application.usecase;
 
-import com.whitestork.biometric.indicatorcategory.application.mapper.IndicatorCategoryMapper;
-import com.whitestork.biometric.indicatorcategory.application.request.UpdateIndicatorCategoryRequest;
-import com.whitestork.biometric.indicatorcategory.application.response.IndicatorCategoryResponse;
 import com.whitestork.biometric.indicatorcategory.application.component.IndicatorCategoryProvider;
 import com.whitestork.biometric.indicatorcategory.application.component.IndicatorCategorySaver;
 import com.whitestork.biometric.indicatorcategory.application.component.IndicatorCategoryValidator;
+import com.whitestork.biometric.indicatorcategory.application.mapper.IndicatorCategoryMapper;
+import com.whitestork.biometric.indicatorcategory.application.request.UpdateIndicatorCategoryRequest;
 import com.whitestork.biometric.indicatorcategory.domain.IndicatorCategory;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +19,7 @@ public class UpdateIndicatorCategoryUseCase {
   private final IndicatorCategorySaver saver;
   private final IndicatorCategoryMapper categoryMapper;
 
-  public @NonNull IndicatorCategoryResponse execute(
-      @NonNull UpdateIndicatorCategoryRequest request
-  ) {
+  public void execute(@NonNull UpdateIndicatorCategoryRequest request) {
     IndicatorCategory oldIndicatorCategory = provider.withId(request.id());
 
     if (!Objects.equals(oldIndicatorCategory.name(), request.name())) {
@@ -30,7 +27,6 @@ public class UpdateIndicatorCategoryUseCase {
     }
 
     IndicatorCategory updatedIndicatorCategory = categoryMapper.toDomain(request);
-    IndicatorCategory savedIndicatorCategory = saver.save(updatedIndicatorCategory);
-    return categoryMapper.toResponse(savedIndicatorCategory);
+    saver.save(updatedIndicatorCategory);
   }
 }

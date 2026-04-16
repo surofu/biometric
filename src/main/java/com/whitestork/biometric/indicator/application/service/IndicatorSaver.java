@@ -13,7 +13,7 @@ public class IndicatorSaver {
   private final IndicatorRepository repository;
 
   @Transactional
-  public @NonNull Indicator save(@NonNull Indicator indicator) {
-    return repository.save(indicator);
+  public void save(@NonNull Indicator indicator) {
+    repository.save(indicator);
   }
 }

@@ -7,7 +7,6 @@ import com.whitestork.biometric.indicator.application.request.UpdateIndicatorReq
 import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.domain.Indicator;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
@@ -21,9 +20,7 @@ public interface IndicatorMapper {
 
   SaveOrUpdateIndicatorRequest toSaveOrUpdateRequest(SaveOrUpdateIndicatorModel model);
 
-  @Mapping(target = "id", ignore = true)
   Indicator toDomain(SaveIndicatorRequest request);
 
-  @Mapping(target = "id", ignore = true)
   Indicator toDomain(UpdateIndicatorRequest request);
 }

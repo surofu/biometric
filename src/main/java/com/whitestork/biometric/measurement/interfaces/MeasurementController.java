@@ -48,7 +48,7 @@ public class MeasurementController {
   @GetMapping
   @PreAuthorize("isAuthenticated()")
   public @NonNull String list(
-      @NonNull @RequestParam(defaultValue = "20", required = false) Integer pageSize,
+      @NonNull @RequestParam(defaultValue = "10", required = false) Integer pageSize,
       @Nullable @RequestParam(required = false) String cursor,
       @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model,

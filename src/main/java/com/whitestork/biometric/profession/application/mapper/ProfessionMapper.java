@@ -1,6 +1,5 @@
 package com.whitestork.biometric.profession.application.mapper;
 
-import com.whitestork.biometric.doctor.application.response.DoctorResponse;
 import com.whitestork.biometric.profession.application.request.SaveOrUpdateProfessionRequest;
 import com.whitestork.biometric.profession.application.request.SaveProfessionRequest;
 import com.whitestork.biometric.profession.application.request.UpdateProfessionRequest;
@@ -8,7 +7,7 @@ import com.whitestork.biometric.profession.application.response.ProfessionDetail
 import com.whitestork.biometric.profession.application.response.ProfessionResponse;
 import com.whitestork.biometric.profession.domain.Profession;
 import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateProfessionModel;
-import java.util.List;
+import com.whitestork.biometric.profession.infrastructrure.projection.ProfessionDetailsProjection;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
@@ -28,5 +27,5 @@ public interface ProfessionMapper {
 
   ProfessionResponse toResponse(Profession profession);
 
-  ProfessionDetailsResponse toDetailsResponse(Profession profession, List<DoctorResponse> doctors);
+  ProfessionDetailsResponse toDetailsResponse(ProfessionDetailsProjection projection);
 }

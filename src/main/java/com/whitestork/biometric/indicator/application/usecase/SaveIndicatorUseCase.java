@@ -2,7 +2,6 @@ package com.whitestork.biometric.indicator.application.usecase;
 
 import com.whitestork.biometric.indicator.application.mapper.IndicatorMapper;
 import com.whitestork.biometric.indicator.application.request.SaveIndicatorRequest;
-import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.application.service.IndicatorProvider;
 import com.whitestork.biometric.indicator.application.service.IndicatorSaver;
 import com.whitestork.biometric.indicator.application.service.IndicatorValidator;
@@ -19,10 +18,9 @@ public class SaveIndicatorUseCase {
   private final IndicatorSaver saver;
   private final IndicatorProvider provider;
 
-  public @NonNull IndicatorResponse execute(@NonNull SaveIndicatorRequest request) {
+  public void execute(@NonNull SaveIndicatorRequest request) {
     validator.uniqueName(request.name());
     Indicator newIndicator = mapper.toDomain(request);
-    Indicator savedIndicator = saver.save(newIndicator);
-    return provider.withIdResponse(savedIndicator.savedId());
+    saver.save(newIndicator);
   }
 }

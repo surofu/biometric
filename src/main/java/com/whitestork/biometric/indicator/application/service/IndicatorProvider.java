@@ -1,5 +1,6 @@
 package com.whitestork.biometric.indicator.application.service;
 
+import com.whitestork.biometric.indicator.application.response.IndicatorDetailsResponse;
 import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.domain.Indicator;
 import com.whitestork.biometric.indicator.infrastructure.persistence.IndicatorRepository;
@@ -20,6 +21,10 @@ public class IndicatorProvider {
 
   public @NonNull IndicatorResponse withIdResponse(@NonNull Long id) {
     return repository.findByIdResponse(id).orElseThrow(handleException(id));
+  }
+
+  public @NonNull IndicatorDetailsResponse withIdDetailsResponse(@NonNull Long id) {
+    return repository.findByIdDetailsResponse(id).orElseThrow(handleException(id));
   }
 
   private @NonNull Supplier<DomainException> handleException(@NonNull Long id) {
