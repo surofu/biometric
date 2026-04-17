@@ -20,7 +20,7 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 .mvn/wrapper/maven-wrapper.properties
-!**/src/main/resources/static/css/**
+/src/main/resources/static/css/**/*
 
 ### Maven ###
 mvnw
