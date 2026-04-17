@@ -4,44 +4,54 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.5-brightgreen)](https://spring.io/projects/spring-boot)
 [![FreeMarker](https://img.shields.io/badge/FreeMarker-blue)](https://freemarker.apache.org/)
 
-**Biometric** is a minimalist personal health monitoring platform to record medical metrics and analyze trends. It centralizes your measurement results (glucose, cholesterol, creatinine, and more), helping you track dynamics and spot deviations from the norm early.
+**Biometric** — минималистичная платформа для мониторинга личного здоровья: запись медицинских показателей и анализ динамики. Централизует результаты измерений (глюкоза, холестерин, креатинин и другие), помогая отслеживать изменения и вовремя замечать отклонения от нормы.
 
-## Showcase
+## Скриншоты
 
-### Core Experience
-| Dashboard (Home) | Measurements List | Analytics & Trends |
+### Основное
+| Главная | Список измерений | Аналитика |
 |:---:|:---:|:---:|
 | ![Home](screenshots/home.png) | ![Measurements](screenshots/measurements.png) | ![Analytics](screenshots/analytics.png) |
 
-### Adding Measurements (Step-by-Step)
-| Step 1: Select Type | Step 2: Enter Data | Step 3: Confirmation |
-|:---:|:---:|:---:|
+### Добавление измерения (пошагово)
+| Шаг 1: Выбор типа |              Шаг 2: Ввод даты               |            Шаг 3: Ввод значения             |
+|:---:|:-------------------------------------------:|:-------------------------------------------:|
 | ![Add 1](screenshots/add-measurement-1.png) | ![Add 2](screenshots/add-measurement-2.png) | ![Add 3](screenshots/add-measurement-3.png) |
 
-### User Profile & Security
-| User Profile | Change Password | About Project |
+### Справочник
+| Справочник | Показатели | Детали показателя |
+|:---:|:---:|:---:|
+| ![Reference](screenshots/reference.png) | ![Indicators](screenshots/reference-indicators.png) | ![Indicator Details](screenshots/reference-indicator-details.png) |
+
+| Детали категории | Детали профессии | Детали врача |
+|:---:|:---:|:---:|
+| ![Category Details](screenshots/reference-indicator-category-details.png) | ![Profession Details](screenshots/reference-profession-details.png) | ![Doctor Details](screenshots/reference-doctors-details.png) |
+
+### Профиль и безопасность
+| Профиль | Смена пароля | О проекте |
 |:---:|:---:|:---:|
 | ![Profile](screenshots/profile.png) | ![Password](screenshots/change-password.png) | ![About](screenshots/about.png) |
 
-### Authentication
-| Login Page | Registration |
+### Аутентификация
+| Вход | Регистрация |
 |:---:|:---:|
 | ![Login](screenshots/login.png) | ![Register](screenshots/register.png) |
 
-## Features
+## Возможности
 
-- **Comprehensive Tracking** — Log biochemistry, hormones, and vital signs.
-- **Visual Analytics** — Interactive charts with reference range overlays.
-- **Step-by-Step UI** — Intuitive multi-step process for adding new records.
-- **Secure Access** — OAuth2 (Google) integration and robust password management.
-- **Responsive Design** — Fully optimized for both desktop and mobile devices.
+- **Комплексный учёт** — ведение биохимии, гормонов и жизненных показателей.
+- **Визуальная аналитика** — интерактивные графики с отображением референсных значений.
+- **Пошаговый интерфейс** — удобный многошаговый процесс добавления записей.
+- **Справочник** — просмотр показателей и профессий с нормами и описаниями.
+- **Безопасный доступ** — интеграция OAuth2 (Google) и управление паролем.
+- **Адаптивный дизайн** — полная оптимизация для десктопа и мобильных устройств.
 
-## Technology Stack
+## Технологии
 
-- **Backend:** Java 25, Spring Boot 4.0.5, Spring Security (OAuth2), Spring Data JDBC
-- **Database:** PostgreSQL, Liquibase (Migrations)
-- **Frontend:** FreeMarker Templates, Tailwind CSS, Vanilla JavaScript
-- **Infrastructure:** Docker (Paketo Buildpacks), Maven
+- **Бэкенд:** Java 25, Spring Boot 4.0.5, Spring Security (OAuth2), Spring Data JDBC
+- **База данных:** PostgreSQL, Liquibase
+- **Фронтенд:** FreeMarker, Tailwind CSS, Vanilla JavaScript
+- **Инфраструктура:** Docker (Paketo Buildpacks), Maven
 
 ---
-Created by [Stanislav Smirnov](https://github.com/surofu)
+Создано [Stanislav Smirnov](https://github.com/surofu)
