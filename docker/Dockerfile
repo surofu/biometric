@@ -8,26 +8,20 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-# Копируем конфиги и Maven
 COPY tailwind.config.js ./
 COPY postcss.config.js ./
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 
-# Кешируем зависимости Maven
 RUN ./mvnw dependency:go-offline -B
 
-# Копируем исходники
 COPY src src
 
-# Генерируем CSS (сначала фронт!)
 RUN npm run build:prod
 
-# Собираем JAR (теперь готовый CSS уже лежит в static и попадет в билд)
 RUN ./mvnw clean package -DskipTests
 
-# Распаковываем на слои
 RUN java -Djarmode=layertools -jar target/*.jar extract --destination extracted
 
 # ---- Stage 2: Runtime ----
