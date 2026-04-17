@@ -60,7 +60,7 @@
                     ] as item>
                         <a href="${item.url}"
                            class="flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-all
-                           <#if selectedPage == item.id>bg-emerald-50 text-emerald-700 shadow-sm shadow-emerald-100/50<#else>text-slate-500 hover:bg-slate-50 hover:text-slate-900</#if>">
+                           <#if selectedPage == item.id>bg-emerald-50 text-emerald-700 <#else>text-slate-500 hover:bg-slate-50 hover:text-slate-900</#if>">
                             <svg class="w-5 h-5 <#if selectedPage == item.id>text-emerald-600<#else>text-slate-400</#if>"
                                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${item.icon}"/>

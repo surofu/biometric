@@ -11,7 +11,7 @@
 
         <div class="relative top-0 text-center w-full h-full">
             <div class="absolute top-2 w-full flex justify-center -z-1">
-                <img src="/images/chart-placeholder.png"
+                <img src="/images/chart-placeholder.webp"
                      alt="placeholder"
                      class="w-full max-w-md rounded-xl blur-xs opacity-70">
             </div>
@@ -20,7 +20,7 @@
                 <h2 class="text-xl font-semibold text-gray-800">Недостаточно данных</h2>
                 <p class="text-gray-500 mt-2 max-w-xs mx-auto">
                     Для построения аналитики по показателю «${analytics.indicatorName}»
-                    необходимо минимум <strong>2 результата измерений</strong>.
+                    необходимо минимум <strong>2&nbsp;результата измерений</strong>.
                 </p>
                 <div class="mt-8">
                     <a href="/measurements/add"

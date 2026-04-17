@@ -39,7 +39,7 @@
                                   name="description"
                                   required
                                   rows="4"
-                                  class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm resize-none"
+                                  class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm resize-y"
                                   placeholder="Краткое описание категории">${request.description!''}</textarea>
                     </div>
                 </div>

@@ -53,21 +53,6 @@ public interface IndicatorRepository extends ListCrudRepository<Indicator, Long>
              i.unit as unit,
              i.reference_min as reference_min,
              i.reference_max as reference_max,
-             c.id as category_id,
-             c.name as category_name
-         from indicators i
-         join indicator_categories c on i.category_id = c.id
-         where i.id = :id
-         """)
-  Optional<IndicatorResponse> findByIdResponse(@NonNull Long id);
-
-  @Query("""
-         select
-             i.id as id,
-             i.name as name,
-             i.unit as unit,
-             i.reference_min as reference_min,
-             i.reference_max as reference_max,
              i.description as description,
              c.id as category_id,
              c.name as category_name

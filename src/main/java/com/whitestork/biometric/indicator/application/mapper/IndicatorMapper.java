@@ -4,6 +4,7 @@ import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateIndicatorMode
 import com.whitestork.biometric.indicator.application.request.SaveIndicatorRequest;
 import com.whitestork.biometric.indicator.application.request.SaveOrUpdateIndicatorRequest;
 import com.whitestork.biometric.indicator.application.request.UpdateIndicatorRequest;
+import com.whitestork.biometric.indicator.application.response.IndicatorDetailsResponse;
 import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.domain.Indicator;
 import org.mapstruct.Mapper;
@@ -16,7 +17,7 @@ public interface IndicatorMapper {
 
   UpdateIndicatorRequest toUpdateRequest(SaveOrUpdateIndicatorRequest request);
 
-  SaveOrUpdateIndicatorModel toSaveOrUpdateModel(IndicatorResponse response);
+  SaveOrUpdateIndicatorModel toSaveOrUpdateModel(IndicatorDetailsResponse response);
 
   SaveOrUpdateIndicatorRequest toSaveOrUpdateRequest(SaveOrUpdateIndicatorModel model);
 

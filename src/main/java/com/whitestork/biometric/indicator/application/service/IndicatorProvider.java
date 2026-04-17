@@ -19,10 +19,6 @@ public class IndicatorProvider {
     return repository.findById(id).orElseThrow(handleException(id));
   }
 
-  public @NonNull IndicatorResponse withIdResponse(@NonNull Long id) {
-    return repository.findByIdResponse(id).orElseThrow(handleException(id));
-  }
-
   public @NonNull IndicatorDetailsResponse withIdDetailsResponse(@NonNull Long id) {
     return repository.findByIdDetailsResponse(id).orElseThrow(handleException(id));
   }

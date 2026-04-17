@@ -20,20 +20,20 @@
             </div>
 
             <div class="mt-6 space-y-6">
-<#--                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">-->
-<#--                    <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/30">-->
-<#--                        <h2 class="font-medium text-gray-800">Описание</h2>-->
-<#--                    </div>-->
-<#--                    <div class="p-6">-->
-<#--                        <div class="text-gray-700 leading-relaxed text-sm sm:text-base">-->
-<#--                            <#if profession.description?has_content>-->
-<#--                                ${profession.description}-->
-<#--                            <#else>-->
-<#--                                <p class="text-gray-400 italic">Сведения об обязательных обследованиях для данной профессии в данный момент обновляются.</p>-->
-<#--                            </#if>-->
-<#--                        </div>-->
-<#--                    </div>-->
-<#--                </div>-->
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/30">
+                        <h2 class="font-medium text-gray-800">Описание</h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-gray-700 leading-relaxed text-sm sm:text-base">
+                            <#if profession.description?has_content>
+                                ${profession.description}
+                            <#else>
+                                <p class="text-gray-400 italic">Сведения об обязательных обследованиях для данной профессии в данный момент обновляются.</p>
+                            </#if>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="space-y-3">
                     <div class="px-2 flex items-center justify-between">

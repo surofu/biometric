@@ -75,12 +75,16 @@ public record User(
 
   // Security
 
-  public boolean isAdmin() {
-    return UserRole.ADMIN.id() == roleId;
+  public boolean isUser() {
+    return UserRole.USER.id() == roleId;
   }
 
   public boolean isModerator() {
     return UserRole.MODERATOR.id() == roleId;
+  }
+
+  public boolean isAdmin() {
+    return UserRole.ADMIN.id() == roleId;
   }
 
   @Override

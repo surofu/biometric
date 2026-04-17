@@ -7,6 +7,7 @@ public record SaveIndicatorRequest(
     @NonNull String name,
     @NonNull String unit,
     @NonNull Double referenceMin,
-    @NonNull Double referenceMax
+    @NonNull Double referenceMax,
+    @NonNull String description
 ) {
 }

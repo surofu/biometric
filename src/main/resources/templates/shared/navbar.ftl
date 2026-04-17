@@ -21,6 +21,16 @@
                 </svg>
                 <span class="text-[10px] mt-1">Справочник</span>
             </a>
+            <#if !authenticated>
+                <a href="/login"
+                   class="flex flex-col items-center justify-center flex-1 transition-colors <#if selectedPage=="login">text-emerald-600<#else>text-gray-400</#if>">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M15 3h4a1 1 0 011 1v16a1 1 0 01-1 1h-4M10 17l5-5-5-5M15 12H3"/>
+                    </svg>
+                    <span class="text-[10px] mt-1">Войти</span>
+                </a>
+            </#if>
             <#if authenticated>
                 <a href="/measurements"
                    class="flex flex-col items-center justify-center flex-1 transition-colors <#if selectedPage=="1">text-emerald-600<#else>text-gray-400</#if>">

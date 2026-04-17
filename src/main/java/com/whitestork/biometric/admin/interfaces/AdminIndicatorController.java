@@ -2,6 +2,7 @@ package com.whitestork.biometric.admin.interfaces;
 
 import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateIndicatorModel;
 import com.whitestork.biometric.indicator.application.mapper.IndicatorMapper;
+import com.whitestork.biometric.indicator.application.response.IndicatorDetailsResponse;
 import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.application.service.IndicatorProvider;
 import com.whitestork.biometric.indicator.application.usecase.DeleteIndicatorByIdUseCase;
@@ -54,7 +55,7 @@ public class AdminIndicatorController {
   @GetMapping("/{id}/edit")
   @PreAuthorize("isAuthenticated()")
   public @NonNull String edit(@NonNull @PathVariable Long id, @NonNull Model model) {
-    IndicatorResponse response = indicatorProvider.withIdResponse(id);
+    IndicatorDetailsResponse response = indicatorProvider.withIdDetailsResponse(id);
     model.addAttribute("request", mapper.toSaveOrUpdateModel(response));
     model.addAttribute("categories", getAllIndicatorCategoriesUseCase.execute());
     return "admin/indicator-form";

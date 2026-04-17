@@ -17,4 +17,5 @@ public class IndicatorResponse {
   private String categoryName;
   private Double referenceMin;
   private Double referenceMax;
+  private String description;
 }

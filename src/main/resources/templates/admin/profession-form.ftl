@@ -30,6 +30,15 @@
                     </div>
 
                     <div>
+                        <label for="description" class="block text-xs text-slate-400 mb-2">Описание</label>
+                        <textarea id="description"
+                                  name="description"
+                                  rows="4"
+                                  class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm resize-y"
+                                  placeholder="Краткое описание профессии и профессиональных рисков">${request.description!''}</textarea>
+                    </div>
+
+                    <div>
                         <label class="block text-xs text-slate-400 mb-2">Состав медицинской комиссии</label>
 
                         <div id="selectedDoctorsList" class="flex flex-wrap gap-2 mb-3">

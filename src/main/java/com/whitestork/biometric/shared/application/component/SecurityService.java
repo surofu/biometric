@@ -7,15 +7,16 @@ import org.springframework.stereotype.Component;
 
 @Component("auth")
 public class SecurityService {
-  public boolean isAdmin(Authentication auth) {
-    return auth.getPrincipal() instanceof User user && user.role() == UserRole.ADMIN;
+
+  public boolean isUser(Authentication auth) {
+    return auth.getPrincipal() instanceof User user  && user.isUser();
   }
 
   public boolean isModerator(Authentication auth) {
-    return auth.getPrincipal() instanceof User user && user.role() == UserRole.MODERATOR;
+    return auth.getPrincipal() instanceof User user && user.isModerator();
   }
 
-  public boolean isUser(Authentication auth) {
-    return auth.getPrincipal() instanceof User user  && user.role() == UserRole.USER;
+  public boolean isAdmin(Authentication auth) {
+    return auth.getPrincipal() instanceof User user && user.isAdmin();
   }
 }

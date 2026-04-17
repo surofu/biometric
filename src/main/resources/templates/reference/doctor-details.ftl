@@ -20,18 +20,6 @@
             </div>
 
             <div class="mt-6 space-y-4">
-                <div class="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-5 flex items-center gap-4">
-                    <div class="w-12 h-12 bg-white rounded-xl border border-emerald-100 flex items-center justify-center shrink-0 shadow-sm">
-                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Тип специализации</h2>
-                        <p class="text-lg font-semibold text-emerald-700">Медицинский специалист</p>
-                    </div>
-                </div>
-
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
                     <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/30">
                         <h2 class="font-medium text-gray-800">Описание</h2>

@@ -55,7 +55,7 @@ public class ResendEmailSender {
                      <span style="font-size:24px;font-weight:700;color:#059669;">Биометрик</span>
                    </td></tr>
            
-                   <tr><td style="background:#ffffff;border-radius:16px;padding:40px 36px;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+                   <tr><td style="background:#ffffff;border-radius:16px;padding:40px 36px;">
                      <div style="font-size:15px;color:#374151;line-height:1.75;">
                        %s
                      </div>

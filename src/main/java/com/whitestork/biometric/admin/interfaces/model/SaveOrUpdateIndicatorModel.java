@@ -16,4 +16,5 @@ public class SaveOrUpdateIndicatorModel {
   private String unit;
   private Double referenceMin;
   private Double referenceMax;
+  private String description;
 }

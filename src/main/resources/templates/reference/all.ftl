@@ -28,7 +28,7 @@
             <div class="space-y-4 mt-6">
                 <!-- Медицинские показатели -->
                 <a href="/reference/indicators"
-                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200 hover:shadow-sm">
+                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
                     <div class="flex items-start gap-4">
                         <div class="shrink-0 w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +53,7 @@
 
                 <!-- Категории показателей -->
                 <a href="/reference/indicator-categories"
-                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200 hover:shadow-sm">
+                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
                     <div class="flex items-start gap-4">
                         <div class="shrink-0 w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +78,7 @@
 
                 <!-- Врачи -->
                 <a href="/reference/doctors"
-                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200 hover:shadow-sm">
+                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
                     <div class="flex items-start gap-4">
                         <div class="shrink-0 w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +103,7 @@
 
                 <!-- Профессии -->
                 <a href="/reference/professions"
-                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200 hover:shadow-sm">
+                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
                     <div class="flex items-start gap-4">
                         <div class="shrink-0 w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
