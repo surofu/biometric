@@ -23,75 +23,97 @@
             </div>
         </a>
     </div>
+    <div class="grid grid-rows-[1fr_auto] min-h-dvh bg-white md:bg-slate-50">
+        <div class="h-full flex flex-col items-center justify-center px-4 pt-8 overflow-hidden">
+            <div class="relative bg-white md:rounded-xl w-full max-w-md p-4 md:p-8 md:border border-slate-200">
+                <h1 class="text-2xl font-bold text-center mb-2">Регистрация</h1>
+                <p class="text-gray-500 text-center mb-6 text-sm">Создайте новый аккаунт</p>
 
-    <div class="min-h-screen flex flex-col items-center justify-center bg-white md:bg-slate-50 px-4 py-8 overflow-hidden">
-        <div class="relative bg-white md:rounded-xl w-full max-w-md p-4 md:p-8 md:border border-slate-200">
-            <h1 class="text-2xl font-bold text-center mb-2">Регистрация</h1>
-            <p class="text-gray-500 text-center mb-6 text-sm">Создайте новый аккаунт</p>
+                <form action="/register" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-            <a href="/oauth2/authorization/google"
-               class="flex items-center justify-center gap-3 w-full border border-slate-300 rounded-lg px-5 py-3 md:py-2 text-sm text-gray-700 font-medium hover:bg-slate-50 transition-colors">
-                <svg width="18" height="18" viewBox="0 0 48 48">
-                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    <path fill="none" d="M0 0h48v48H0z"/>
-                </svg>
-                Создать через Google
-            </a>
+                    <div class="mb-3">
+                        <label class="block">
+                            <span class="hidden md:block text-sm text-gray-700 mb-1">Email</span>
+                            <input type="email" name="email" value="${request.email!}" required
+                                   placeholder="Электронный адрес"
+                                   class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        </label>
+                    </div>
 
-            <div class="relative my-6">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-slate-200"></div>
+                    <div class="mb-3">
+                        <label class="block">
+                            <span class="hidden md:block text-sm text-gray-700 mb-1">Пароль</span>
+                            <input type="password" name="password" required
+                                   placeholder="Пароль"
+                                   class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        </label>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block">
+                            <span class="hidden md:block text-sm text-gray-700 mb-1">Подтверждение пароля</span>
+                            <input type="password" name="confirmPassword" required
+                                   placeholder="Подтвердите пароль"
+                                   class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        </label>
+                    </div>
+
+                    <@messageMacros.message />
+
+                    <div class="mb-4">
+                        <label class="flex items-start gap-3 cursor-pointer group">
+                        <span class="relative flex items-center shrink-0 mt-0.5">
+                            <input type="checkbox" name="agreement" required
+                                   class="peer appearance-none w-5 h-5 border border-slate-300 rounded bg-white
+                          checked:bg-emerald-600 checked:border-emerald-600
+                          focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1
+                          transition-all duration-200 cursor-pointer">
+                            <svg class="absolute w-3 h-3 text-white transition-opacity opacity-0 peer-checked:opacity-100 pointer-events-none left-1"
+                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </span>
+                            <span class="text-xs text-gray-500 leading-tight select-none">
+                            Я согласен с
+                            <a href="/terms-of-service" class="text-emerald-600 hover:underline font-medium">Условиями использования</a>
+                            и даю согласие на обработку моих данных согласно
+                            <a href="/privacy-policy"
+                               class="text-emerald-600 hover:underline font-medium">Политике конфиденциальности</a>.
+                        </span>
+                        </label>
+                    </div>
+
+                    <button type="submit"
+                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-3 md:py-2 rounded-lg mt-4 transition-colors">
+                        Зарегистрироваться
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center text-sm border-t border-slate-200 pt-6">
+                    <span class="text-gray-500">Уже есть аккаунт?</span>
+                    <a href="/login" class="text-emerald-600 hover:text-emerald-700 font-medium ml-1">Войти</a>
                 </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="bg-white px-3 text-gray-400">или</span>
-                </div>
-            </div>
-
-            <form action="/register" method="post">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-                <div class="mb-3">
-                    <label class="block">
-                        <span class="hidden md:block text-sm text-gray-700 mb-1">Email</span>
-                        <input type="email" name="email" value="${request.email!}" required
-                               placeholder="Электронный адрес"
-                               class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                    </label>
-                </div>
-
-                <div class="mb-3">
-                    <label class="block">
-                        <span class="hidden md:block text-sm text-gray-700 mb-1">Пароль</span>
-                        <input type="password" name="password" required
-                               placeholder="Пароль"
-                               class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                    </label>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block">
-                        <span class="hidden md:block text-sm text-gray-700 mb-1">Подтверждение пароля</span>
-                        <input type="password" name="confirmPassword" required
-                               placeholder="Подтвердите пароль"
-                               class="w-full border border-slate-300 rounded-lg px-4 py-3 md:py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                    </label>
-                </div>
-
-                <@messageMacros.message />
-
-                <button type="submit"
-                        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-3 md:py-2 rounded-lg mt-4 transition-colors">
-                    Зарегистрироваться
-                </button>
-            </form>
-
-            <div class="mt-6 text-center text-sm">
-                <span class="text-gray-500">Уже есть аккаунт?</span>
-                <a href="/login" class="text-emerald-600 hover:text-emerald-700 font-medium ml-1">Войти</a>
             </div>
         </div>
+
+        <footer class="mt-auto w-full py-4 px-4 border-t border-slate-100 bg-white/50 backdrop-blur-sm">
+            <div class="max-w-md mx-auto">
+                <div class="flex flex-col items-center gap-4">
+                    <div class="flex items-center gap-6">
+                        <a href="/privacy-policy"
+                           class="text-xs text-gray-400 hover:text-emerald-600 transition-colors">Конфиденциальность</a>
+                        <a href="/terms-of-service"
+                           class="text-xs text-gray-400 hover:text-emerald-600 transition-colors">Условия</a>
+                        <a href="mailto:support@biometric.by"
+                           class="text-xs text-gray-400 hover:text-emerald-600 transition-colors">Поддержка</a>
+                    </div>
+
+                    <div class="text-[11px] text-slate-400 font-medium tracking-wide">
+                        &copy; ${.now?string('yyyy')} Биометрик. Все права защищены.
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </@layoutMacros.layout>

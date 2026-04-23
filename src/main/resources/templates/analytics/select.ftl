@@ -1,18 +1,16 @@
 <#import "../shared/layout.ftl" as layoutMacros>
+<#import "../shared/message.ftl" as messageMacros>
+<#import "../shared/page-header.ftl" as pageHeaderMacros>
 
 <@layoutMacros.layout title="Выбор показателя для аналитики" selectedPage="3">
     <div class="container max-w-2xl mx-auto px-4 pb-18">
 
-        <div class="sticky top-0 z-10 bg-white pt-8 pb-4 border-b border-gray-200">
-            <div class="sm:px-4 mb-4">
-                <h1 class="text-lg sm:text-xl font-semibold text-gray-800">
-                    Аналитика показателей
-                </h1>
-                <p class="text-sm text-gray-600 mt-1">Выберите показатель для просмотра детальной статистики</p>
-            </div>
+        <div class="sticky top-0 z-10 bg-white pt-8 pb-6 border-b border-slate-200">
+            <@messageMacros.message />
+            <@pageHeaderMacros.pageHeader title="Выбор показателя для аналитики"/>
 
             <#if indicators?has_content>
-                <div class="relative sm:px-4">
+                <div class="relative sm:px-4 mt-6">
                     <svg class="absolute left-3 sm:left-7 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
                          fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -20,22 +18,26 @@
                     </svg>
                     <label>
                         <input type="search" id="searchInput" placeholder="Поиск по названию..."
-                               class="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-md
+                               class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-md
                                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                     </label>
                 </div>
             </#if>
         </div>
 
-        <div class="grid grid-cols-1 gap-3 mt-6 sm:px-4" id="indicatorGrid">
+        <div class="space-y-3 mt-6 sm:px-4" id="indicatorGrid">
             <#list indicators as indicator>
                 <a href="/analytics/${indicator.id}"
                    data-name="${indicator.name?lower_case?js_string}"
-                   class="indicator-item bg-white rounded-md border border-slate-200 px-5 py-2.5 transition-all hover:border-emerald-300 hover:bg-emerald-50/30 font-medium text-gray-800 text-sm">
-                    ${indicator.name}
+                   class="indicator-item flex items-center justify-between p-4 bg-white border border-slate-200 rounded-lg hover:border-emerald-300 hover:bg-emerald-50/30 transition-all group">
+                    <span class="font-medium text-gray-700 group-hover:text-gray-900 text-sm">${indicator.name}</span>
+                    <svg class="w-5 h-5 text-slate-300 group-hover:text-emerald-400 transform group-hover:translate-x-1 transition-all shrink-0"
+                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
                 </a>
             <#else>
-                <div class="col-span-full bg-white rounded-lg border border-gray-200 p-8 text-center">
+                <div class="col-span-full bg-white rounded-lg border border-slate-200 p-8 text-center">
                     <div class="flex flex-col items-center gap-3">
                         <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
@@ -50,7 +52,7 @@
             </#list>
         </div>
 
-        <div id="emptySearch" class="hidden mt-4 mx-4 bg-white rounded-lg border border-gray-200 p-8 text-center">
+        <div id="emptySearch" class="hidden mt-4 mx-4 bg-white rounded-lg border border-slate-200 p-8 text-center">
             <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>

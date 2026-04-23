@@ -14,7 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AnalyticsResponse {
   private String indicatorName;
-  private String intervalName;
   private AnalyticsData data;
   private Double referenceMin;
   private Double referenceMax;

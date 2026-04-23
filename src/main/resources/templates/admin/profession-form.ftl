@@ -34,6 +34,7 @@
                         <textarea id="description"
                                   name="description"
                                   rows="4"
+                                  oninput="this.style.height = ''; this.style.height = Math.min(this.scrollHeight, 300) + 'px'"
                                   class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm resize-y"
                                   placeholder="Краткое описание профессии и профессиональных рисков">${request.description!''}</textarea>
                     </div>
@@ -100,15 +101,16 @@
     <script>
         (function () {
             const catalog = [
-                <#list allDoctors as d>
+                <#list doctors as d>
                 {id: ${d.id?c}, name: '${d.name?js_string}'}<#sep>, </#sep>
                 </#list>
             ];
 
-            let selected = [
+            let selected = [<#if profession??>
                 <#list profession.doctors as d>
                 {id: ${d.id?c}, name: '${d.name?js_string}'}<#sep>, </#sep>
                 </#list>
+                </#if>
             ];
 
             const resultsContainer = document.getElementById('doctorResults');

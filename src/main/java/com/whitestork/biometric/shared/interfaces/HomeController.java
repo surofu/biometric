@@ -9,20 +9,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @RequiredArgsConstructor
+@PreAuthorize("permitAll()")
 public class HomeController {
 
   @GetMapping("/")
-  @PreAuthorize("permitAll()")
   public @NonNull String homePage(Principal principal) {
     if (principal != null) {
       return "redirect:/reference";
     }
-
     return "index";
   }
 
   @GetMapping("/about")
   public String aboutPage() {
     return "about";
+  }
+
+  @GetMapping("/privacy-policy")
+  public String privacyPage() {
+    return "privacy-policy";
+  }
+
+  @GetMapping("/terms-of-service")
+  public String termsPage() {
+    return "terms-of-service";
   }
 }

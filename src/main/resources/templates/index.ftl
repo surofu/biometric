@@ -76,7 +76,7 @@
                               d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                 </div>
-                <h3 class="font-bold text-slate-800 text-sm mb-1">Анализ данных</h3>
+                <h3 class="font-bold text-slate-800 text-sm mb-1">Анализ показателей</h3>
                 <p class="text-xs text-slate-500 leading-normal">Визуальное представление изменений ваших результатов
                     анализов на графиках.</p>
             </div>

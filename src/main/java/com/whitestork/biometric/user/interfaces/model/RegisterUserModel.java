@@ -13,4 +13,5 @@ public class RegisterUserModel {
   private String email;
   private String password;
   private String confirmPassword;
+  private Boolean agreement;
 }

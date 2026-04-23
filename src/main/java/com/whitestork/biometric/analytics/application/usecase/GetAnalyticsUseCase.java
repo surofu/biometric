@@ -36,7 +36,7 @@ public class GetAnalyticsUseCase {
         )
         .toList();
     List<String> shortLabels = measurements.stream()
-        .map(v -> dateFormatter.dayOfWeek(v.date()))
+        .map(v -> dateFormatter.chartLabel(v.date()))
         .toList();
     List<Double> values = measurements.stream()
         .map(MeasurementAnalyticsView::value)
@@ -54,7 +54,6 @@ public class GetAnalyticsUseCase {
 
     return new AnalyticsResponse(
         indicator.name(),
-        "Последние 5 измерений",
         data,
         indicator.referenceMin(),
         indicator.referenceMax(),

@@ -29,7 +29,7 @@
         <link href="/css/style.css" rel="stylesheet">
     </head>
     <body class="${bodyClass}">
-    <main class="<#if showNavbar>md:pt-16</#if>">
+    <main class="min-h-screen <#if showNavbar>md:pt-16</#if>">
         <#nested>
         <#if showNavbar>
             <#import "./navbar.ftl" as navbar>

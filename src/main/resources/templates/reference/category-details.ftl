@@ -1,23 +1,16 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
+<#import "../shared/page-header.ftl" as pageHeaderMacros>
 
 <@layoutMacros.layout title="${category.name} — Биометрик" selectedPage="5">
     <div class="min-h-screen bg-white">
         <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
             <@messageMacros.message />
-
-            <div class="px-4 sm:px-6 pb-6 border-b border-gray-200 flex items-center gap-4">
-                <a href="/reference/indicator-categories"
-                   class="flex items-center justify-center w-9 h-9 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors shrink-0">
-                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                </a>
-                <div>
-                    <h1 class="text-lg sm:text-xl font-semibold text-gray-800 leading-tight">${category.name}</h1>
-                    <p class="text-sm text-gray-500 mt-0.5">Категория показателей</p>
-                </div>
-            </div>
+            <@pageHeaderMacros.pageHeader
+            title="${category.name}"
+            subtitle="Категории индикаторов"
+            backUrl="/reference/indicator-categories"
+            />
 
             <div class="mt-6 space-y-4">
                 <div class="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-5">

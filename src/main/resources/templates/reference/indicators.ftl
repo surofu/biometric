@@ -1,29 +1,21 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
+<#import "../shared/page-header.ftl" as pageHeaderMacros>
 
 <@layoutMacros.layout title="Медицинские показатели — Биометрик" selectedPage="5">
     <div class="min-h-screen bg-white">
         <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
             <@messageMacros.message />
-
-            <!-- Header -->
-            <div class="flex items-center gap-3 mb-6">
-                <a href="/reference"
-                   class="flex items-center justify-center w-8 h-8 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
-                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                </a>
-                <div>
-                    <p class="text-xs text-slate-400 leading-none mb-1">Справочник</p>
-                    <h1 class="text-xl font-bold text-slate-900 leading-none">Медицинские показатели</h1>
-                </div>
-            </div>
+            <@pageHeaderMacros.pageHeader
+            title="Медицинские показатели"
+            subtitle="Справочник"
+            backUrl="/reference"
+            />
 
             <#if indicators?? && indicators?has_content>
 
                 <!-- Disclaimer -->
-                <div class="mb-5 p-4 bg-emerald-50/40 rounded-2xl border border-emerald-100">
+                <div class="my-6 p-4 bg-emerald-50/40 rounded-2xl border border-emerald-100">
                     <div class="flex gap-3">
                         <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor"
                              viewBox="0 0 24 24">

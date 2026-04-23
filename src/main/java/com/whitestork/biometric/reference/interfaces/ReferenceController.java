@@ -70,7 +70,6 @@ public class ReferenceController {
   @GetMapping("/doctors/{id}")
   public @NonNull String doctorDetails(@NonNull @PathVariable Long id, @NonNull Model model) {
     DoctorDetailsResponse doctor = getDoctorByIdUseCase.execute(id);
-    System.out.println(doctor.getDescription());
     model.addAttribute("doctor", doctor);
     return "reference/doctor-details";
   }

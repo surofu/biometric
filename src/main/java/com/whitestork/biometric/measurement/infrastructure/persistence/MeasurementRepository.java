@@ -110,13 +110,11 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
   @Query("""
              select m.value as value, m.date as date
              from (
-                 select m.value, m.date,
-                        row_number() over (order by m.date desc) as rn
+                 select m.value, m.date
                  from measurements m
                  join users u on m.user_id = u.id
                  where m.indicator_id = :indicatorId and u.email = :email
              ) m
-             where m.rn <= 5
              order by m.date
          """)
   @NonNull List<MeasurementAnalyticsView> findAllAnalytics(

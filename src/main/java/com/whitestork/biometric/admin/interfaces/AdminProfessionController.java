@@ -46,15 +46,16 @@ public class AdminProfessionController {
   }
 
   @GetMapping("/add")
-  public String add() {
+  public String add(@NonNull Model model) {
+    model.addAttribute("doctors", getAllDoctorsUseCase.execute());
     return "admin/profession-form";
   }
 
   @GetMapping("/{id}/edit")
   public @NonNull String edit(@NonNull @PathVariable Long id, @NonNull Model model) {
     ProfessionDetailsResponse profession = getProfessionByIdUseCase.execute(id);
+    model.addAttribute("doctors", getAllDoctorsUseCase.execute());
     model.addAttribute("profession", profession);
-    model.addAttribute("allDoctors", getAllDoctorsUseCase.execute());
     model.addAttribute("request", mapper.toModel(profession));
     return "admin/profession-form";
   }

@@ -24,7 +24,8 @@ public class RegisterUserUseCase {
     validator.uniqueEmail(request.email());
     User user = User.defaultUser(
         request.email(),
-        encodedPassword(request.password())
+        encodedPassword(request.password()),
+        request.agreement()
     ).withEmailVerified(true);
     User savedUser = saver.save(user);
 //    sendVerificationEmailUseCase.execute(savedUser);

@@ -12,7 +12,7 @@ import org.springframework.data.repository.ListCrudRepository;
 public interface IndicatorRepository extends ListCrudRepository<Indicator, Long> {
 
   @Query("""
-         select distinct
+         select
              i.id as id,
              i.name as name,
              i.unit as unit,
@@ -23,8 +23,9 @@ public interface IndicatorRepository extends ListCrudRepository<Indicator, Long>
          from indicators i
          join indicator_categories c on i.category_id = c.id
          join measurements m on m.indicator_id = i.id
-         join users u on u.id = m.user_id
-         where u.email = :email
+         where m.user_id = (select u.id from users u where u.email = :email)
+         group by i.id, i.name, i.unit, i.reference_min, i.reference_max, c.id, c.name
+         having count(m.id) >= 2
          order by i.name, i.id
          """)
   @NonNull List<IndicatorResponse> findAllByUserEmail(@NonNull String email);

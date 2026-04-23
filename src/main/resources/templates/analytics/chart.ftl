@@ -1,4 +1,6 @@
 <#import "../shared/layout.ftl" as layoutMacros>
+<#import "../shared/message.ftl" as messageMacros>
+<#import "../shared/page-header.ftl" as pageHeaderMacros>
 
 <@layoutMacros.layout title="${analytics.indicatorName} - Биометрик" selectedPage="3">
     <link href="https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.min.css" rel="stylesheet">
@@ -7,26 +9,53 @@
             width: 100%;
         }
 
-        .u-title {
+        .u-title, .u-legend {
             display: none !important;
         }
 
-        .u-legend {
-            display: none !important;
+        .chart-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            cursor: grab;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .chart-scroll-container:active {
+            cursor: grabbing;
+        }
+
+        .chart-scroll-container::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .chart-scroll-container::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            display: block;
+            min-width: 100%;
+        }
+
+        #tooltip {
+            position: fixed;
+            z-index: 1000;
+            pointer-events: none;
+            transition: opacity 0.1s ease;
         }
     </style>
 
     <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
+        <@messageMacros.message />
+        <@pageHeaderMacros.pageHeader
+        title="${analytics.indicatorName}"
+        subtitle="Аналитика"
+        backUrl="/analytics"
+        />
 
-        <!-- Заголовок -->
-        <div class="px-4 sm:px-6 pb-4 border-b border-gray-200">
-            <h1 class="text-lg sm:text-xl font-semibold text-gray-800">
-                ${analytics.indicatorName}
-            </h1>
-            <p class="text-sm text-gray-500 mt-1">${analytics.intervalName}</p>
-        </div>
-
-        <!-- Сводная статистика -->
         <div class="grid grid-cols-3 gap-3 mt-6">
             <div class="bg-white rounded-xl border border-slate-200 px-4 py-3 text-center">
                 <p class="text-xs text-gray-500 mb-1">Последнее</p>
@@ -42,17 +71,20 @@
             </div>
         </div>
 
-        <!-- График -->
         <div class="bg-white rounded-xl border border-slate-200 overflow-hidden mt-3">
-            <div class="px-5 py-4 border-b border-slate-100">
-                <h2 class="font-medium text-gray-800">График</h2>
-                <p class="text-xs text-gray-400 mt-0.5">
-                    Норма: ${analytics.referenceMin?string["0.##"]} – ${analytics.referenceMax?string["0.##"]}
-                </p>
+            <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center">
+                <div>
+                    <h2 class="font-medium text-gray-800">График</h2>
+                    <p class="text-xs text-gray-400 mt-0.5">
+                        Норма: ${analytics.referenceMin?string["0.##"]} – ${analytics.referenceMax?string["0.##"]}
+                    </p>
+                </div>
+                <div id="scroll-hint" class="hidden">
+                    <span class="text-[10px] text-slate-400 uppercase tracking-widest">Листайте →</span>
+                </div>
             </div>
 
-            <div class="p-4 pt-5 pb-2 relative">
-                <!-- Легенда -->
+            <div class="p-4 pt-5 pb-2">
                 <div class="flex flex-wrap gap-3 mb-4 px-1">
                     <div class="flex items-center gap-1.5">
                         <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
@@ -68,20 +100,14 @@
                     </div>
                 </div>
 
-                <div id="chart" class="w-full relative"></div>
-
-                <!-- Тултип -->
-                <div id="tooltip"
-                     class="absolute opacity-0 pointer-events-none z-10 bg-white rounded-lg border border-slate-200 px-3 py-2 text-sm min-w-35"
-                     style="transition: opacity 0.15s ease;">
-                    <p id="tooltip-label" class="text-gray-500 text-xs mb-1"></p>
-                    <p id="tooltip-value" class="font-semibold"></p>
-                    <p id="tooltip-status" class="text-xs mt-0.5"></p>
+                <div class="chart-scroll-container" id="scroll-parent">
+                    <div class="chart-wrapper">
+                        <div id="chart"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- История измерений -->
         <div class="bg-white rounded-xl border border-slate-200 overflow-hidden mt-3">
             <div class="px-6 py-4 border-b border-slate-100">
                 <h2 class="font-medium text-gray-800">История измерений</h2>
@@ -112,6 +138,12 @@
 
     </div>
 
+    <div id="tooltip" class="hidden bg-white rounded-lg border border-slate-200 px-3 py-2 text-sm min-w-35 shadow-lg">
+        <p id="tooltip-label" class="text-gray-500 text-xs mb-1"></p>
+        <p id="tooltip-value" class="font-semibold"></p>
+        <p id="tooltip-status" class="text-xs mt-0.5"></p>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.iife.min.js"></script>
     <script>
         (function () {
@@ -123,21 +155,33 @@
             const refMax = [<#list analytics.data.referenceMax as v>${v?c}<#sep>, </#sep></#list>];
             const refMin = [<#list analytics.data.referenceMin as v>${v?c}<#sep>, </#sep></#list>];
 
-            const xs = labels.map((_, i) => i);
-            const chartData = [xs, values, refMax, refMin];
-
             const last = values[values.length - 1];
             const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1);
             const outCount = values.filter(v => v > NORM_HIGH || v < NORM_LOW).length;
 
-            document.getElementById('stat-last').textContent = +last.toFixed(2) + '';
-            document.getElementById('stat-avg').textContent = avg;
+            document.getElementById('stat-last').textContent = last ? last.toFixed(2) : '—';
+            document.getElementById('stat-avg').textContent = avg || '—';
             const statOut = document.getElementById('stat-out');
             statOut.textContent = outCount;
             statOut.className = 'text-lg font-semibold ' + (outCount > 0 ? 'text-red-500' : 'text-emerald-600');
 
+            const xs = labels.map((_, i) => i);
+            const chartData = [xs, values, refMax, refMin];
+
             const chartEl = document.getElementById('chart');
+            const scrollParent = document.getElementById('scroll-parent');
+            const tooltip = document.getElementById('tooltip');
             const H = 220;
+            const MIN_POINT_DISTANCE = 60;
+
+            function calculateWidth() {
+                const containerWidth = scrollParent.clientWidth;
+                const dynamicWidth = labels.length * MIN_POINT_DISTANCE;
+                const finalWidth = Math.max(containerWidth, dynamicWidth);
+                const hint = document.getElementById('scroll-hint');
+                if (hint) hint.classList.toggle('hidden', finalWidth <= containerWidth);
+                return finalWidth;
+            }
 
             const C_GREEN = '#10b981';
             const C_RED = '#f87171';
@@ -145,10 +189,40 @@
             const C_GRID = '#f1f5f9';
             const C_AXIS = '#94a3b8';
 
+            function showTooltip(idx, mouseX, mouseY) {
+                const val = values[idx];
+                const out = val > NORM_HIGH || val < NORM_LOW;
+
+                document.getElementById('tooltip-label').textContent = labels[idx];
+                const valEl = document.getElementById('tooltip-value');
+                valEl.textContent = val.toFixed(2);
+                valEl.className = 'font-semibold ' + (out ? 'text-red-600' : 'text-emerald-700');
+
+                const stEl = document.getElementById('tooltip-status');
+                stEl.textContent = out
+                    ? (val > NORM_HIGH ? '▲ Выше нормы' : '▼ Ниже нормы')
+                    : '✓ В пределах нормы';
+                stEl.className = 'text-xs mt-0.5 ' + (out ? 'text-red-400' : 'text-emerald-500');
+
+                tooltip.classList.remove('hidden');
+
+                const tipRect = tooltip.getBoundingClientRect();
+                let x = mouseX - (tipRect.width / 2);
+                let y = mouseY - tipRect.height - 15;
+
+                if (x < 10) x = 10;
+                if (x + tipRect.width > window.innerWidth - 10) x = window.innerWidth - tipRect.width - 10;
+                if (y < 10) y = mouseY + 20;
+
+                tooltip.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+                tooltip.style.left = '0';
+                tooltip.style.top = '0';
+            }
+
             const opts = {
-                width: chartEl.getBoundingClientRect().width || 340,
+                width: calculateWidth(),
                 height: H,
-                padding: [8, 8, 0, 0],
+                padding: [8, 12, 0, 12],
                 select: {show: false},
                 legend: {show: false},
                 series: [
@@ -223,40 +297,41 @@
                         ctx.restore();
                     }],
                     setCursor: [u => {
-                        const tip = document.getElementById('tooltip');
-                        const {idx} = u.cursor;
-                        if (idx == null || idx < 0 || idx >= values.length) {
-                            tip.style.opacity = 0;
+                        const {idx, left, top} = u.cursor;
+                        if (idx === null || left < 0) {
+                            tooltip.classList.add('hidden');
                             return;
                         }
                         const val = values[idx];
-                        const out = val > NORM_HIGH || val < NORM_LOW;
-                        const cx = u.valToPos(xs[idx], 'x') + u.bbox.left / devicePixelRatio;
-                        const cy = u.valToPos(val, 'y') + u.bbox.top / devicePixelRatio;
-                        const tipW = 150, tipH = 70;
-                        let tx = cx + 12, ty = cy - tipH / 2;
-                        if (tx + tipW > chartEl.getBoundingClientRect().width) tx = cx - tipW - 12;
-                        if (ty < 0) ty = 4;
-                        tip.style.left = tx + 'px';
-                        tip.style.top = ty + 'px';
-                        tip.style.opacity = 1;
-                        document.getElementById('tooltip-label').textContent = labels[idx];
-                        const valEl = document.getElementById('tooltip-value');
-                        valEl.textContent = +val.toFixed(2) + '';
-                        valEl.className = 'font-semibold ' + (out ? 'text-red-600' : 'text-emerald-700');
-                        const stEl = document.getElementById('tooltip-status');
-                        stEl.textContent = out
-                            ? (val > NORM_HIGH ? '▲ Выше нормы' : '▼ Ниже нормы')
-                            : '✓ В пределах нормы';
-                        stEl.className = 'text-xs mt-0.5 ' + (out ? 'text-red-400' : 'text-emerald-500');
+                        const canvasRect = u.over.getBoundingClientRect();
+                        const mouseX = canvasRect.left + left;
+                        const mouseY = canvasRect.top + top;
+                        showTooltip(idx, mouseX, mouseY);
                     }]
                 }
             };
 
             const chart = new uPlot(opts, chartData, chartEl);
-            window.addEventListener('resize', () =>
-                chart.setSize({width: chartEl.getBoundingClientRect().width, height: H})
-            );
+
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    scrollParent.scrollTo({
+                        left: scrollParent.scrollWidth,
+                        behavior: 'smooth'
+                    });
+                }, 1000);
+            });
+
+            window.addEventListener('resize', () => {
+                chart.setSize({
+                    width: calculateWidth(),
+                    height: H
+                });
+            });
+
+            chartEl.addEventListener('mouseleave', () => {
+                tooltip.classList.add('hidden');
+            });
         })();
     </script>
 </@layoutMacros.layout>

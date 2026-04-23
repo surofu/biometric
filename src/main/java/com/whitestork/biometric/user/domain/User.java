@@ -30,24 +30,28 @@ public record User(
     @NonNull String passwordHash,
     @Column("role")
     @NonNull Integer roleId,
+    @NonNull Boolean agreement,
+    @CreatedDate
+    @Nullable OffsetDateTime agreementAt,
     @CreatedDate
     @Nullable OffsetDateTime registeredAt,
     @LastModifiedDate
     @Nullable OffsetDateTime updatedAt
 
 ) implements UserDetails, OAuth2User {
-  public static User defaultUser(@NonNull String email, @NonNull String passwordHash) {
-    return User.build(email, false, passwordHash);
+  public static User defaultUser(@NonNull String email, @NonNull String passwordHash, @NonNull Boolean agreement) {
+    return User.build(email, false, passwordHash, agreement);
   }
 
   public static User verifiedByGoogle(@NonNull String email) {
-    return User.build(email, true, "");
+    return User.build(email, true, "", true);
   }
 
   private static User build(
       @NonNull String email,
       @NonNull Boolean emailVerified,
-      @NonNull String passwordHash
+      @NonNull String passwordHash,
+      @NonNull Boolean agreement
   ) {
     return new User(
         null,
@@ -55,6 +59,8 @@ public record User(
         emailVerified,
         passwordHash,
         UserRole.USER.id(),
+        agreement,
+        null,
         null,
         null
     );

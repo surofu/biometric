@@ -1,29 +1,21 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
+<#import "../shared/page-header.ftl" as pageHeaderMacros>
 
 <@layoutMacros.layout title="Категории показателей — Биометрик" selectedPage="5">
     <div class="min-h-screen bg-white">
         <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
             <@messageMacros.message />
-
-            <!-- Header -->
-            <div class="flex items-center gap-3 mb-6">
-                <a href="/reference"
-                   class="flex items-center justify-center w-8 h-8 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
-                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                </a>
-                <div>
-                    <p class="text-xs text-slate-400 leading-none mb-1">Справочник</p>
-                    <h1 class="text-xl font-bold text-slate-900 leading-none">Категории показателей</h1>
-                </div>
-            </div>
+            <@pageHeaderMacros.pageHeader
+            title="Категории показателей"
+            subtitle="Справочник"
+            backUrl="/reference"
+            />
 
             <#if categories?? && categories?has_content>
 
                 <!-- Info -->
-                <div class="mb-5 p-4 bg-emerald-50/40 rounded-2xl border border-emerald-100">
+                <div class="my-6 p-4 bg-emerald-50/40 rounded-2xl border border-emerald-100">
                     <div class="flex gap-3">
                         <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor"
                              viewBox="0 0 24 24">
@@ -62,7 +54,7 @@
                 <div class="space-y-2" id="categories-list">
                     <#list categories as cat>
                         <a href="/reference/indicator-categories/${cat.id}"
-                           class="category-item group flex items-start gap-4 p-5 border border-slate-100 rounded-xl bg-white hover:border-emerald-200 hover:bg-slate-50/30 transition-all duration-150"
+                           class="category-item group flex items-center gap-4 p-5 border border-slate-100 rounded-xl bg-white hover:border-emerald-200 hover:bg-slate-50/30 transition-all duration-150"
                            data-name="${cat.name?lower_case}">
                             <div class="shrink-0 w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                                 <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor"
@@ -80,9 +72,6 @@
                                               d="M9 5l7 7-7 7"/>
                                     </svg>
                                 </div>
-                                <#if cat.description?? && cat.description?has_content>
-                                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">${cat.description}</p>
-                                </#if>
                             </div>
                         </a>
                     </#list>

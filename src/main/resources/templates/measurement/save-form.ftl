@@ -5,7 +5,7 @@
     <div class="container max-w-2xl mx-auto px-4 pt-8 pb-18">
         <@messageMacros.message />
 
-        <div class="px-4 pb-4 border-b border-gray-200 flex items-center">
+        <div class="px-4 pb-4 border-b border-slate-200 flex items-center">
             <h1 class="text-lg sm:text-xl font-semibold text-gray-800">
                 <#if measurement.id??>Редактирование показателя<#else>Добавление нового показателя</#if>
             </h1>
@@ -25,13 +25,13 @@
                 <p class="text-sm text-gray-500 mb-4">Найдите и выберите нужный показатель для измерения</p>
 
                 <button type="button" id="selectedIndicatorCard"
-                        class="hidden w-full mb-4 items-center gap-3 bg-emerald-50 border-2 border-emerald-300 rounded-lg px-4 py-3 hover:border-emerald-500 hover:bg-emerald-100 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 text-left">
+                        class="hidden w-full items-center justify-between gap-3 bg-emerald-50 border-2 border-emerald-300 rounded-lg px-4 py-3 hover:border-emerald-500 hover:bg-emerald-100 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 text-left">
                     <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor"
                          viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <span class="flex-1 min-w-0">
+                    <span class="flex flex-col min-w-0 w-full">
                         <span class="text-sm font-semibold text-emerald-800 truncate" id="selectedIndicatorName"></span>
                         <span class="text-xs text-emerald-600" id="selectedIndicatorRef"></span>
                     </span>
@@ -43,7 +43,7 @@
                 </button>
 
                 <button type="button" id="openSelectorBtn"
-                        class="w-full flex items-center justify-between gap-3 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-sm text-gray-500 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        class="w-full flex items-center justify-between gap-3 px-4 py-3 border-2 border-dashed border-slate-200 rounded-lg text-sm text-gray-500 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     <span class="flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -65,7 +65,7 @@
                 </label>
                 <input type="date" id="dateInput"
                        value="${dateFormatter.htmlInput(measurement.date)}"
-                       class="w-full px-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
+                       class="w-full px-3 py-2 text-base border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
             </div>
 
             <div id="step-3" class="hidden">
@@ -78,7 +78,7 @@
                 <div class="flex items-center gap-3">
                     <input type="number" id="valueInput" value="${(measurement.value?c)!}" step="0.01"
                            placeholder="Введите значение"
-                           class="flex-1 px-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
+                           class="flex-1 px-3 py-2 text-base border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
                     <span id="unitLabel" class="text-sm text-gray-500 shrink-0 min-w-8"></span>
                 </div>
             </div>
@@ -86,7 +86,7 @@
 
         <div class="w-full pt-6 flex justify-between items-center gap-3">
             <button type="button" id="navBack"
-                    class="flex items-center justify-center w-full max-w-36 gap-1.5 px-5 py-2.5 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none">
+                    class="flex items-center justify-center w-full max-w-36 gap-1.5 px-5 py-2.5 border border-slate-200 rounded-md text-sm text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
@@ -104,7 +104,7 @@
     </div>
 
     <div id="indicatorPopup" class="fixed inset-0 z-50 hidden flex-col bg-white px-4" style="display: none;">
-        <div class="flex items-center gap-3 py-3 border-b border-gray-200 bg-white shrink-0 w-full max-w-2xl mx-auto">
+        <div class="flex items-center gap-3 py-3 border-b border-slate-200 bg-white shrink-0 w-full max-w-2xl mx-auto">
             <button type="button" id="closePopupBtn"
                     class="p-2 -ml-2 rounded-md text-gray-500 hover:bg-gray-100 transition-colors focus:outline-none">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,11 +113,11 @@
             </button>
             <h2 class="text-base font-semibold text-gray-800 flex-1">Выбор показателя</h2>
         </div>
-        <div class="py-3 border-b border-gray-100 bg-white shrink-0 w-full max-w-2xl mx-auto">
+        <div class="py-3 border-b border-slate-200 bg-white shrink-0 w-full max-w-2xl mx-auto">
             <div class="relative w-full">
                 <label>
                     <input type="text" id="searchInput" placeholder="Поиск по названию…" autocomplete="off"
-                           class="w-full px-3 py-2 pl-9 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                           class="w-full px-3 py-2 pl-9 text-sm border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                 </label>
                 <svg class="absolute left-2.5 top-2.5 w-4 h-4 text-gray-400 pointer-events-none" fill="none"
                      stroke="currentColor" viewBox="0 0 24 24">
@@ -280,7 +280,7 @@
                         const isSelected = selectedIndicator && selectedIndicator.id === ind.id;
                         const btn = document.createElement('button');
                         btn.type = 'button';
-                        btn.className = 'text-left px-4 py-3 border-2 rounded-lg w-full hover:border-emerald-400 hover:bg-emerald-50 transition-colors focus:outline-none flex items-center justify-between gap-3 ' + (isSelected ? 'border-emerald-400 bg-emerald-50' : 'border-gray-200');
+                        btn.className = 'text-left px-4 py-3 border rounded-lg w-full hover:border-emerald-400 hover:bg-emerald-50 transition-colors focus:outline-none flex items-center justify-between gap-3 ' + (isSelected ? 'border-emerald-400 bg-emerald-50' : 'border-slate-200');
 
                         btn.innerHTML = '<div><p class="font-medium text-gray-800 text-sm">' + esc(ind.name) + '</p><p class="text-xs text-gray-500 mt-0.5">' + esc(referenceText(ind)) + '</p></div>' +
                             (isSelected ? '<svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>' : '<svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>');
