@@ -18,13 +18,14 @@
   "scripts": {
     "build:css": "postcss ./src/main/resources/css/style.css -o ./src/main/resources/static/css/style.css",
     "watch:css": "postcss ./src/main/resources/css/style.css -o ./src/main/resources/static/css/style.css --watch",
-    "build:prod": "NODE_ENV=production postcss ./src/main/resources/css/style.css -o ./src/main/resources/static/css/style.css --minify"
+    "build:prod": "NODE_ENV=production npx postcss ./src/main/resources/css/style.css -o ./src/main/resources/static/css/style.css --minify"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.2",
-    "autoprefixer": "^10.4.27",
-    "postcss": "^8.5.8",
+    "autoprefixer": "^10.5.0",
+    "cssnano": "^7.1.7",
+    "postcss": "^8.5.10",
     "postcss-cli": "^11.0.1",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.4"
   }
 }

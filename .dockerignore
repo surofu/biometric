@@ -1,0 +1,11 @@
+target/
+*.log
+.git
+.idea
+.vscode
+*.iml
+node_modules/
+screenshots/
+README.md
+docker/
+.env

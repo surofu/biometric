@@ -1,4 +1,5 @@
-### Java ###
+### Java & Maven ###
+bin/
 *.class
 *.log
 *.jar
@@ -19,62 +20,38 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
-.mvn/wrapper/maven-wrapper.properties
-/src/main/resources/static/css/**/*
-
-### Maven ###
 mvnw
 mvnw.cmd
 .mvn/
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### IntelliJ IDEA ###
-.idea/
-*.iws
-*.iml
-*.ipr
-out/
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-.settings/
-
-### Eclipse ###
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.loadpath
-
-### Node ###
+### Frontend (Tailwind/PostCSS) ###
 node_modules/
 package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/src/main/resources/static/css/style.css
 
-### OS ###
+### IDE (IntelliJ IDEA, VS Code, Eclipse) ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+.springBeans
+.sts4-cache
+
+### Docker & Infrastructure ###
+.env
+.env.local
+docker-compose.override.yml
+
+### OS Specific ###
 .DS_Store
 .DS_Store?
 ._*
@@ -82,15 +59,10 @@ yarn-error.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+*.swp
 *.swo
-*~
 
 ### Project Specific ###
 HELP.md
 biometric.iml
-/postcss.config.js
-/tailwind.config.js
-/package.json
-
-### Logs ###
-logs/
+screenshots/
