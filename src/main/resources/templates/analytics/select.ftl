@@ -1,17 +1,14 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
-<#import "../shared/page-header.ftl" as pageHeaderMacros>
 
-<@layoutMacros.layout title="Выбор показателя для аналитики" selectedPage="3">
-    <div class="container max-w-2xl mx-auto px-4 pb-18">
-
-        <div class="sticky top-0 z-10 bg-white pt-8 pb-6 border-b border-slate-200">
+<@layoutMacros.layout title="Выбор показателя" selectedPage="3">
+    <div class="container max-w-2xl mx-auto pb-18">
+        <div class="sticky top-14 z-10 bg-white py-3 border-b border-slate-200 not-md:px-4">
             <@messageMacros.message />
-            <@pageHeaderMacros.pageHeader title="Выбор показателя для аналитики"/>
 
             <#if indicators?has_content>
-                <div class="relative sm:px-4 mt-6">
-                    <svg class="absolute left-3 sm:left-7 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+                <div class="relative">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
                          fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
@@ -25,7 +22,7 @@
             </#if>
         </div>
 
-        <div class="space-y-3 mt-6 sm:px-4" id="indicatorGrid">
+        <div class="space-y-3 not-md:px-4 mt-3" id="indicatorGrid">
             <#list indicators as indicator>
                 <a href="/analytics/${indicator.id}"
                    data-name="${indicator.name?lower_case?js_string}"

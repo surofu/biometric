@@ -1,7 +1,6 @@
 package com.whitestork.biometric.shared.application.component;
 
 import com.whitestork.biometric.user.domain.User;
-import com.whitestork.biometric.user.domain.UserRole;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 

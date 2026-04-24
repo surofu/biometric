@@ -1,17 +1,9 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
 
-<@layoutMacros.layout title="Добавление показателя" selectedPage="2" showNavbar=true>
-    <div class="container max-w-2xl mx-auto px-4 pt-8 pb-18">
-        <@messageMacros.message />
-
-        <div class="px-4 pb-4 border-b border-slate-200 flex items-center">
-            <h1 class="text-lg sm:text-xl font-semibold text-gray-800">
-                <#if measurement.id??>Редактирование показателя<#else>Добавление нового показателя</#if>
-            </h1>
-        </div>
-
-        <form action="/measurements" method="post" id="measurementForm" class="pt-4">
+<@layoutMacros.layout title=((measurement.id??)?string("Редактирование показателя", "Новый показатель")) selectedPage="2" showNavbar=true>
+    <div class="container max-w-2xl mx-auto p-4 pb-18">
+        <form action="/measurements" method="post" id="measurementForm">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <#if measurement.id??>
                 <input type="hidden" name="id" value="${measurement.id}">
@@ -22,10 +14,10 @@
 
             <div id="step-1">
                 <p class="text-base font-semibold text-gray-800 mb-1">Выберите показатель</p>
-                <p class="text-sm text-gray-500 mb-4">Найдите и выберите нужный показатель для измерения</p>
+                <p class="text-sm text-gray-500 mb-4">Найдите и выберите нужный показатель</p>
 
                 <button type="button" id="selectedIndicatorCard"
-                        class="hidden w-full items-center justify-between gap-3 bg-emerald-50 border-2 border-emerald-300 rounded-lg px-4 py-3 hover:border-emerald-500 hover:bg-emerald-100 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 text-left">
+                        class="hidden w-full items-center justify-between gap-3 bg-emerald-50 border-2 border-emerald-300 rounded-lg px-4 py-3 mb-0.5 hover:border-emerald-500 hover:bg-emerald-100 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 text-left">
                     <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor"
                          viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -78,13 +70,13 @@
                 <div class="flex items-center gap-3">
                     <input type="number" id="valueInput" value="${(measurement.value?c)!}" step="0.01"
                            placeholder="Введите значение"
-                           class="flex-1 px-3 py-2 text-base border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
+                           class="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
                     <span id="unitLabel" class="text-sm text-gray-500 shrink-0 min-w-8"></span>
                 </div>
             </div>
         </form>
 
-        <div class="w-full pt-6 flex justify-between items-center gap-3">
+        <div class="w-full py-4 flex justify-between items-center gap-3">
             <button type="button" id="navBack"
                     class="flex items-center justify-center w-full max-w-36 gap-1.5 px-5 py-2.5 border border-slate-200 rounded-md text-sm text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,10 +93,12 @@
                 </svg>
             </button>
         </div>
+
+        <@messageMacros.message />
     </div>
 
-    <div id="indicatorPopup" class="fixed inset-0 z-50 hidden flex-col bg-white px-4" style="display: none;">
-        <div class="flex items-center gap-3 py-3 border-b border-slate-200 bg-white shrink-0 w-full max-w-2xl mx-auto">
+    <div id="indicatorPopup" class="fixed inset-0 z-50 hidden flex-col bg-white" style="display: none;">
+        <div class="flex items-center gap-3 h-14 px-4 border-b border-slate-200 bg-white shrink-0 w-full max-w-2xl mx-auto">
             <button type="button" id="closePopupBtn"
                     class="p-2 -ml-2 rounded-md text-gray-500 hover:bg-gray-100 transition-colors focus:outline-none">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,7 +107,7 @@
             </button>
             <h2 class="text-base font-semibold text-gray-800 flex-1">Выбор показателя</h2>
         </div>
-        <div class="py-3 border-b border-slate-200 bg-white shrink-0 w-full max-w-2xl mx-auto">
+        <div class="p-4 border-b border-slate-200 bg-white shrink-0 w-full max-w-2xl mx-auto">
             <div class="relative w-full">
                 <label>
                     <input type="text" id="searchInput" placeholder="Поиск по названию…" autocomplete="off"
@@ -126,7 +120,7 @@
                 </svg>
             </div>
         </div>
-        <div class="flex-1 overflow-y-auto py-3">
+        <div class="flex-1 overflow-y-auto p-4">
             <div class="space-y-4 max-w-2xl mx-auto mb-16" id="indicatorGroups"></div>
             <p id="noResults" class="hidden text-sm text-gray-500 py-8 text-center">Ничего не найдено</p>
         </div>

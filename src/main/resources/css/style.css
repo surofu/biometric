@@ -1,2 +1,14 @@
 @import "tailwindcss";
 @source "../templates/**/*.ftl";
+
+.app-list {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-slate-600;
+}
+
+.app-list > li {
+    @apply flex items-center gap-2;
+}
+
+.app-list > li > span {
+    @apply w-1.5 h-1.5 bg-emerald-500 rounded-full;
+}

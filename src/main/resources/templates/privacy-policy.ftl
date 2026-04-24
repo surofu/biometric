@@ -1,7 +1,7 @@
 <#import "./shared/layout.ftl" as layoutMacros>
 <#import "./shared/page-header.ftl" as pageHeaderMacros>
 
-<@layoutMacros.layout title="Политика конфиденциальности — Биометрик" selectedPage="">
+<@layoutMacros.layout title="Политика конфиденциальности" selectedPage="">
     <div class="min-h-screen bg-white">
         <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
 

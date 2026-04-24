@@ -2,14 +2,10 @@
 <#import "../shared/message.ftl" as messageMacros>
 
 <@layoutMacros.layout title="Мои показатели" selectedPage="1">
-    <div class="container max-w-6xl mx-auto px-4 pt-8 pb-16">
+    <div class="container max-w-6xl mx-auto px-4 pt-6 pb-16">
         <@messageMacros.message />
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <div>
-                <h1 class="text-xl sm:text-2xl font-semibold text-slate-800 tracking-tight">Мои показатели</h1>
-                <p class="text-slate-500 text-sm mt-1">История ваших медицинских измерений</p>
-            </div>
             <div class="flex items-center gap-2 w-full sm:w-auto">
                 <a href="/measurements/add"
                    class="flex-1 sm:flex-none bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2">
@@ -41,7 +37,7 @@
                 </div>
             </div>
         <#else>
-            <div id="measurementGroups" class="space-y-4">
+            <div id="measurementGroups" class="space-y-2">
                 <#include "groups.ftl">
                 <div id="scroll-trigger" class="py-4 text-center text-[10px] text-slate-400 font-mono uppercase tracking-widest"></div>
             </div>
@@ -111,6 +107,22 @@
                     const html = await response.text();
                     // Вставляем новые группы перед триггером
                     scrollTrigger.insertAdjacentHTML('beforebegin', html);
+
+                    container.querySelectorAll('.measurement-group').forEach(details => {
+                        details.addEventListener('toggle', () => {
+                            details.classList.toggle('mb-4', details.open)
+                            details.classList.toggle('rounded-md', !details.open)
+                            details.classList.toggle('rounded-xl', details.open)
+                            details.querySelector("summary").classList.toggle('bg-slate-50', details.open)
+                        })
+
+                        if (details.open) {
+                            details.classList.add('mb-4');
+                            details.classList.remove('rounded-md')
+                            details.classList.add('rounded-xl')
+                            details.querySelector("summary").classList.add('bg-slate-50')
+                        }
+                    });
 
                     // Обновляем курсор и флаг из заголовков ответа
                     nextCursor = response.headers.get('X-Next-Cursor') || null;

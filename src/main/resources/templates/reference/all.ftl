@@ -1,9 +1,9 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
 
-<@layoutMacros.layout title="Справочник — Биометрик" selectedPage="5">
+<@layoutMacros.layout title="Справочник" selectedPage="5">
     <div class="min-h-screen bg-white">
-        <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
+        <div class="container max-w-2xl mx-auto p-4 pb-20">
             <@messageMacros.message />
 
             <div class="text-center pt-4 pb-6">
@@ -28,7 +28,7 @@
             <div class="space-y-4 mt-6">
                 <!-- Медицинские показатели -->
                 <a href="/reference/indicators"
-                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
+                   class="block group p-5 border border-slate-200 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
                     <div class="flex items-start gap-4">
                         <div class="shrink-0 w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +53,7 @@
 
                 <!-- Категории показателей -->
                 <a href="/reference/indicator-categories"
-                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
+                   class="block group p-5 border border-slate-200 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
                     <div class="flex items-start gap-4">
                         <div class="shrink-0 w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +78,7 @@
 
                 <!-- Врачи -->
                 <a href="/reference/doctors"
-                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
+                   class="block group p-5 border border-slate-200 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
                     <div class="flex items-start gap-4">
                         <div class="shrink-0 w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +103,7 @@
 
                 <!-- Профессии -->
                 <a href="/reference/professions"
-                   class="block group p-5 border border-slate-100 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
+                   class="block group p-5 border border-slate-200 rounded-2xl bg-white hover:bg-slate-50/50 transition-all duration-200 hover:border-emerald-200">
                     <div class="flex items-start gap-4">
                         <div class="shrink-0 w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,25 +125,6 @@
                         </div>
                     </div>
                 </a>
-            </div>
-
-            <!-- Блок с дополнительной информацией -->
-            <div class="mt-10 p-5 bg-emerald-50/40 rounded-2xl border border-emerald-100">
-                <div class="flex gap-3">
-                    <svg class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                         viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <div>
-                        <h3 class="font-semibold text-slate-800 text-sm">Информация носит справочный характер</h3>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                            Все нормативные значения являются ориентировочными. Для постановки диагноза и назначения
-                            лечения
-                            обратитесь к врачу. Разные лаборатории могут использовать различные референсные интервалы.
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

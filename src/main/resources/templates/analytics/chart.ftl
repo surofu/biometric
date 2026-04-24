@@ -2,7 +2,7 @@
 <#import "../shared/message.ftl" as messageMacros>
 <#import "../shared/page-header.ftl" as pageHeaderMacros>
 
-<@layoutMacros.layout title="${analytics.indicatorName} - Биометрик" selectedPage="3">
+<@layoutMacros.layout title="${analytics.indicatorName}" mobileTitle="Аналитика" selectedPage="3">
     <link href="https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.min.css" rel="stylesheet">
     <style>
         .u-wrap {
@@ -48,7 +48,7 @@
         }
     </style>
 
-    <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
+    <div class="container max-w-2xl mx-auto px-4 pt-4 pb-20">
         <@messageMacros.message />
         <@pageHeaderMacros.pageHeader
         title="${analytics.indicatorName}"
@@ -56,7 +56,7 @@
         backUrl="/analytics"
         />
 
-        <div class="grid grid-cols-3 gap-3 mt-6">
+        <div class="grid grid-cols-3 gap-3 mt-4">
             <div class="bg-white rounded-xl border border-slate-200 px-4 py-3 text-center">
                 <p class="text-xs text-gray-500 mb-1">Последнее</p>
                 <p class="text-lg font-semibold text-gray-800" id="stat-last">—</p>
@@ -73,15 +73,10 @@
 
         <div class="bg-white rounded-xl border border-slate-200 overflow-hidden mt-3">
             <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center">
-                <div>
-                    <h2 class="font-medium text-gray-800">График</h2>
-                    <p class="text-xs text-gray-400 mt-0.5">
-                        Норма: ${analytics.referenceMin?string["0.##"]} – ${analytics.referenceMax?string["0.##"]}
-                    </p>
-                </div>
-                <div id="scroll-hint" class="hidden">
-                    <span class="text-[10px] text-slate-400 uppercase tracking-widest">Листайте →</span>
-                </div>
+                <h2 class="font-medium text-gray-800">График</h2>
+                <p class="text-xs text-gray-400 mt-0.5">
+                    Норма: ${analytics.referenceMin?string["0.##"]} – ${analytics.referenceMax?string["0.##"]}
+                </p>
             </div>
 
             <div class="p-4 pt-5 pb-2">
@@ -302,7 +297,6 @@
                             tooltip.classList.add('hidden');
                             return;
                         }
-                        const val = values[idx];
                         const canvasRect = u.over.getBoundingClientRect();
                         const mouseX = canvasRect.left + left;
                         const mouseY = canvasRect.top + top;

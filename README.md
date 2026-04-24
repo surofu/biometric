@@ -28,7 +28,7 @@
 | ![Category Details](screenshots/reference-indicator-category-details.png) | ![Profession Details](screenshots/reference-profession-details.png) | ![Doctor Details](screenshots/reference-doctors-details.png) |
 
 ### Профиль и безопасность
-| Профиль | Смена пароля | О проекте |
+| Профиль | Смена пароля | О приложении |
 |:---:|:---:|:---:|
 | ![Profile](screenshots/profile.png) | ![Password](screenshots/change-password.png) | ![About](screenshots/about.png) |
 

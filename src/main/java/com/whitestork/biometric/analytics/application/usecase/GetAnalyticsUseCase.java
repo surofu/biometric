@@ -7,10 +7,11 @@ import com.whitestork.biometric.analytics.infrastructure.view.MeasurementAnalyti
 import com.whitestork.biometric.indicator.application.service.IndicatorProvider;
 import com.whitestork.biometric.indicator.domain.Indicator;
 import com.whitestork.biometric.measurement.infrastructure.persistence.MeasurementRepository;
-import com.whitestork.biometric.shared.application.component.DateFormatter;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GetAnalyticsUseCase {
+  private static final DateTimeFormatter FULL_FORMAT =
+      DateTimeFormatter.ofPattern("dd.MM.yyyy EEE", Locale.forLanguageTag("ru"));
+  private static final DateTimeFormatter LABEL_FORMAT =
+      DateTimeFormatter.ofPattern("dd.MM.yy", Locale.forLanguageTag("ru"));
+
   private final IndicatorProvider indicatorProvider;
   private final MeasurementRepository measurementRepository;
-  private final DateFormatter dateFormatter;
 
   public @NonNull AnalyticsResponse execute(@NonNull Long indicatorId, @NonNull String email) {
     Indicator indicator = indicatorProvider.withId(indicatorId);
@@ -30,13 +35,10 @@ public class GetAnalyticsUseCase {
     );
 
     List<String> labels = measurements.stream()
-        .map(v -> "%s (%s)".formatted(
-            dateFormatter.format(v.date()),
-            dateFormatter.dayOfWeek(v.date()))
-        )
+        .map(v -> FULL_FORMAT.format(v.date()))
         .toList();
     List<String> shortLabels = measurements.stream()
-        .map(v -> dateFormatter.chartLabel(v.date()))
+        .map(v -> LABEL_FORMAT.format(v.date()))
         .toList();
     List<Double> values = measurements.stream()
         .map(MeasurementAnalyticsView::value)

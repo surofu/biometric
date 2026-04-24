@@ -2,35 +2,20 @@
 <#import "../shared/message.ftl" as messageMacros>
 <#import "../shared/page-header.ftl" as pageHeaderMacros>
 
-<@layoutMacros.layout title="Профессии и медосмотры — Биометрик" selectedPage="5">
+<@layoutMacros.layout title="Профессии" mobileTitle="Справочник" selectedPage="5">
     <div class="min-h-screen bg-white">
-        <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
+        <div class="container max-w-2xl mx-auto p-4 pb-20">
             <@messageMacros.message />
             <@pageHeaderMacros.pageHeader
-            title="Профессии и медосмотры"
+            title="Профессии"
             subtitle="Справочник"
             backUrl="/reference"
             />
 
             <#if professions?? && professions?has_content>
 
-                <!-- Info -->
-                <div class="my-6 p-4 bg-emerald-50/40 rounded-2xl border border-emerald-100">
-                    <div class="flex gap-3">
-                        <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                             viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <p class="text-xs text-slate-500 leading-relaxed">
-                            Периодичность медосмотров установлена приказом Минздрава. Фактическое расписание уточняйте у
-                            работодателя или в медицинском учреждении.
-                        </p>
-                    </div>
-                </div>
-
                 <!-- Search -->
-                <div class="relative mb-4">
+                <div class="relative my-4">
                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
                          fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

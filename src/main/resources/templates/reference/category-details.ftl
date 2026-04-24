@@ -2,9 +2,9 @@
 <#import "../shared/message.ftl" as messageMacros>
 <#import "../shared/page-header.ftl" as pageHeaderMacros>
 
-<@layoutMacros.layout title="${category.name} — Биометрик" selectedPage="5">
+<@layoutMacros.layout title="${category.name}" mobileTitle="Категории индикаторов" selectedPage="5">
     <div class="min-h-screen bg-white">
-        <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
+        <div class="container max-w-2xl mx-auto p-4 pb-20">
             <@messageMacros.message />
             <@pageHeaderMacros.pageHeader
             title="${category.name}"

@@ -3,7 +3,6 @@ package com.whitestork.biometric.admin.interfaces;
 import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateIndicatorModel;
 import com.whitestork.biometric.indicator.application.mapper.IndicatorMapper;
 import com.whitestork.biometric.indicator.application.response.IndicatorDetailsResponse;
-import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.application.service.IndicatorProvider;
 import com.whitestork.biometric.indicator.application.usecase.DeleteIndicatorByIdUseCase;
 import com.whitestork.biometric.indicator.application.usecase.GetAllIndicatorsUseCase;

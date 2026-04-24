@@ -2,13 +2,13 @@
 <#import "../shared/message.ftl" as messageMacros>
 <#import "../shared/page-header.ftl" as pageHeaderMacros>
 
-<@layoutMacros.layout title="${indicator.name} — Биометрик" selectedPage="5">
+<@layoutMacros.layout title="${indicator.name}" mobileTitle="Медицинские показатели" selectedPage="5">
     <div class="min-h-screen bg-white">
-        <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
+        <div class="container max-w-2xl mx-auto p-4 pb-20">
             <@messageMacros.message />
             <@pageHeaderMacros.pageHeader
             title="${indicator.name}"
-            subtitle="${indicator.categoryName}"
+            subtitle="Медицинские показатели"
             backUrl="/reference/indicators"
             />
 
@@ -33,6 +33,10 @@
                         </span>
                         <span class="text-emerald-600/70 font-medium">${indicator.unit!""}</span>
                     </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 overflow-hidden px-6 py-4 bg-amber-50/30">
+                    <p class="font-medium text-gray-800">Категория: ${indicator.categoryName}</p>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">

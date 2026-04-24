@@ -48,10 +48,6 @@ public class AnalyticsController {
     );
 
     model.addAttribute("analytics", analyticsResponse);
-
-    if (analyticsResponse.getData().getValues().size() < 2) {
-      return "analytics/not-enough-data";
-    }
     return "analytics/chart";
   }
 }

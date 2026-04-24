@@ -1,7 +1,6 @@
 package com.whitestork.biometric.indicator.application.service;
 
 import com.whitestork.biometric.indicator.application.response.IndicatorDetailsResponse;
-import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.domain.Indicator;
 import com.whitestork.biometric.indicator.infrastructure.persistence.IndicatorRepository;
 import com.whitestork.biometric.shared.domain.exception.DomainException;

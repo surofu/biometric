@@ -2,9 +2,9 @@
 <#import "../shared/message.ftl" as messageMacros>
 <#import "../shared/page-header.ftl" as pageHeaderMacros>
 
-<@layoutMacros.layout title="Медицинские показатели — Биометрик" selectedPage="5">
+<@layoutMacros.layout title="Медицинские показатели" mobileTitle="Справочник" selectedPage="5">
     <div class="min-h-screen bg-white">
-        <div class="container max-w-2xl mx-auto px-4 pt-8 pb-20">
+        <div class="container max-w-2xl mx-auto p-4 pb-20">
             <@messageMacros.message />
             <@pageHeaderMacros.pageHeader
             title="Медицинские показатели"
@@ -15,7 +15,7 @@
             <#if indicators?? && indicators?has_content>
 
                 <!-- Disclaimer -->
-                <div class="my-6 p-4 bg-emerald-50/40 rounded-2xl border border-emerald-100">
+                <div class="my-4 p-4 bg-emerald-50/40 rounded-2xl border border-emerald-100">
                     <div class="flex gap-3">
                         <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor"
                              viewBox="0 0 24 24">

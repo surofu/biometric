@@ -5,7 +5,6 @@ import com.whitestork.biometric.indicator.application.request.SaveIndicatorReque
 import com.whitestork.biometric.indicator.application.request.SaveOrUpdateIndicatorRequest;
 import com.whitestork.biometric.indicator.application.request.UpdateIndicatorRequest;
 import com.whitestork.biometric.indicator.application.response.IndicatorDetailsResponse;
-import com.whitestork.biometric.indicator.application.response.IndicatorResponse;
 import com.whitestork.biometric.indicator.domain.Indicator;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

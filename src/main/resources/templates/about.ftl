@@ -1,15 +1,10 @@
 <#import "./shared/layout.ftl" as layoutMacros>
 <#import "./shared/message.ftl" as messageMacros>
-<#import "./shared/page-header.ftl" as pageHeaderMacros>
 
-<@layoutMacros.layout title="О проекте — Биометрик" selectedPage="-1" showNavbar=true>
+<@layoutMacros.layout title="О приложении" mobileTitle="О приложении" selectedPage="-1" showNavbar=true>
     <div class="min-h-screen bg-white">
         <div class="container max-w-2xl mx-auto px-6 pt-6 pb-24">
             <@messageMacros.message />
-            <@pageHeaderMacros.pageHeader
-            title="О приложении"
-            backUrl="/profile"
-            />
 
             <div class="flex flex-col items-center mt-6 mb-12">
                 <div class="flex items-center gap-3 mb-4">

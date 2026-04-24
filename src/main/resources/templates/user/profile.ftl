@@ -2,7 +2,7 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
 
-<@layoutMacros.layout title="Мой профиль" selectedPage="4">
+<@layoutMacros.layout title="Профиль" selectedPage="4">
     <div class="container max-w-2xl mx-auto px-4 pt-8 pb-16">
         <@messageMacros.message />
 

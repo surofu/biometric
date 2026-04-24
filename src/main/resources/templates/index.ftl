@@ -1,7 +1,7 @@
 <#import "./shared/layout.ftl" as layoutMacros>
 <#import "./shared/message.ftl" as messageMacros>
 
-<@layoutMacros.layout title="Биометрик — мониторинг здоровья" selectedPage="0">
+<@layoutMacros.layout selectedPage="0" showMobileNavbar=false>
     <div class="min-h-screen bg-white">
     <div class="container max-w-2xl mx-auto px-4 pt-16 pb-20">
         <@messageMacros.message />
