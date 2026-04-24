@@ -8,7 +8,7 @@
 
         <div class="flex justify-center">
             <a href="/"
-               class="group flex items-center gap-3.5 transition-transform hover:scale-[1.02] duration-200">
+               class="group flex items-center gap-3.5 transition-transform duration-200">
                 <div class="flex items-center justify-center w-10 h-10 bg-white border-2 border-slate-100 rounded-xl group-hover:border-emerald-500 transition-colors duration-300">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 12H7L9 5L12 19L15 12H20"

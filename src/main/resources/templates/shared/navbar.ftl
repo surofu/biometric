@@ -70,8 +70,8 @@
     <nav class="hidden md:block fixed top-0 left-0 w-full bg-white border-b border-slate-200 z-50">
         <div class="container max-w-6xl mx-auto px-4">
             <div class="flex items-center justify-between h-14">
-                <a href="/" class="flex items-center gap-2.5">
-                    <div class="flex items-center justify-center w-8 h-8 bg-white border border-slate-200 rounded-lg">
+                <a href="/" class="group flex items-center gap-2.5">
+                    <div class="flex items-center justify-center w-8 h-8 bg-white border border-slate-200 rounded-lg group-hover:border-2 group-hover:border-emerald-500 transition-colors duration-300">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                             <path d="M4 12H7L9 5L12 19L15 12H20" stroke="#059669" stroke-width="2.5"
                                   stroke-linecap="round" stroke-linejoin="round"/>
