@@ -160,10 +160,11 @@ public class AuthController {
     }
 
     try {
-      changePasswordUseCase.execute(mapper.toRequest(request));
+      changePasswordUseCase.execute(mapper.toRequest(request, user.email()));
       authenticateUserAndSetSession(user.email(), httpRequest, httpResponse);
       return "redirect:/profile?passwordChanged";
     } catch (Exception exception) {
+      log.error(exception.getMessage(), exception);
       model.addAttribute("request", request);
       model.addAttribute("errorMessage", exception.getMessage());
       return "auth/change-password";

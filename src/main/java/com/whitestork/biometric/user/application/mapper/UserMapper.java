@@ -12,6 +12,6 @@ public interface UserMapper {
 
   RegisterUserRequest toRequest(RegisterUserModel model);
 
-  ChangePasswordRequest toRequest(ChangePasswordModel model);
+  ChangePasswordRequest toRequest(ChangePasswordModel model, String email);
 }
 
