@@ -49,7 +49,7 @@
 ## Технологии
 
 - **Бэкенд:** Java 25, Spring Boot 4.0.5, Spring Security (OAuth2), Spring Data JDBC
-- **База данных:** PostgreSQL, Liquibase
+- **База данных:** PostgreSQL, Flyway
 - **Фронтенд:** FreeMarker, Tailwind CSS, Vanilla JavaScript
 - **Инфраструктура:** Docker (Paketo Buildpacks), Maven
 
