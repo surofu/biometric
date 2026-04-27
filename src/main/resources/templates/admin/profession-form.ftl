@@ -77,7 +77,7 @@
             <h2 class="text-lg font-bold text-slate-800 flex-1">Добавление специалиста</h2>
         </div>
 
-        <div class="p-4 bg-slate-50 border-b border-slate-100">
+        <div class="p-4 border-b border-slate-100">
             <div class="relative max-w-2xl mx-auto">
                 <label>
                     <input type="text" id="doctorSearchInput" placeholder="Введите название (например: Хирург)..."

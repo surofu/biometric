@@ -2,29 +2,29 @@
 <#import "../shared/message.ftl" as messageMacros>
 
 <@layoutMacros.layout title="Вход" showNavbar=false>
-    <div class="absolute top-0 w-full flex justify-center px-4 py-10">
-        <a href="/" class="group flex items-center gap-3.5 transition-transform hover:scale-[1.02] duration-200">
-            <div class="flex items-center justify-center w-10 h-10 bg-white border-2 border-slate-100 rounded-xl group-hover:border-emerald-500 transition-colors duration-300">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 12H7L9 5L12 19L15 12H20"
-                          stroke="#059669"
-                          stroke-width="2.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                </svg>
-            </div>
+    <div class="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-white md:bg-slate-50">
+        <div class="w-full flex justify-center px-4 py-12">
+            <a href="/" class="group flex items-center gap-3.5 transition-transform hover:scale-[1.02] duration-200">
+                <div class="flex items-center justify-center w-10 h-10 bg-white border-2 border-slate-100 rounded-xl group-hover:border-emerald-500 transition-colors duration-300">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 12H7L9 5L12 19L15 12H20"
+                              stroke="#059669"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
 
-            <div class="flex items-center tracking-tight gap-1">
-                <span class="text-2xl font-light text-slate-400">Био</span>
-                <span class="text-2xl font-black text-slate-800 -ml-0.5 relative">
+                <div class="flex items-center tracking-tight gap-1">
+                    <span class="text-2xl font-light text-slate-400">Био</span>
+                    <span class="text-2xl font-black text-slate-800 -ml-0.5 relative">
                 метрик
                 <span class="absolute -right-1.5 bottom-1.5 w-1 h-1 bg-emerald-500 rounded-full"></span>
             </span>
-            </div>
-        </a>
-    </div>
-    <div class="grid grid-rows-[1fr_auto] min-h-dvh bg-white md:bg-slate-50">
-        <div class="h-full flex flex-col items-center justify-center px-4 pt-8 overflow-hidden">
+                </div>
+            </a>
+        </div>
+        <div class="h-full flex flex-col items-center justify-center px-4 pb-12 overflow-hidden">
             <div class="relative bg-white md:rounded-xl w-full max-w-md p-4 md:p-8 md:border border-slate-200">
                 <h1 class="text-2xl font-bold text-center mb-2">Вход</h1>
                 <p class="text-gray-500 text-center mb-6 text-sm">Войдите в свой аккаунт</p>

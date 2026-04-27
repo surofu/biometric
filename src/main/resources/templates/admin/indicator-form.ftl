@@ -50,13 +50,13 @@
                         <div>
                             <label for="referenceMin" class="block text-xs text-slate-400 mb-2">Мин. норма *</label>
                             <input type="number" id="referenceMin" name="referenceMin"
-                                   value="${request.referenceMin?c!''}" step="any" required
+                                   value="${(request.referenceMin?c)!''}" step="any" required
                                    class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm">
                         </div>
                         <div>
                             <label for="referenceMax" class="block text-xs text-slate-400 mb-2">Макс. норма *</label>
                             <input type="number" id="referenceMax" name="referenceMax"
-                                   value="${request.referenceMax?c!''}" step="any" required
+                                   value="${(request.referenceMax?c)!''}" step="any" required
                                    class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all text-sm">
                         </div>
                     </div>

@@ -71,7 +71,7 @@
                     <input type="number" id="valueInput" value="${(measurement.value?c)!}" step="0.01"
                            placeholder="Введите значение"
                            class="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
-                    <span id="unitLabel" class="text-sm text-gray-500 shrink-0 min-w-8"></span>
+                    <span id="unitLabel" class="text-sm text-gray-500 shrink-0"></span>
                 </div>
             </div>
         </form>

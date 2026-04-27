@@ -22,7 +22,7 @@
             </#if>
         </div>
 
-        <div class="space-y-3 not-md:px-4 mt-3" id="indicatorGrid">
+        <div class="space-y-2 not-md:px-4 mt-3" id="indicatorGrid">
             <#list indicators as indicator>
                 <a href="/analytics/${indicator.id}"
                    data-name="${indicator.name?lower_case?js_string}"

@@ -55,15 +55,16 @@
         document.addEventListener('DOMContentLoaded', function () {
             const expandAllBtn = document.getElementById('expandAll');
             const collapseAllBtn = document.getElementById('collapseAll');
-            const details = document.querySelectorAll('.measurement-group');
 
             if (expandAllBtn) {
                 expandAllBtn.addEventListener('click', () => {
+                    const details = document.querySelectorAll('.measurement-group');
                     details.forEach(detail => detail.open = true);
                 });
             }
             if (collapseAllBtn) {
                 collapseAllBtn.addEventListener('click', () => {
+                    const details = document.querySelectorAll('.measurement-group');
                     details.forEach(detail => detail.open = false);
                 });
             }

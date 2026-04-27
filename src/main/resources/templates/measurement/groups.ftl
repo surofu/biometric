@@ -48,7 +48,7 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-2 sm:gap-1.5 mt-3 sm:mt-0 pt-3 sm:pt-0 border-t sm:border-t-0 sm:border-l border-slate-100 sm:pl-4">
+                        <div class="flex items-center gap-2 sm:gap-1.5 pt-3 sm:pt-0 border-t sm:border-t-0 sm:border-l border-slate-100 sm:pl-4">
                             <a href="/measurements/${item.id}/edit"
                                class="flex-1 sm:flex-none flex items-center justify-center gap-2 sm:gap-0 px-3 py-2.5 sm:p-2 bg-blue-50 sm:bg-transparent text-blue-600 sm:text-slate-500 hover:text-blue-700 sm:hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all text-xs font-bold sm:font-normal">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
