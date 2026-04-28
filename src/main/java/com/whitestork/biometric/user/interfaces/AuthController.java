@@ -62,11 +62,11 @@ public class AuthController {
   ) {
     if (error != null) {
       String sessionError = (String) request.getSession().getAttribute("errorMessage");
-      model.addAttribute("errorMessage", sessionError != null
-          ? sessionError
-          : "Неверный email или пароль"
-      );
-      request.getSession().removeAttribute("errorMessage");
+
+      if (sessionError != null && !sessionError.isBlank()) {
+        model.addAttribute("errorMessage",  sessionError);
+        request.getSession().removeAttribute("errorMessage");
+      }
     }
     if (logout != null) {
       model.addAttribute("infoMessage", "Вы вышли из системы");
