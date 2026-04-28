@@ -30,13 +30,14 @@
 
     <#if successMessage?? || infoMessage?? || errorMessage??>
         <script>
+            const TIMEOUT = 5000;
             setTimeout(() => {
                 const msg = document.getElementById('message-container');
                 if (msg) {
                     msg.style.opacity = '0';
                     setTimeout(() => msg.remove(), 500);
                 }
-            }, 3000);
+            }, TIMEOUT);
         </script>
     </#if>
 </#macro>
