@@ -50,6 +50,7 @@ public class MeasurementController {
   public @NonNull String list(
       @NonNull @RequestParam(defaultValue = "10", required = false) Integer pageSize,
       @Nullable @RequestParam(required = false) String cursor,
+      @NonNull @RequestParam(defaultValue = "", required = false) String search,
       @NonNull @AuthenticationPrincipal User user,
       @NonNull Model model,
       @NonNull HttpServletRequest request,
@@ -58,12 +59,14 @@ public class MeasurementController {
     KeysetPage<MeasurementGroupResponse> page = getUserMeasurementPageUseCase.execute(
         user.email(),
         cursor != null ? KeysetCursor.fromString(cursor) : null,
-        pageSize
+        pageSize,
+        search
     );
 
     model.addAttribute("isFirstPage", cursor == null);
     model.addAttribute("page", page);
     model.addAttribute("pageSize", pageSize);
+    model.addAttribute("search", search);
 
     if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
       response.setHeader("X-Next-Cursor", page.nextCursor() != null ? page.nextCursor() : "");

@@ -22,17 +22,18 @@ public class GetUserMeasurementPageUseCase {
   public @NonNull KeysetPage<MeasurementGroupResponse> execute(
       @NonNull String email,
       @Nullable KeysetCursor cursor,
-      @NonNull Integer pageSize
+      @NonNull Integer pageSize,
+      @NonNull String search
   ) {
     List<MeasurementResponse> measurements;
     Long totalDatesAfter;
 
     if (cursor == null) {
-      measurements = repository.findFirstPageByUser(email, pageSize);
-      totalDatesAfter = repository.countAllDistinctDates(email);
+      measurements = repository.findFirstPageByUserAndSearch(email, search, pageSize);
+      totalDatesAfter = repository.countAllDistinctDatesBySearch(email, search);
     } else {
-      measurements = repository.findNextPageByUser(email, cursor.date(), cursor.id(), pageSize);
-      totalDatesAfter = repository.countDistinctDatesAfter(email, cursor.date(), cursor.id());
+      measurements = repository.findNextPageByUserAndSearch(email, search, cursor.date(), cursor.id(), pageSize);
+      totalDatesAfter = repository.countDistinctDatesAfterBySearch(email, search, cursor.date(), cursor.id());
     }
 
     List<MeasurementGroupResponse> content = buildGroups(measurements);
