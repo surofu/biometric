@@ -14,78 +14,6 @@ import org.springframework.data.repository.query.Param;
 public interface MeasurementRepository extends ListCrudRepository<Measurement, Long> {
 
   @Query("""
-         WITH ranked AS (
-             SELECT
-                 m.id,
-                 m.value,
-                 m.date,
-                 i.id AS indicator_id,
-                 i.name AS indicator_name,
-                 i.unit AS indicator_unit,
-                 i.reference_min AS indicator_reference_min,
-                 i.reference_max AS indicator_reference_max,
-                 DENSE_RANK() OVER (ORDER BY m.date DESC) AS date_rank
-             FROM measurements m
-             JOIN indicators i ON m.indicator_id = i.id
-             JOIN users u ON m.user_id = u.id
-             WHERE u.email = :email
-         )
-         SELECT * FROM ranked
-         WHERE date_rank <= :pageSize
-         ORDER BY date DESC, id DESC
-         """)
-  @NonNull List<MeasurementResponse> findFirstPageByUser(
-      @NonNull @Param("email") String email,
-      @NonNull @Param("pageSize") Integer pageSize
-  );
-
-  @Query("""
-         WITH ranked AS (
-             SELECT
-                 m.id,
-                 m.value,
-                 m.date,
-                 i.id AS indicator_id,
-                 i.name AS indicator_name,
-                 i.unit AS indicator_unit,
-                 i.reference_min AS indicator_reference_min,
-                 i.reference_max AS indicator_reference_max,
-                 DENSE_RANK() OVER (ORDER BY m.date DESC) AS date_rank
-             FROM measurements m
-             JOIN indicators i ON m.indicator_id = i.id
-             JOIN users u ON m.user_id = u.id
-             WHERE u.email = :email
-               AND (m.date < :lastDate OR (m.date = :lastDate AND m.id < :lastId))
-         )
-         SELECT * FROM ranked
-         WHERE date_rank <= :pageSize
-         ORDER BY date DESC, id DESC
-         """)
-  @NonNull List<MeasurementResponse> findNextPageByUser(
-      @NonNull @Param("email") String email,
-      @NonNull @Param("lastDate") LocalDate lastDate,
-      @NonNull @Param("lastId") Long lastId,
-      @NonNull @Param("pageSize") Integer pageSize
-  );
-
-  @Query("""
-         SELECT COUNT(DISTINCT m.date)
-         FROM measurements m
-         JOIN users u ON m.user_id = u.id
-         WHERE u.email = :email
-           AND (m.date < :lastDate OR (m.date = :lastDate AND m.id < :lastId))
-         """)
-  @NonNull Long countDistinctDatesAfter(
-      @NonNull @Param("email") String email,
-      @NonNull @Param("lastDate") LocalDate lastDate,
-      @NonNull @Param("lastId") Long lastId
-  );
-
-  @Query("SELECT COUNT(DISTINCT m.date) FROM measurements m JOIN users u ON m.user_id = u.id WHERE u.email = :email")
-  @NonNull Long countAllDistinctDates(@Param("email") String email);
-
-
-  @Query("""
          select m.* from measurements m
          join users u on m.user_id = u.id
          where m.id = :id and u.email = :email
@@ -133,30 +61,37 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
       @NonNull @Param("date") LocalDate date
   );
 
-  // NEW
+  // Page
 
   @Query("""
-       WITH ranked AS (
-           SELECT
-               m.id,
-               m.value,
-               m.date,
-               i.id AS indicator_id,
-               i.name AS indicator_name,
-               i.unit AS indicator_unit,
-               i.reference_min AS indicator_reference_min,
-               i.reference_max AS indicator_reference_max,
-               DENSE_RANK() OVER (ORDER BY m.date DESC) AS date_rank
-           FROM measurements m
-           JOIN indicators i ON m.indicator_id = i.id
-           JOIN users u ON m.user_id = u.id
-           WHERE u.email = :email
-             AND (:search = '' OR i.name ILIKE '%' || :search || '%')
-       )
-       SELECT * FROM ranked
-       WHERE date_rank <= :pageSize
-       ORDER BY date DESC, id DESC
-       """)
+         WITH ranked AS (
+             SELECT
+                 m.id,
+                 m.value,
+                 m.date,
+                 i.id AS indicator_id,
+                 i.name AS indicator_name,
+                 i.unit AS indicator_unit,
+                 i.reference_min AS indicator_reference_min,
+                 i.reference_max AS indicator_reference_max,
+                 DENSE_RANK() OVER (ORDER BY m.date DESC) AS date_rank
+             FROM measurements m
+             JOIN indicators i ON m.indicator_id = i.id
+             JOIN users u ON m.user_id = u.id
+             WHERE u.email = :email AND (
+                 (:search = '' OR i.name                        ILIKE '%' || :search || '%') OR
+                 (:search = '' OR to_char(m.date, 'DD.MM.YYYY') ILIKE '%' || :search || '%') OR
+                 (:search = '' OR to_char(m.date, 'DD-MM-YYYY') ILIKE '%' || :search || '%') OR
+                 (:search = '' OR to_char(m.date, 'DD/MM/YYYY') ILIKE '%' || :search || '%') OR
+                 (:search = '' OR to_char(m.date, 'YYYY.MM.DD') ILIKE '%' || :search || '%') OR
+                 (:search = '' OR to_char(m.date, 'YYYY-MM-DD') ILIKE '%' || :search || '%') OR
+                 (:search = '' OR to_char(m.date, 'YYYY/MM/DD') ILIKE '%' || :search || '%')
+             )
+         )
+         SELECT * FROM ranked
+         WHERE date_rank <= :pageSize
+         ORDER BY date DESC, id DESC
+         """)
   @NonNull List<MeasurementResponse> findFirstPageByUserAndSearch(
       @NonNull @Param("email") String email,
       @NonNull @Param("search") String search,
@@ -178,9 +113,16 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
            FROM measurements m
            JOIN indicators i ON m.indicator_id = i.id
            JOIN users u ON m.user_id = u.id
-           WHERE u.email = :email
-             AND (:search = '' OR i.name ILIKE '%' || :search || '%')
-             AND (m.date < :lastDate OR (m.date = :lastDate AND m.id < :lastId))
+           WHERE u.email = :email AND (
+               (:search = '' OR i.name                        ILIKE '%' || :search || '%') OR
+               (:search = '' OR to_char(m.date, 'DD.MM.YYYY') ILIKE '%' || :search || '%') OR
+               (:search = '' OR to_char(m.date, 'DD-MM-YYYY') ILIKE '%' || :search || '%') OR
+               (:search = '' OR to_char(m.date, 'DD/MM/YYYY') ILIKE '%' || :search || '%') OR
+               (:search = '' OR to_char(m.date, 'YYYY.MM.DD') ILIKE '%' || :search || '%') OR
+               (:search = '' OR to_char(m.date, 'YYYY-MM-DD') ILIKE '%' || :search || '%') OR
+               (:search = '' OR to_char(m.date, 'YYYY/MM/DD') ILIKE '%' || :search || '%')
+           )
+           AND (m.date < :lastDate OR (m.date = :lastDate AND m.id < :lastId))
        )
        SELECT * FROM ranked
        WHERE date_rank <= :pageSize
@@ -195,27 +137,41 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
   );
 
   @Query("""
-       SELECT COUNT(DISTINCT m.date)
-       FROM measurements m
-       JOIN indicators i ON m.indicator_id = i.id
-       JOIN users u ON m.user_id = u.id
-       WHERE u.email = :email
-         AND (:search = '' OR i.name ILIKE '%' || :search || '%')
-       """)
+         SELECT COUNT(DISTINCT m.date)
+         FROM measurements m
+         JOIN indicators i ON m.indicator_id = i.id
+         JOIN users u ON m.user_id = u.id
+         WHERE u.email = :email AND (
+             (:search = '' OR i.name                        ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'DD.MM.YYYY') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'DD-MM-YYYY') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'DD/MM/YYYY') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'YYYY.MM.DD') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'YYYY-MM-DD') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'YYYY/MM/DD') ILIKE '%' || :search || '%')
+         )
+         """)
   @NonNull Long countAllDistinctDatesBySearch(
       @NonNull @Param("email") String email,
       @NonNull @Param("search") String search
   );
 
   @Query("""
-       SELECT COUNT(DISTINCT m.date)
-       FROM measurements m
-       JOIN indicators i ON m.indicator_id = i.id
-       JOIN users u ON m.user_id = u.id
-       WHERE u.email = :email
-         AND (:search = '' OR i.name ILIKE '%' || :search || '%')
+         SELECT COUNT(DISTINCT m.date)
+         FROM measurements m
+         JOIN indicators i ON m.indicator_id = i.id
+         JOIN users u ON m.user_id = u.id
+         WHERE u.email = :email AND (
+             (:search = '' OR i.name                        ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'DD.MM.YYYY') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'DD-MM-YYYY') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'DD/MM/YYYY') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'YYYY.MM.DD') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'YYYY-MM-DD') ILIKE '%' || :search || '%') OR
+             (:search = '' OR to_char(m.date, 'YYYY/MM/DD') ILIKE '%' || :search || '%')
+         )
          AND (m.date < :lastDate OR (m.date = :lastDate AND m.id < :lastId))
-       """)
+         """)
   @NonNull Long countDistinctDatesAfterBySearch(
       @NonNull @Param("email") String email,
       @NonNull @Param("search") String search,

@@ -5,14 +5,20 @@
         <div class="flex min-h-screen relative">
 
             <header class="md:hidden fixed top-0 left-0 w-full bg-white border-b border-slate-100 z-50 h-16 flex items-center justify-between px-4">
-                <a href="/" class="flex items-center gap-2">
-                    <div class="flex items-center justify-center w-8 h-8 bg-white border border-slate-100 rounded-lg">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <a href="/" class="group flex items-center gap-2.5">
+                    <div class="flex items-center justify-center w-8 h-8 bg-white border border-slate-200 rounded-lg group-hover:border-2 group-hover:border-emerald-500 transition-colors duration-300">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                             <path d="M4 12H7L9 5L12 19L15 12H20" stroke="#059669" stroke-width="2.5"
                                   stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <span class="text-sm font-black text-slate-800 tracking-tight uppercase">Биометрик</span>
+                    <div class="flex items-center tracking-tight gap-1">
+                        <span class="text-base font-light text-gray-400">Био</span>
+                        <span class="text-base font-bold text-gray-800 -ml-0.5 relative">
+                            метрик
+                            <span class="absolute -right-1 bottom-1 w-0.5 h-0.5 bg-emerald-500 rounded-full"></span>
+                        </span>
+                    </div>
                 </a>
 
                 <button id="mobile-menu-open" class="p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors">
@@ -29,17 +35,19 @@
             <aside id="admin-sidebar"
                    class="fixed inset-y-0 left-0 z-70 w-72 bg-white border-r border-slate-100 flex flex-col transition-transform duration-300 transform -translate-x-full md:translate-x-0 md:w-64">
                 <div class="p-8 pb-6 flex items-center justify-between">
-                    <a href="/"
-                       class="group flex items-center gap-3 transition-transform hover:scale-[1.01] duration-200">
-                        <div class="flex items-center justify-center w-8 h-8 bg-white border-2 border-slate-100 rounded-lg group-hover:border-emerald-500 transition-colors">
+                    <a href="/" class="group flex items-center gap-2.5">
+                        <div class="flex items-center justify-center w-8 h-8 bg-white border border-slate-200 rounded-lg group-hover:border-2 group-hover:border-emerald-500 transition-colors duration-300">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                                 <path d="M4 12H7L9 5L12 19L15 12H20" stroke="#059669" stroke-width="2.5"
                                       stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
-                        <div class="flex items-center tracking-tight gap-0.5">
-                            <span class="text-lg font-light text-slate-400">Био</span>
-                            <span class="text-lg font-black text-slate-800 -ml-0.5 relative">метрик</span>
+                        <div class="flex items-center tracking-tight gap-1">
+                            <span class="text-base font-light text-gray-400">Био</span>
+                            <span class="text-base font-bold text-gray-800 -ml-0.5 relative">
+                            метрик
+                            <span class="absolute -right-1 bottom-1 w-0.5 h-0.5 bg-emerald-500 rounded-full"></span>
+                        </span>
                         </div>
                     </a>
                     <button id="mobile-menu-close" class="md:hidden p-2 text-slate-400 hover:text-slate-600">
