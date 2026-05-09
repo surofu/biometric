@@ -33,17 +33,17 @@
                             </div>
 
                             <div class="flex flex-wrap items-center gap-2">
-                                <#if item.indicatorReferenceMin?? && item.indicatorReferenceMax??>
-                                    <span class="text-[11px] text-slate-500 font-medium">Норма: ${item.indicatorReferenceMin}–${item.indicatorReferenceMax}</span>
-                                    <#if item.value gte item.indicatorReferenceMin && item.value lte item.indicatorReferenceMax>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-bold uppercase tracking-wide">В норме</span>
-                                    <#elseif item.value lt item.indicatorReferenceMin>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wide">Ниже нормы</span>
-                                    <#else>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold uppercase tracking-wide">Выше нормы</span>
-                                    </#if>
+                                <span class="text-[11px] text-slate-500 font-medium">Норма: ${item.indicatorReferenceMin}–${item.indicatorReferenceMax}</span>
+                                <#if item.isNormal()>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-bold uppercase tracking-wide">✓ норма</span>
+                                <#elseif item.isBorderline()>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wide">◆ пограничное значение</span>
                                 <#else>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wide">Норма не указана</span>
+                                    <#if item.isUpper()>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold uppercase tracking-wide">▲ выше нормы</span>
+                                    <#else>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold uppercase tracking-wide">▼ ниже нормы</span>
+                                    </#if>
                                 </#if>
                             </div>
                         </div>

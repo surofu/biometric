@@ -86,12 +86,12 @@
                         <span class="text-xs text-gray-500">В норме</span>
                     </div>
                     <div class="flex items-center gap-1.5">
-                        <span class="w-3 h-3 rounded-full bg-red-400 inline-block"></span>
-                        <span class="text-xs text-gray-500">Выход за норму</span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span>
+                        <span class="text-xs text-gray-500">Пограничное значение</span>
                     </div>
                     <div class="flex items-center gap-1.5">
-                        <span class="inline-block w-6 border-t-2 border-dashed border-slate-300"></span>
-                        <span class="text-xs text-gray-500">Границы нормы</span>
+                        <span class="w-3 h-3 rounded-full bg-red-400 inline-block"></span>
+                        <span class="text-xs text-gray-500">Выход за норму</span>
                     </div>
                 </div>
 
@@ -109,18 +109,30 @@
             </div>
             <ul class="divide-y divide-slate-100">
                 <#list analytics.measurements as m>
-                    <#assign out = (m.value > analytics.referenceMax) || (m.value < analytics.referenceMin)>
                     <li class="flex items-center justify-between px-6 py-3">
                         <div class="flex items-center gap-3">
-                            <span class="w-2.5 h-2.5 rounded-full shrink-0 ${out?then('bg-red-400', 'bg-emerald-400')}"></span>
+                            <#if analytics.data.isNormal(m.dataIndex)>
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-emerald-400"></span>
+                            <#elseif analytics.data.isBorderline(m.dataIndex)>
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-yellow-400"></span>
+                            <#else>
+                                <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-red-400"></span>
+                            </#if>
                             <span class="text-sm text-gray-700">${m.label}</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span class="font-semibold ${out?then('text-red-600', 'text-gray-800')}">${m.value?string["0.##"]}</span>
-                            <#if out>
-                                <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">
-                                    ${(m.value > analytics.referenceMax)?then('↑ выше нормы', '↓ ниже нормы')}
-                                </span>
+                            <#if analytics.data.isNormal(m.dataIndex)>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-500 font-medium">✓ Норма</span>
+                                <span class="font-semibold text-emerald-600">${m.value?string["0.##"]}</span>
+                            <#elseif analytics.data.isBorderline(m.dataIndex)>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-yellow-50 text-yellow-500 font-medium">◆ Пограничное значение</span>
+                                <span class="font-semibold text-yellow-600">${m.value?string["0.##"]}</span>
+                            <#elseif analytics.data.isUpper(m.dataIndex)>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">▲ выше нормы</span>
+                                <span class="font-semibold text-red-600">${m.value?string["0.##"]}</span>
+                            <#else>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">▼ ниже нормы</span>
+                                <span class="font-semibold text-red-600">${m.value?string["0.##"]}</span>
                             </#if>
                         </div>
                     </li>
@@ -130,7 +142,6 @@
                 </#if>
             </ul>
         </div>
-
     </div>
 
     <div id="tooltip" class="hidden bg-white rounded-lg border border-slate-200 px-3 py-2 text-sm min-w-35 shadow-lg">
@@ -144,24 +155,28 @@
         (function () {
             const NORM_HIGH = ${analytics.referenceMax?c};
             const NORM_LOW = ${analytics.referenceMin?c};
+            const BORDER_HIGH = ${analytics.borderMax?c};
+            const BORDER_LOW = ${analytics.borderMin?c};
 
             const labels = [<#list analytics.data.shotLabels as l>"${l}"<#sep>, </#sep></#list>];
             const values = [<#list analytics.data.values as v>${v?c}<#sep>, </#sep></#list>];
             const refMax = [<#list analytics.data.referenceMax as v>${v?c}<#sep>, </#sep></#list>];
             const refMin = [<#list analytics.data.referenceMin as v>${v?c}<#sep>, </#sep></#list>];
+            const brdMax = labels.map(() => BORDER_HIGH);
+            const brdMin = labels.map(() => BORDER_LOW);
 
             const last = values[values.length - 1];
             const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1);
             const outCount = values.filter(v => v > NORM_HIGH || v < NORM_LOW).length;
 
-            document.getElementById('stat-last').textContent = last ? last.toFixed(2) : '—';
+            document.getElementById('stat-last').textContent = last != null ? last.toFixed(2) : '—';
             document.getElementById('stat-avg').textContent = avg || '—';
             const statOut = document.getElementById('stat-out');
             statOut.textContent = outCount;
             statOut.className = 'text-lg font-semibold ' + (outCount > 0 ? 'text-red-500' : 'text-emerald-600');
 
             const xs = labels.map((_, i) => i);
-            const chartData = [xs, values, refMax, refMin];
+            const chartData = [xs, values, refMax, refMin, brdMax, brdMin];
 
             const chartEl = document.getElementById('chart');
             const scrollParent = document.getElementById('scroll-parent');
@@ -170,41 +185,58 @@
             const MIN_POINT_DISTANCE = 60;
 
             function calculateWidth() {
-                const containerWidth = scrollParent.clientWidth;
-                const dynamicWidth = labels.length * MIN_POINT_DISTANCE;
-                const finalWidth = Math.max(containerWidth, dynamicWidth);
-                const hint = document.getElementById('scroll-hint');
-                if (hint) hint.classList.toggle('hidden', finalWidth <= containerWidth);
-                return finalWidth;
+                return Math.max(scrollParent.clientWidth, labels.length * MIN_POINT_DISTANCE);
             }
 
             const C_GREEN = '#10b981';
+            const C_YELLOW = '#facc15';
             const C_RED = '#f87171';
             const C_NORM = '#94a3b8';
+            const C_BORDER = 'rgba(250,204,21,0.8)';
             const C_GRID = '#f1f5f9';
             const C_AXIS = '#94a3b8';
 
+            function getStatus(val) {
+                if (val > BORDER_LOW && val < BORDER_HIGH) return 'normal';
+                if (val >= NORM_LOW && val <= NORM_HIGH) return 'border';
+                return 'out';
+            }
+
+            function pointColor(val) {
+                const s = getStatus(val);
+                return s === 'normal' ? C_GREEN : s === 'border' ? C_YELLOW : C_RED;
+            }
+
             function showTooltip(idx, mouseX, mouseY) {
                 const val = values[idx];
-                const out = val > NORM_HIGH || val < NORM_LOW;
+                const status = getStatus(val);
 
                 document.getElementById('tooltip-label').textContent = labels[idx];
+
                 const valEl = document.getElementById('tooltip-value');
                 valEl.textContent = val.toFixed(2);
-                valEl.className = 'font-semibold ' + (out ? 'text-red-600' : 'text-emerald-700');
+                valEl.className = 'font-semibold ' + (
+                    status === 'normal' ? 'text-emerald-700' :
+                        status === 'border' ? 'text-yellow-700' : 'text-red-600'
+                );
 
                 const stEl = document.getElementById('tooltip-status');
-                stEl.textContent = out
-                    ? (val > NORM_HIGH ? '▲ Выше нормы' : '▼ Ниже нормы')
-                    : '✓ В пределах нормы';
-                stEl.className = 'text-xs mt-0.5 ' + (out ? 'text-red-400' : 'text-emerald-500');
+                if (status === 'normal') {
+                    stEl.textContent = '✓ В пределах нормы';
+                    stEl.className = 'text-xs mt-0.5 text-emerald-500';
+                } else if (status === 'border') {
+                    stEl.textContent = '◆ Пограничное значение';
+                    stEl.className = 'text-xs mt-0.5 text-yellow-500';
+                } else {
+                    stEl.textContent = val > NORM_HIGH ? '▲ Выше нормы' : '▼ Ниже нормы';
+                    stEl.className = 'text-xs mt-0.5 text-red-400';
+                }
 
                 tooltip.classList.remove('hidden');
 
                 const tipRect = tooltip.getBoundingClientRect();
                 let x = mouseX - (tipRect.width / 2);
                 let y = mouseY - tipRect.height - 15;
-
                 if (x < 10) x = 10;
                 if (x + tipRect.width > window.innerWidth - 10) x = window.innerWidth - tipRect.width - 10;
                 if (y < 10) y = mouseY + 20;
@@ -214,26 +246,74 @@
                 tooltip.style.top = '0';
             }
 
+            function fillBand(ctx, u, topArr, botArr, color) {
+                ctx.beginPath();
+                topArr.forEach((val, i) => {
+                    const cx = u.valToPos(xs[i], 'x', true) / devicePixelRatio;
+                    const cy = u.valToPos(val, 'y', true) / devicePixelRatio;
+                    i === 0 ? ctx.moveTo(cx, cy) : ctx.lineTo(cx, cy);
+                });
+                for (let i = botArr.length - 1; i >= 0; i--) {
+                    ctx.lineTo(
+                        u.valToPos(xs[i], 'x', true) / devicePixelRatio,
+                        u.valToPos(botArr[i], 'y', true) / devicePixelRatio
+                    );
+                }
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+            }
+
+            function drawDashedLine(ctx, u, dataArr, color, dash) {
+                ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash(dash);
+                dataArr.forEach((val, i) => {
+                    const cx = u.valToPos(xs[i], 'x', true) / devicePixelRatio;
+                    const cy = u.valToPos(val, 'y', true) / devicePixelRatio;
+                    i === 0 ? ctx.moveTo(cx, cy) : ctx.lineTo(cx, cy);
+                });
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            function drawPoints(u) {
+                const ctx = u.ctx;
+                const dpr = devicePixelRatio;
+                ctx.save();
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                values.forEach((val, i) => {
+                    const cx = Math.round(u.valToPos(xs[i], 'x', true) / dpr);
+                    const cy = Math.round(u.valToPos(val, 'y', true) / dpr);
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = pointColor(val);
+                    ctx.fill();
+                });
+                ctx.restore();
+            }
+
             const opts = {
                 width: calculateWidth(),
                 height: H,
                 padding: [8, 12, 0, 12],
                 select: {show: false},
                 legend: {show: false},
+                cursor: {points: {show: false}},
                 series: [
                     {},
                     {
                         label: '${analytics.indicatorName}',
-                        scale: 'y', stroke: C_GREEN, width: 2.5,
+                        scale: 'y',
+                        stroke: C_GREEN,
+                        width: 2.5,
+                        points: {show: false},
                     },
-                    {
-                        label: 'Верхняя норма', scale: 'y',
-                        stroke: C_NORM, dash: [5, 4], width: 1.5, points: {show: false},
-                    },
-                    {
-                        label: 'Нижняя норма', scale: 'y',
-                        stroke: C_NORM, dash: [5, 4], width: 1.5, points: {show: false},
-                    },
+                    {label: 'refMax', scale: 'y', stroke: 'transparent', width: 0, points: {show: false}},
+                    {label: 'refMin', scale: 'y', stroke: 'transparent', width: 0, points: {show: false}},
+                    {label: 'brdMax', scale: 'y', stroke: 'transparent', width: 0, points: {show: false}},
+                    {label: 'brdMin', scale: 'y', stroke: 'transparent', width: 0, points: {show: false}},
                 ],
                 scales: {
                     x: {time: false, range: [-0.5, labels.length - 0.5]},
@@ -258,39 +338,27 @@
                     },
                 ],
                 hooks: {
-                    draw: [u => {
-                        const ctx = u.ctx;
-                        const dpr = devicePixelRatio;
-                        ctx.save();
-                        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                        ctx.imageSmoothingEnabled = true;
-                        if (refMax.length && refMin.length) {
-                            ctx.beginPath();
-                            refMax.forEach((val, i) => {
-                                const cx = u.valToPos(xs[i], 'x', true) / dpr;
-                                const cy = u.valToPos(val, 'y', true) / dpr;
-                                i === 0 ? ctx.moveTo(cx, cy) : ctx.lineTo(cx, cy);
-                            });
-                            for (let i = refMin.length - 1; i >= 0; i--) {
-                                const cx = u.valToPos(xs[i], 'x', true) / dpr;
-                                const cy = u.valToPos(refMin[i], 'y', true) / dpr;
-                                ctx.lineTo(cx, cy);
-                            }
-                            ctx.closePath();
-                            ctx.fillStyle = 'rgba(16,185,129,0.08)';
-                            ctx.fill();
-                        }
-                        values.forEach((val, i) => {
-                            const cx = Math.round(u.valToPos(xs[i], 'x', true) / dpr);
-                            const cy = Math.round(u.valToPos(val, 'y', true) / dpr);
-                            const out = val > NORM_HIGH || val < NORM_LOW;
-                            ctx.beginPath();
-                            ctx.arc(cx, cy, 5, 0, Math.PI * 2);
-                            ctx.fillStyle = out ? C_RED : C_GREEN;
-                            ctx.fill();
-                        });
-                        ctx.restore();
-                    }],
+                    draw: [
+                        u => {
+                            const ctx = u.ctx;
+                            const dpr = devicePixelRatio;
+                            ctx.save();
+                            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                            ctx.imageSmoothingEnabled = true;
+
+                            fillBand(ctx, u, brdMin, refMin, 'rgba(250,204,21,0.15)');
+                            fillBand(ctx, u, refMax, brdMax, 'rgba(250,204,21,0.15)');
+                            fillBand(ctx, u, brdMax, brdMin, 'rgba(16,185,129,0.10)');
+
+                            drawDashedLine(ctx, u, refMax, C_YELLOW, [6, 4]);
+                            drawDashedLine(ctx, u, refMin, C_YELLOW, [6, 4]);
+                            drawDashedLine(ctx, u, brdMax, C_BORDER, [6, 4]);
+                            drawDashedLine(ctx, u, brdMin, C_BORDER, [6, 4]);
+
+                            ctx.restore();
+                        },
+                        u => drawPoints(u),
+                    ],
                     setCursor: [u => {
                         const {idx, left, top} = u.cursor;
                         if (idx === null || left < 0) {
@@ -298,9 +366,7 @@
                             return;
                         }
                         const canvasRect = u.over.getBoundingClientRect();
-                        const mouseX = canvasRect.left + left;
-                        const mouseY = canvasRect.top + top;
-                        showTooltip(idx, mouseX, mouseY);
+                        showTooltip(idx, canvasRect.left + left, canvasRect.top + top);
                     }]
                 }
             };
@@ -309,18 +375,12 @@
 
             requestAnimationFrame(() => {
                 setTimeout(() => {
-                    scrollParent.scrollTo({
-                        left: scrollParent.scrollWidth,
-                        behavior: 'smooth'
-                    });
+                    scrollParent.scrollTo({left: scrollParent.scrollWidth, behavior: 'smooth'});
                 }, 1000);
             });
 
             window.addEventListener('resize', () => {
-                chart.setSize({
-                    width: calculateWidth(),
-                    height: H
-                });
+                chart.setSize({width: calculateWidth(), height: H});
             });
 
             chartEl.addEventListener('mouseleave', () => {

@@ -17,5 +17,7 @@ public class AnalyticsResponse {
   private AnalyticsData data;
   private Double referenceMin;
   private Double referenceMax;
+  private Double borderMin;
+  private Double borderMax;
   private List<MeasurementPoint> measurements;
 }

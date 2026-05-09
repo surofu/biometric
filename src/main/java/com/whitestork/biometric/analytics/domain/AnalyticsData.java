@@ -16,4 +16,20 @@ public class AnalyticsData {
   private List<Double> values;
   private List<Double> referenceMin;
   private List<Double> referenceMax;
+  private Double borderMin;
+  private Double borderMax;
+
+  public boolean isNormal(int i) {
+    double v = values.get(i);
+    return v > borderMin && v < borderMax;
+  }
+
+  public boolean isBorderline(int i) {
+    double v = values.get(i);
+    return v >= referenceMin.get(i) && v <= referenceMax.get(i) && !isNormal(i);
+  }
+
+  public boolean isUpper(int i) {
+    return values.get(i) > referenceMax.get(i);
+  }
 }

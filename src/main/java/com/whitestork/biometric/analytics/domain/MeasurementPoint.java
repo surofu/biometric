@@ -12,4 +12,5 @@ import lombok.Setter;
 public class MeasurementPoint {
   private String label;
   private Double value;
+  private int dataIndex;
 }

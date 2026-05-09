@@ -19,4 +19,22 @@ public class MeasurementResponse {
   private String indicatorUnit;
   private Double indicatorReferenceMin;
   private Double indicatorReferenceMax;
+
+  public boolean isNormal() {
+    return range() > 0.1 && range() < 0.9;
+  }
+
+  public boolean isBorderline() {
+    return range() >= 0 && range() <= 1;
+  }
+
+  public boolean isUpper() {
+    return range() > 1;
+  }
+
+  private double range() {
+    double referenceDifference = indicatorReferenceMax - indicatorReferenceMin;
+    double differenceMin = value - indicatorReferenceMin;
+    return differenceMin / referenceDifference;
+  }
 }

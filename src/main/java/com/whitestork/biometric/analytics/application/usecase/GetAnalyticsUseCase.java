@@ -30,8 +30,7 @@ public class GetAnalyticsUseCase {
   public @NonNull AnalyticsResponse execute(@NonNull Long indicatorId, @NonNull String email) {
     Indicator indicator = indicatorProvider.withId(indicatorId);
     List<MeasurementAnalyticsView> measurements = measurementRepository.findAllAnalytics(
-        indicatorId,
-        email
+        indicatorId, email
     );
 
     List<String> labels = measurements.stream()
@@ -47,11 +46,17 @@ public class GetAnalyticsUseCase {
     List<Double> refMin = Collections.nCopies(measurements.size(), indicator.referenceMin());
     List<Double> refMax = Collections.nCopies(measurements.size(), indicator.referenceMax());
 
-    AnalyticsData data = new AnalyticsData(labels, shortLabels, values, refMin, refMax);
+    double range     = indicator.referenceMax() - indicator.referenceMin();
+    double borderMin = indicator.referenceMin() + range * 0.1;
+    double borderMax = indicator.referenceMax() - range * 0.1;
+
+    AnalyticsData data = new AnalyticsData(
+        labels, shortLabels, values, refMin, refMax, borderMin, borderMax
+    );
 
     List<MeasurementPoint> measurementPoints = new ArrayList<>();
     for (int i = labels.size() - 1; i >= 0; i--) {
-      measurementPoints.add(new MeasurementPoint(labels.get(i), values.get(i)));
+      measurementPoints.add(new MeasurementPoint(labels.get(i), values.get(i), i));
     }
 
     return new AnalyticsResponse(
@@ -59,6 +64,8 @@ public class GetAnalyticsUseCase {
         data,
         indicator.referenceMin(),
         indicator.referenceMax(),
+        borderMin,
+        borderMax,
         measurementPoints
     );
   }
