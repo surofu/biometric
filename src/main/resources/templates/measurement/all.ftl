@@ -2,7 +2,7 @@
 <#import "../shared/message.ftl" as messageMacros>
 
 <@layoutMacros.layout title="Мои показатели" selectedPage="1">
-    <div class="container max-w-6xl mx-auto pb-16">
+    <div class="container max-w-6xl mx-auto pb-16 md:px-4">
 
         <#if page.content()?size != 0>
             <div class="sticky top-14 z-10 border-b border-slate-200 bg-white py-3 not-md:px-4">
@@ -16,6 +16,7 @@
                         <label>
                             <input type="text" id="searchInput"
                                    placeholder="Поиск по показателю..."
+                                   maxlength="64"
                                    value="${search!''}"
                                    class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"/>
                         </label>
@@ -42,7 +43,7 @@
             </div>
         </#if>
 
-        <div id="measurementGroups" class="space-y-2 px-4 <#if page.content()?size != 0>mt-3</#if>">
+        <div id="measurementGroups" class="space-y-2 not-md:px-4 mt-3">
             <@messageMacros.message />
 
             <#if page.content()?size != 0>
@@ -55,7 +56,7 @@
         </div>
 
         <div id="emptyState" class="<#if page.content()?size != 0>hidden</#if>">
-            <div class="bg-white rounded-xl border border-slate-200 p-12 text-center max-w-2xl mx-auto">
+            <div class="bg-white rounded-xl p-12 pt-9 text-center max-w-2xl mx-auto">
                 <div class="flex flex-col items-center">
                     <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,8 +156,11 @@
                 if (!emptyState) return;
                 emptyState.classList.toggle('hidden', !isEmpty);
                 if (isEmpty && emptyStateMessage) {
+                    if (search.length > 28) {
+                        search = search.slice(0, 14) + '...' + search.slice(search.length - 14);
+                    }
                     emptyStateMessage.textContent = search
-                        ? `По запросу «${search}» ничего не найдено`
+                        ? 'По запросу «' + search + '» ничего не найдено'
                         : 'Вы еще не добавили ни одного измерения';
                 }
             }
@@ -183,7 +187,11 @@
                         headers: {'X-Requested-With': 'XMLHttpRequest'}
                     });
 
-                    if (!response.ok) throw new Error('Ошибка загрузки');
+                    if (!response.ok) {
+                        const text = await response.text();
+                        console.error('Ошибка загрузки: ' + text);
+                        return;
+                    }
 
                     const html = await response.text();
 

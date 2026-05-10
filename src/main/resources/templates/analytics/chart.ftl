@@ -128,10 +128,10 @@
                                 <span class="text-xs px-2 py-0.5 rounded-full bg-yellow-50 text-yellow-500 font-medium">◆ Пограничное значение</span>
                                 <span class="font-semibold text-yellow-600">${m.value?string["0.##"]}</span>
                             <#elseif analytics.data.isUpper(m.dataIndex)>
-                                <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">▲ выше нормы</span>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">▲ Выше нормы</span>
                                 <span class="font-semibold text-red-600">${m.value?string["0.##"]}</span>
                             <#else>
-                                <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">▼ ниже нормы</span>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-500 font-medium">▼ Ниже нормы</span>
                                 <span class="font-semibold text-red-600">${m.value?string["0.##"]}</span>
                             </#if>
                         </div>
@@ -175,7 +175,7 @@
             statOut.className = 'text-lg font-semibold ' + (outCount > 0 ? 'text-red-500' : 'text-emerald-600');
 
             const statBorder = document.getElementById('stat-border');
-            statBorder.textContent = borderCount || '—';
+            statBorder.textContent = borderCount;
             statBorder.className = 'text-lg font-semNORM_HIGHibold ' + (borderCount > 0 ? 'text-yellow-500' : 'text-emerald-600');
 
             const xs = labels.map((_, i) => i);

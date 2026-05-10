@@ -35,14 +35,14 @@
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="text-[11px] text-slate-500 font-medium">Норма: ${item.indicatorReferenceMin}–${item.indicatorReferenceMax}</span>
                                 <#if item.isNormal()>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-bold uppercase tracking-wide">✓ норма</span>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-bold tracking-wide">✓ Норма</span>
                                 <#elseif item.isBorderline()>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wide">◆ пограничное значение</span>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-yellow-100 text-yellow-800 text-[10px] font-bold tracking-wide">◆ Пограничное значение</span>
                                 <#else>
                                     <#if item.isUpper()>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold uppercase tracking-wide">▲ выше нормы</span>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold tracking-wide">▲ Выше нормы</span>
                                     <#else>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold uppercase tracking-wide">▼ ниже нормы</span>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold tracking-wide">▼ Еиже нормы</span>
                                     </#if>
                                 </#if>
                             </div>
