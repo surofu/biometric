@@ -2,38 +2,55 @@
 <#import "../shared/message.ftl" as messageMacros>
 
 <@layoutMacros.layout title="Мои показатели" selectedPage="1">
-    <div class="container max-w-6xl mx-auto px-4 pt-6 pb-16">
-        <@messageMacros.message />
+    <div class="container max-w-6xl mx-auto pb-16">
 
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <div class="grid grid-cols-[1fr_auto] gap-2 w-full">
-                <div class="relative">
-                    <input type="text" id="searchInput"
-                           placeholder="Поиск по показателю..."
-                           value="${search!''}"
-                           class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"/>
-                    <svg class="absolute left-3 top-2.5 w-4 h-4 text-slate-400 pointer-events-none" fill="none"
-                         stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </div>
-                <div class="flex gap-1">
-                    <button id="expandAll"
-                            class="p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors"
-                            title="Развернуть все">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        <#if page.content()?size != 0>
+            <div class="sticky top-14 z-10 border-b border-slate-200 bg-white py-3 not-md:px-4">
+                <div class="grid grid-cols-[1fr_auto] gap-2 w-full">
+                    <div class="relative">
+                        <svg class="absolute left-3 top-2.5 w-4 h-4 text-slate-400 pointer-events-none" fill="none"
+                             stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
-                    </button>
-                    <button id="collapseAll"
-                            class="p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors"
-                            title="Свернуть все">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-                        </svg>
-                    </button>
+                        <label>
+                            <input type="text" id="searchInput"
+                                   placeholder="Поиск по показателю..."
+                                   value="${search!''}"
+                                   class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"/>
+                        </label>
+                    </div>
+                    <div class="flex gap-1">
+                        <button id="expandAll"
+                                class="p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors"
+                                title="Развернуть все">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <button id="collapseAll"
+                                class="p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors"
+                                title="Свернуть все">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M5 15l7-7 7 7"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
+            </div>
+        </#if>
+
+        <div id="measurementGroups" class="space-y-2 px-4 <#if page.content()?size != 0>mt-3</#if>">
+            <@messageMacros.message />
+
+            <#if page.content()?size != 0>
+                <#include "groups.ftl">
+            </#if>
+            <div id="scroll-trigger"
+                 class="py-4 text-center text-[10px] text-slate-400 font-mono uppercase tracking-widest"
+                 style="<#if !page.hasNext()>display:none</#if>">
             </div>
         </div>
 
@@ -61,16 +78,6 @@
                         </a>
                     </#if>
                 </div>
-            </div>
-        </div>
-
-        <div id="measurementGroups" class="space-y-2">
-            <#if page.content()?size != 0>
-                <#include "groups.ftl">
-            </#if>
-            <div id="scroll-trigger"
-                 class="py-4 text-center text-[10px] text-slate-400 font-mono uppercase tracking-widest"
-                 style="<#if !page.hasNext()>display:none</#if>">
             </div>
         </div>
     </div>

@@ -2,27 +2,27 @@
 <#import "../shared/message.ftl" as messageMacros>
 
 <@layoutMacros.layout title="Выбор показателя" selectedPage="3">
-    <div class="container max-w-2xl mx-auto pb-18">
-        <div class="sticky top-14 z-10 bg-white py-3 border-b border-slate-200 not-md:px-4">
-            <@messageMacros.message />
-
-            <#if indicators?has_content>
+    <div class="container max-w-6xl mx-auto pb-16">
+        <#if indicators?has_content>
+            <div class="sticky top-14 z-10 border-b border-slate-200 bg-white py-3 not-md:px-4">
                 <div class="relative">
-                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
-                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="absolute left-3 top-2.5 w-4 h-4 text-slate-400 pointer-events-none" fill="none"
+                         stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                     <label>
                         <input type="search" id="searchInput" placeholder="Поиск по названию..."
-                               class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-md
-                                  focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                               class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm
+                               focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
                     </label>
                 </div>
-            </#if>
-        </div>
+            </div>
+        </#if>
 
-        <div class="space-y-2 not-md:px-4 mt-3" id="indicatorGrid">
+        <div class="space-y-2 not-md:px-4 <#if indicators?has_content>mt-3</#if>" id="indicatorGrid">
+            <@messageMacros.message />
+
             <#list indicators as indicator>
                 <a href="/analytics/${indicator.id}"
                    data-name="${indicator.name?lower_case?js_string}"
@@ -34,14 +34,25 @@
                     </svg>
                 </a>
             <#else>
-                <div class="col-span-full bg-white rounded-lg border border-slate-200 p-8 text-center">
-                    <div class="flex flex-col items-center gap-3">
-                        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                        </svg>
-                        <span class="text-lg text-gray-600">Нет доступных показателей</span>
-                        <a href="/measurements/add" class="text-emerald-600 hover:text-emerald-800 font-medium">
+                <div class="bg-white rounded-xl border border-slate-200 p-12 text-center max-w-2xl mx-auto">
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-slate-800 font-semibold">Нет записей</h3>
+                        <p class="text-slate-500 text-sm mt-1 mb-6">
+                            <span id="emptySearch" class="hidden">
+                                Ничего не найдено
+                            </span>
+                            <span id="emptyList">
+                                 Вы еще не добавили ни одного измерения
+                            </span>
+                        </p>
+                        <a href="/measurements/add"
+                           class="text-emerald-600 hover:text-emerald-700 font-semibold text-sm">
                             Добавить первый показатель →
                         </a>
                     </div>
@@ -65,6 +76,7 @@
 
             const items = document.querySelectorAll('.indicator-item');
             const emptySearch = document.getElementById('emptySearch');
+            const emptyList = document.getElementById('emptyList');
 
             searchInput.addEventListener('input', function () {
                 const query = this.value.trim().toLowerCase();
@@ -78,7 +90,15 @@
                 });
 
                 emptySearch.classList.toggle('hidden', visibleCount > 0);
+
+                if (items.length > 0 && emptyList) {
+                    emptyList.classList.toggle('hidden', items.length > 0);
+                }
             });
+
+            if (items.length > 0 && emptyList) {
+                emptyList.classList.toggle('hidden', items.length > 0);
+            }
         })();
     </script>
 </@layoutMacros.layout>

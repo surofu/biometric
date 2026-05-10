@@ -35,7 +35,7 @@
     </head>
     <body class="${bodyClass}">
     <@mobileHeader.header title=mobileTitle show=showMobileNavbar />
-    <main class="min-h-screen <#if showNavbar>md:pt-16 not-md:pt-14</#if>">
+    <main class="min-h-screen <#if showNavbar>pt-14</#if>">
         <#nested>
         <#if showNavbar>
             <@navbar.navbar selectedPage=selectedPage/>

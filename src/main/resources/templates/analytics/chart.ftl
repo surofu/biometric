@@ -62,8 +62,8 @@
                 <p class="text-lg font-semibold text-gray-800" id="stat-last">—</p>
             </div>
             <div class="bg-white rounded-xl border border-slate-200 px-4 py-3 text-center">
-                <p class="text-xs text-gray-500 mb-1">Среднее</p>
-                <p class="text-lg font-semibold text-gray-800" id="stat-avg">—</p>
+                <p class="text-xs text-gray-500 mb-1">Пограничные</p>
+                <p class="text-lg font-semibold" id="stat-border">—</p>
             </div>
             <div class="bg-white rounded-xl border border-slate-200 px-4 py-3 text-center">
                 <p class="text-xs text-gray-500 mb-1">Отклонений</p>
@@ -87,7 +87,7 @@
                     </div>
                     <div class="flex items-center gap-1.5">
                         <span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span>
-                        <span class="text-xs text-gray-500">Пограничное значение</span>
+                        <span class="text-xs text-gray-500">Пограничное</span>
                     </div>
                     <div class="flex items-center gap-1.5">
                         <span class="w-3 h-3 rounded-full bg-red-400 inline-block"></span>
@@ -166,14 +166,17 @@
             const brdMin = labels.map(() => BORDER_LOW);
 
             const last = values[values.length - 1];
-            const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1);
+            const borderCount = values.filter(v => ((v >= BORDER_HIGH && v <= NORM_HIGH) || (v <= BORDER_LOW && v >= NORM_LOW))).length;
             const outCount = values.filter(v => v > NORM_HIGH || v < NORM_LOW).length;
 
             document.getElementById('stat-last').textContent = last != null ? last.toFixed(2) : '—';
-            document.getElementById('stat-avg').textContent = avg || '—';
             const statOut = document.getElementById('stat-out');
             statOut.textContent = outCount;
             statOut.className = 'text-lg font-semibold ' + (outCount > 0 ? 'text-red-500' : 'text-emerald-600');
+
+            const statBorder = document.getElementById('stat-border');
+            statBorder.textContent = borderCount || '—';
+            statBorder.className = 'text-lg font-semNORM_HIGHibold ' + (borderCount > 0 ? 'text-yellow-500' : 'text-emerald-600');
 
             const xs = labels.map((_, i) => i);
             const chartData = [xs, values, refMax, refMin, brdMax, brdMin];
