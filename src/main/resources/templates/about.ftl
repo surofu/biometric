@@ -1,5 +1,6 @@
 <#import "./shared/layout.ftl" as layoutMacros>
 <#import "./shared/message.ftl" as messageMacros>
+<#import "./shared/logo.ftl" as logo>
 
 <@layoutMacros.layout title="О приложении" mobileTitle="О приложении" selectedPage="-1" showNavbar=true>
     <div class="min-h-screen bg-white">
@@ -8,19 +9,7 @@
 
             <div class="flex flex-col items-center mt-6 mb-12">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex items-center justify-center w-10 h-10 bg-white border-2 border-slate-100 rounded-xl">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 12H7L9 5L12 19L15 12H20" stroke="#059669" stroke-width="2.5"
-                                  stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <div class="flex items-center tracking-tight gap-1">
-                        <span class="text-2xl font-light text-slate-400">Био</span>
-                        <span class="text-2xl font-black text-slate-800 -ml-0.5 relative">
-                            метрик
-                            <span class="absolute -right-1.5 bottom-1.5 w-1 h-1 bg-emerald-500 rounded-full"></span>
-                        </span>
-                    </div>
+                    <@logo.animated />
                 </div>
                 <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight text-center leading-tight">
                     Простой контроль <br class="md:hidden"> показателей здоровья

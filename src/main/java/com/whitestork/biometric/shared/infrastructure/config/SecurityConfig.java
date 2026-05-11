@@ -66,7 +66,7 @@ public class SecurityConfig {
                 "/", "/about", "/reference/**",
                 "/privacy-policy", "/terms-of-service",
                 "/login", "/register", "/verify-email", "/email-sent",
-                "/css/**", "/js/**", "/images/**",
+                "/css/**", "/js/**", "/icons/**",
                 "/favicon.svg", "/favicon.ico",
                 "/favicon-96x96.png", "/apple-touch-icon.png",
                 "/site.webmanifest", "/manifest.json",

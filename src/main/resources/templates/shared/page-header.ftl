@@ -1,4 +1,4 @@
-<#macro pageHeader backUrl="" title="" subtitle="">
+<#macro pageHeader backUrl="" title="" subtitle="" forceShowSubtitle=false>
     <div class="flex <#if subtitle?has_content>items-start<#else>items-center</#if> not-md:items-center gap-4">
         <#if backUrl?has_content>
             <a href="${backUrl}"
@@ -11,7 +11,7 @@
         <div>
             <h1 class="text-lg sm:text-xl font-semibold text-gray-800 leading-tight">${title}</h1>
             <#if subtitle?has_content>
-                <p class="not-md:hidden text-sm text-gray-500 mt-0.5">${subtitle}</p>
+                <p class="<#if !forceShowSubtitle>not-md:hidden</#if> text-sm text-gray-500 mt-0.5">${subtitle}</p>
             </#if>
         </div>
     </div>

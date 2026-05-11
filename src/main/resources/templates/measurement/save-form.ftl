@@ -1,5 +1,6 @@
 <#import "../shared/layout.ftl" as layoutMacros>
 <#import "../shared/message.ftl" as messageMacros>
+<#import "../shared/page-header.ftl" as headerMacros>
 
 <@layoutMacros.layout title=((measurement.id??)?string("Редактирование показателя", "Новый показатель")) selectedPage="2" showNavbar=true>
     <div class="container max-w-2xl mx-auto p-4 pb-18">
@@ -13,11 +14,15 @@
             <input type="hidden" name="date" id="hiddenDate" value="${dateFormatter.htmlInput(measurement.date)}">
 
             <div id="step-1">
-                <p class="text-base font-semibold text-gray-800 mb-1">Выберите показатель</p>
-                <p class="text-sm text-gray-500 mb-4">Найдите и выберите нужный показатель</p>
+                <@headerMacros.pageHeader
+<#--                    backUrl="${measurement.id?has_content?then('/measurements', '')}"-->
+                    title="Выберите показатель"
+                    subtitle="Найдите и выберите нужный показатель"
+                    forceShowSubtitle=true
+                />
 
                 <button type="button" id="selectedIndicatorCard"
-                        class="hidden w-full items-center justify-between gap-3 bg-emerald-50 border-2 border-emerald-300 rounded-lg px-4 py-3 mb-0.5 hover:border-emerald-500 hover:bg-emerald-100 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 text-left">
+                        class="hidden w-full items-center justify-between gap-3 bg-emerald-50 border-2 border-emerald-300 rounded-lg px-4 py-3 mt-4 mb-0.5 hover:border-emerald-500 hover:bg-emerald-100 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 text-left">
                     <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor"
                          viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -35,7 +40,7 @@
                 </button>
 
                 <button type="button" id="openSelectorBtn"
-                        class="w-full flex items-center justify-between gap-3 px-4 py-3 border-2 border-dashed border-slate-200 rounded-lg text-sm text-gray-500 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        class="w-full flex items-center justify-between gap-3 px-4 py-3 mt-4 border-2 border-dashed border-slate-200 rounded-lg text-sm text-gray-500 hover:border-emerald-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     <span class="flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -49,10 +54,14 @@
             </div>
 
             <div id="step-2" class="hidden">
-                <p class="text-base font-semibold text-gray-800 mb-1">Укажите дату</p>
-                <p class="text-sm text-gray-500 mb-4">Когда было сделано это измерение?</p>
+                <@headerMacros.pageHeader
+<#--                backUrl="${measurement.id?has_content?then('/measurements', '')}"-->
+                title="Укажите дату"
+                subtitle="Когда было сделано это измерение?"
+                forceShowSubtitle=true
+                />
 
-                <label for="dateInput" class="block text-sm font-medium text-gray-700 mb-2">
+                <label for="dateInput" class="block text-sm font-medium text-gray-700 mb-2 mt-4">
                     Дата измерения <span class="text-red-500">*</span>
                 </label>
                 <input type="date" id="dateInput"
@@ -61,10 +70,14 @@
             </div>
 
             <div id="step-3" class="hidden">
-                <p class="text-base font-semibold text-gray-800 mb-1">Укажите значение</p>
-                <p class="text-sm text-gray-500 mb-4">Введите результат измерения</p>
+                <@headerMacros.pageHeader
+<#--                backUrl="${measurement.id?has_content?then('/measurements', '')}"-->
+                title="Укажите значение"
+                subtitle="Введите результат измерения"
+                forceShowSubtitle=true
+                />
 
-                <label for="valueInput" class="block text-sm font-medium text-gray-700 mb-2">
+                <label for="valueInput" class="block text-sm font-medium text-gray-700 mb-2 mt-4">
                     Значение <span class="text-red-500">*</span>
                 </label>
                 <div class="flex items-center gap-3">

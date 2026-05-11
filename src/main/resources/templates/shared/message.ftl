@@ -1,5 +1,5 @@
 <#macro message>
-    <div id="message-container" class="space-y-2.5 transition-all origin-top duration-500 ease-in-out">
+    <div id="message-container" class="space-y-2.5 transition-opacity duration-500 ease-in-out">
         <#if successMessage??>
             <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-100 px-4 py-3 rounded-lg mb-3">
                 <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,7 +35,6 @@
                 const msg = document.getElementById('message-container');
                 if (msg) {
                     msg.style.opacity = '0';
-                    msg.style.transform = 'scaleY(0)';
                     setTimeout(() => msg.remove(), 500);
                 }
             }, TIMEOUT);
