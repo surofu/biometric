@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GetMyAvailableIndicatorsUseCase {
+
   private final IndicatorRepository repository;
 
   public @NonNull List<IndicatorResponse> execute(@NonNull String email) {

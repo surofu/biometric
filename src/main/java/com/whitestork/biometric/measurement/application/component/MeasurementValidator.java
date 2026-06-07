@@ -17,4 +17,10 @@ public class MeasurementValidator {
       throw new DomainException("Запись с таким показателем уже существует!");
     }
   }
+
+  public void uniqueWithUserIndicator(@NonNull String email, @NonNull Long indicatorId, @NonNull LocalDate date) {
+    if (repository.existsByUserEmailAndUserIndicatorIdAndDate(email, indicatorId, date)) {
+      throw new DomainException("Запись с таким показателем уже существует!");
+    }
+  }
 }

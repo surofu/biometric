@@ -23,6 +23,7 @@ public class SaveOrUpdateIndicatorUseCase {
     }
 
     SaveIndicatorRequest saveRequest = mapper.toSaveRequest(request);
+    System.out.println(saveRequest);
     saveIndicatorUseCase.execute(saveRequest);
   }
 }

@@ -61,6 +61,18 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
       @NonNull @Param("date") LocalDate date
   );
 
+  @Query("""
+             select count(m) > 0 from measurements m
+             join users u on m.user_id = u.id
+             join user_indicators ui on m.user_id = ui.user_id
+             where u.email = :email and ui.id = :indicatorId and m.date = :date
+         """)
+  @NonNull Boolean existsByUserEmailAndUserIndicatorIdAndDate(
+      @NonNull @Param("email") String email,
+      @NonNull @Param("indicatorId") Long indicatorId,
+      @NonNull @Param("date") LocalDate date
+  );
+
   // Page
 
   @Query("""
@@ -178,4 +190,6 @@ public interface MeasurementRepository extends ListCrudRepository<Measurement, L
       @NonNull @Param("lastDate") LocalDate lastDate,
       @NonNull @Param("lastId") Long lastId
   );
+
+  void deleteByIndicatorIdAndUserId(Long indicatorId, Long userId);
 }

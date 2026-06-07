@@ -39,12 +39,12 @@ public record User(
     @Nullable OffsetDateTime updatedAt
 
 ) implements UserDetails, OAuth2User {
-  public static User defaultUser(@NonNull String email, @NonNull String passwordHash, @NonNull Boolean agreement) {
+  public static User defaultUser(
+      @NonNull String email,
+      @NonNull String passwordHash,
+      @NonNull Boolean agreement
+  ) {
     return User.build(email, false, passwordHash, agreement);
-  }
-
-  public static User verifiedByGoogle(@NonNull String email) {
-    return User.build(email, true, "", true);
   }
 
   private static User build(

@@ -1,6 +1,6 @@
 package com.whitestork.biometric.measurement.interfaces;
 
-import com.whitestork.biometric.indicator.application.usecase.GetAllIndicatorsUseCase;
+import com.whitestork.biometric.indicator.application.usecase.GetAllIndicatorsForUserUseCase;
 import com.whitestork.biometric.indicatorcategory.application.usecase.GetAllIndicatorCategoriesUseCase;
 import com.whitestork.biometric.measurement.application.mapper.MeasurementMapper;
 import com.whitestork.biometric.measurement.application.response.MeasurementGroupResponse;
@@ -12,6 +12,7 @@ import com.whitestork.biometric.measurement.application.usecase.SaveOrUpdateMeas
 import com.whitestork.biometric.measurement.interfaces.model.SaveOrUpdateMeasurementModel;
 import com.whitestork.biometric.shared.domain.KeysetCursor;
 import com.whitestork.biometric.shared.domain.KeysetPage;
+import com.whitestork.biometric.subscription.application.component.SubscriptionProvider;
 import com.whitestork.biometric.user.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,12 +38,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/measurements")
 @RequiredArgsConstructor
 public class MeasurementController {
-  private final GetAllIndicatorsUseCase getAllIndicatorsUseCase;
+  private final GetAllIndicatorsForUserUseCase getAllIndicatorsForUserUseCase;
   private final GetAllIndicatorCategoriesUseCase getAllIndicatorCategoriesUseCase;
   private final GetUserMeasurementPageUseCase getUserMeasurementPageUseCase;
   private final GetUserMeasurementByIdAndUserEmailUseCase getUserMeasurementByIdAndUserEmailUseCase;
   private final DeleteMeasurementUseCase deleteMeasurementUseCase;
   private final SaveOrUpdateMeasurementUseCase saveOrUpdateMeasurementUseCase;
+  private final SubscriptionProvider subscriptionProvider;
   private final MeasurementMapper mapper;
 
   @GetMapping
@@ -79,8 +81,11 @@ public class MeasurementController {
 
   @GetMapping("/add")
   @PreAuthorize("isAuthenticated()")
-  public @NonNull String add(@NonNull Model model) {
-    populateFormModel(model, new SaveOrUpdateMeasurementModel());
+  public @NonNull String add(
+      @NonNull @AuthenticationPrincipal User user,
+      @NonNull Model model
+  ) {
+    populateFormModel(model, new SaveOrUpdateMeasurementModel(), user);
     return "measurement/save-form";
   }
 
@@ -95,7 +100,7 @@ public class MeasurementController {
         id,
         user.email()
     );
-    populateFormModel(model, mapper.toSaveOrUpdateModel(measurement).withUserEmail(user.email()));
+    populateFormModel(model, mapper.toSaveOrUpdateModel(measurement).withUserEmail(user.email()), user);
     return "measurement/save-form";
   }
 
@@ -115,13 +120,13 @@ public class MeasurementController {
           ? "Показатель успешно добавлен!"
           : "Показатель успешно изменён!";
       model.addAttribute("successMessage", successMessage);
-      populateFormModel(model, new SaveOrUpdateMeasurementModel().withDate(request.getDate()));
+      populateFormModel(model, new SaveOrUpdateMeasurementModel().withDate(request.getDate()), user);
       return "measurement/save-form";
 
     } catch (Exception exception) {
       log.warn("Ошибка при сохранении показателя: {}", exception.getMessage());
       model.addAttribute("errorMessage", exception.getMessage());
-      populateFormModel(model, request);
+      populateFormModel(model, request, user);
       return "measurement/save-form";
     }
   }
@@ -145,10 +150,12 @@ public class MeasurementController {
 
   private void populateFormModel(
       @NonNull Model model,
-      @NonNull SaveOrUpdateMeasurementModel measurement
+      @NonNull SaveOrUpdateMeasurementModel measurement,
+      @NonNull User user
   ) {
     model.addAttribute("measurement", measurement);
     model.addAttribute("categories", getAllIndicatorCategoriesUseCase.execute());
-    model.addAttribute("indicators", getAllIndicatorsUseCase.execute());
+    model.addAttribute("indicators", getAllIndicatorsForUserUseCase.execute(user.savedId()));
+    model.addAttribute("isPremium", subscriptionProvider.hasActiveSubscriptionWithUserId(user.savedId()));
   }
 }

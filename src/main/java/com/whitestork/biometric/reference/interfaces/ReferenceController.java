@@ -3,7 +3,7 @@ package com.whitestork.biometric.reference.interfaces;
 import com.whitestork.biometric.doctor.application.response.DoctorDetailsResponse;
 import com.whitestork.biometric.doctor.application.usecase.GetAllDoctorsUseCase;
 import com.whitestork.biometric.doctor.application.usecase.GetDoctorByIdUseCase;
-import com.whitestork.biometric.indicator.application.usecase.GetAllIndicatorsUseCase;
+import com.whitestork.biometric.indicator.application.usecase.GetAllPublicIndicatorsUseCase;
 import com.whitestork.biometric.indicator.application.usecase.GetIndicatorByIdUseCase;
 import com.whitestork.biometric.indicatorcategory.application.usecase.GetAllIndicatorCategoriesUseCase;
 import com.whitestork.biometric.profession.application.usecase.GetAllProfessionsUseCase;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/reference")
 @RequiredArgsConstructor
 public class ReferenceController {
-  private final GetAllIndicatorsUseCase getAllIndicatorsUseCase;
+  private final GetAllPublicIndicatorsUseCase getAllPublicIndicatorsUseCase;
   private final GetAllIndicatorCategoriesUseCase getAllIndicatorCategoriesUseCase;
   private final GetAllDoctorsUseCase getAllDoctorsUseCase;
   private final GetAllProfessionsUseCase getAllProfessionsUseCase;
@@ -36,7 +36,7 @@ public class ReferenceController {
   @GetMapping("/indicators")
   public @NonNull String indicators(@NonNull Model model) {
     model.addAttribute("categories", getAllIndicatorCategoriesUseCase.execute());
-    model.addAttribute("indicators", getAllIndicatorsUseCase.execute());
+    model.addAttribute("indicators", getAllPublicIndicatorsUseCase.execute());
     return "reference/indicators";
   }
 

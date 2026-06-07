@@ -1,6 +1,7 @@
 package com.whitestork.biometric.shared.application.component;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,13 @@ public class DateFormatter {
   private static final String EMPTY_DATE = "";
 
   public String format(LocalDate date) {
+    if (date == null) {
+      return EMPTY_DATE;
+    }
+    return date.format(DEFAULT_FORMAT);
+  }
+
+  public String format(OffsetDateTime date) {
     if (date == null) {
       return EMPTY_DATE;
     }

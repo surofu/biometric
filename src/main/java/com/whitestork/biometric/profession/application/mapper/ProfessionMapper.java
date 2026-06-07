@@ -6,7 +6,7 @@ import com.whitestork.biometric.profession.application.request.UpdateProfessionR
 import com.whitestork.biometric.profession.application.response.ProfessionDetailsResponse;
 import com.whitestork.biometric.profession.application.response.ProfessionResponse;
 import com.whitestork.biometric.profession.domain.Profession;
-import com.whitestork.biometric.admin.interfaces.model.SaveOrUpdateProfessionModel;
+import com.whitestork.biometric.profession.interfaces.model.SaveOrUpdateProfessionModel;
 import com.whitestork.biometric.profession.infrastructrure.projection.ProfessionDetailsProjection;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

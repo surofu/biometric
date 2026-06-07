@@ -22,7 +22,12 @@ public class SaveMeasurementUseCase {
   private final MeasurementSaver saver;
 
   public @NonNull MeasurementResponse execute(@NonNull SaveMeasurementRequest request) {
-    validator.unique(request.userEmail(), request.indicatorId(), request.date());
+    if (request.isUserIndicator()) {
+      validator.uniqueWithUserIndicator(request.userEmail(), request.indicatorId(), request.date());
+    } else {
+      validator.unique(request.userEmail(), request.indicatorId(), request.date());
+    }
+
     User user = userProvider.withEmail(request.userEmail());
     Measurement newMeasurement = mapper.toDomain(request)
         .withUserId(user.savedId())

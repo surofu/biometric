@@ -12,13 +12,13 @@
             <input type="hidden" name="indicatorId" id="hiddenIndicatorId" value="${(measurement.indicatorId?c)!}">
             <input type="hidden" name="value" id="hiddenValue" value="${(measurement.value?c)!}">
             <input type="hidden" name="date" id="hiddenDate" value="${dateFormatter.htmlInput(measurement.date)}">
+            <input type="hidden" name="isUserIndicator" id="hiddenIsUserIndicator" value="false">
 
             <div id="step-1">
                 <@headerMacros.pageHeader
-<#--                    backUrl="${measurement.id?has_content?then('/measurements', '')}"-->
-                    title="Выберите показатель"
-                    subtitle="Найдите и выберите нужный показатель"
-                    forceShowSubtitle=true
+                title="Выберите показатель"
+                subtitle="Найдите и выберите нужный показатель"
+                forceShowSubtitle=true
                 />
 
                 <button type="button" id="selectedIndicatorCard"
@@ -55,7 +55,6 @@
 
             <div id="step-2" class="hidden">
                 <@headerMacros.pageHeader
-<#--                backUrl="${measurement.id?has_content?then('/measurements', '')}"-->
                 title="Укажите дату"
                 subtitle="Когда было сделано это измерение?"
                 forceShowSubtitle=true
@@ -71,7 +70,6 @@
 
             <div id="step-3" class="hidden">
                 <@headerMacros.pageHeader
-<#--                backUrl="${measurement.id?has_content?then('/measurements', '')}"-->
                 title="Укажите значение"
                 subtitle="Введите результат измерения"
                 forceShowSubtitle=true
@@ -148,7 +146,7 @@
                     name: '${ind.name?js_string}',
                     unit: '${ind.unit?js_string}',
                     categoryId: <#if ind.categoryId??>${ind.categoryId?c}<#else>null</#if>,
-                    categoryName: '${ind.categoryName?js_string}',
+                    categoryName: '<#if ind.categoryName??>${ind.categoryName}<#else>Мои индикаторы</#if>',
                     referenceMin: <#if ind.referenceMin??>${ind.referenceMin?c}<#else>null</#if>,
                     referenceMax: <#if ind.referenceMax??>${ind.referenceMax?c}<#else>null</#if>
                 }<#sep>, </#sep>
@@ -231,6 +229,7 @@
                 }
                 qs('#hiddenValue').value = qs('#valueInput').value;
                 qs('#hiddenDate').value = qs('#dateInput').value;
+                qs('#hiddenIsUserIndicator').value = selectedIndicator.categoryId === -1;
                 qs('#measurementForm').submit();
             }
 

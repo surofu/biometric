@@ -13,7 +13,8 @@ import org.springframework.data.relational.core.mapping.Table;
 public record Indicator(
     @Id
     @Nullable Long id,
-    @NonNull Long categoryId,
+    @Nullable Long categoryId,
+    @Nullable Long userId,
     @NonNull String name,
     @NonNull String unit,
     @NonNull Double referenceMin,

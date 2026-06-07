@@ -4,7 +4,7 @@ import com.whitestork.biometric.analytics.application.response.AnalyticsResponse
 import com.whitestork.biometric.analytics.domain.AnalyticsData;
 import com.whitestork.biometric.analytics.domain.MeasurementPoint;
 import com.whitestork.biometric.analytics.infrastructure.view.MeasurementAnalyticsView;
-import com.whitestork.biometric.indicator.application.service.IndicatorProvider;
+import com.whitestork.biometric.indicator.application.component.IndicatorProvider;
 import com.whitestork.biometric.indicator.domain.Indicator;
 import com.whitestork.biometric.measurement.infrastructure.persistence.MeasurementRepository;
 import java.time.format.DateTimeFormatter;

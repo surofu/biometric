@@ -8,6 +8,7 @@ public record UpdateMeasurementRequest(
     @NonNull String userEmail,
     @NonNull Long indicatorId,
     @NonNull Double value,
-    @NonNull LocalDate date
+    @NonNull LocalDate date,
+    @NonNull Boolean isUserIndicator
 ) {
 }

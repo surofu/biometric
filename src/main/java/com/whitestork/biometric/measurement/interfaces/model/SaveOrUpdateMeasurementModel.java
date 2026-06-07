@@ -18,4 +18,5 @@ public class SaveOrUpdateMeasurementModel {
   private Long indicatorId;
   private Double value;
   private LocalDate date = LocalDate.now();
+  private Boolean isUserIndicator = false;
 }

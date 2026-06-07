@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class IndicatorResponse {
   private Long id;
+  private Long userId;
   private String name;
   private String unit;
   private Long categoryId;
