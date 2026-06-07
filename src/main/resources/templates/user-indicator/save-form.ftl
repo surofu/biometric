@@ -7,7 +7,7 @@
 
         <@headerMacros.pageHeader
             backUrl="/user-indicators"
-            title=(request.id??)?string("Редактировать индикатор", "Создать индикатор")
+            title=(request.id??)?string("Редактирование индикатора", "Новый индикатор")
             subtitle="Задайте параметры вашего персонального показателя"
             forceShowSubtitle=true
         />
@@ -77,7 +77,7 @@
 
             <button type="submit"
                     class="w-full px-5 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-md hover:bg-emerald-700 focus:outline-none transition-colors">
-                <#if request.id??>Сохранить изменения<#else>Создать индикатор</#if>
+                <#if request.id??>Сохранить<#else>Добавить</#if>
             </button>
         </form>
     </div>
