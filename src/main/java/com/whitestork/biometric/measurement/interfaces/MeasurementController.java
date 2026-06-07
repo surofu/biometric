@@ -2,6 +2,7 @@ package com.whitestork.biometric.measurement.interfaces;
 
 import com.whitestork.biometric.indicator.application.usecase.GetAllIndicatorsForUserUseCase;
 import com.whitestork.biometric.indicatorcategory.application.usecase.GetAllIndicatorCategoriesUseCase;
+import com.whitestork.biometric.measurement.application.component.MeasurementValidator;
 import com.whitestork.biometric.measurement.application.mapper.MeasurementMapper;
 import com.whitestork.biometric.measurement.application.response.MeasurementGroupResponse;
 import com.whitestork.biometric.measurement.application.response.MeasurementResponse;
@@ -46,6 +47,7 @@ public class MeasurementController {
   private final SaveOrUpdateMeasurementUseCase saveOrUpdateMeasurementUseCase;
   private final SubscriptionProvider subscriptionProvider;
   private final MeasurementMapper mapper;
+  private final MeasurementValidator measurementValidator;
 
   @GetMapping
   @PreAuthorize("isAuthenticated()")
@@ -112,6 +114,7 @@ public class MeasurementController {
       @NonNull Model model
   ) {
     try {
+      measurementValidator.validateModel(request);
       saveOrUpdateMeasurementUseCase.execute(
           mapper.toSaveOrUpdateRequest(request),
           user

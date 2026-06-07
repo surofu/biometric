@@ -42,7 +42,7 @@
                                     <#if item.isUpper()>
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold tracking-wide">▲ Выше нормы</span>
                                     <#else>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold tracking-wide">▼ Еиже нормы</span>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-[10px] font-bold tracking-wide">▼ Ниже нормы</span>
                                     </#if>
                                 </#if>
                             </div>

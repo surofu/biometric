@@ -1,6 +1,7 @@
 package com.whitestork.biometric.measurement.application.component;
 
 import com.whitestork.biometric.measurement.infrastructure.persistence.MeasurementRepository;
+import com.whitestork.biometric.measurement.interfaces.model.SaveOrUpdateMeasurementModel;
 import com.whitestork.biometric.shared.domain.exception.DomainException;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -12,13 +13,32 @@ import org.springframework.stereotype.Component;
 public class MeasurementValidator {
   private final MeasurementRepository repository;
 
+  public void validateModel(@NonNull SaveOrUpdateMeasurementModel model) {
+    if (model.getUserEmail() == null) {
+      throw new DomainException("Пользователь не авторизован");
+    }
+
+    if (model.getIndicatorId() == null) {
+      throw new DomainException("Индикатор обязателен");
+    }
+
+    if (model.getValue() == null) {
+      throw new DomainException("Результат измерения обязателен");
+    }
+
+    if (model.getDate() == null) {
+      throw new DomainException("Дата измерения обязательна");
+    }
+  }
+
   public void unique(@NonNull String email, @NonNull Long indicatorId, @NonNull LocalDate date) {
     if (repository.existsByUserEmailAndIndicatorIdAndDate(email, indicatorId, date)) {
       throw new DomainException("Запись с таким показателем уже существует!");
     }
   }
 
-  public void uniqueWithUserIndicator(@NonNull String email, @NonNull Long indicatorId, @NonNull LocalDate date) {
+  public void uniqueWithUserIndicator(@NonNull String email, @NonNull Long indicatorId,
+                                      @NonNull LocalDate date) {
     if (repository.existsByUserEmailAndUserIndicatorIdAndDate(email, indicatorId, date)) {
       throw new DomainException("Запись с таким показателем уже существует!");
     }
