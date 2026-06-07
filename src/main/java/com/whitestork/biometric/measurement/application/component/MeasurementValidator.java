@@ -14,10 +14,6 @@ public class MeasurementValidator {
   private final MeasurementRepository repository;
 
   public void validateModel(@NonNull SaveOrUpdateMeasurementModel model) {
-    if (model.getUserEmail() == null) {
-      throw new DomainException("Пользователь не авторизован");
-    }
-
     if (model.getIndicatorId() == null) {
       throw new DomainException("Индикатор обязателен");
     }
