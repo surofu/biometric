@@ -1,12 +1,12 @@
 package com.whitestork.biometric.indicator.interfaces;
 
-import com.whitestork.biometric.indicator.application.usecase.GetAllIndicatorsUseCase;
-import com.whitestork.biometric.indicator.interfaces.model.SaveOrUpdateIndicatorModel;
+import com.whitestork.biometric.indicator.application.component.IndicatorProvider;
 import com.whitestork.biometric.indicator.application.mapper.IndicatorMapper;
 import com.whitestork.biometric.indicator.application.response.IndicatorDetailsResponse;
-import com.whitestork.biometric.indicator.application.component.IndicatorProvider;
 import com.whitestork.biometric.indicator.application.usecase.DeleteIndicatorByIdUseCase;
+import com.whitestork.biometric.indicator.application.usecase.GetAllAdminIndicatorsUseCase;
 import com.whitestork.biometric.indicator.application.usecase.SaveOrUpdateIndicatorUseCase;
+import com.whitestork.biometric.indicator.interfaces.model.SaveOrUpdateIndicatorModel;
 import com.whitestork.biometric.indicatorcategory.application.usecase.GetAllIndicatorCategoriesUseCase;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 @RequestMapping("admin/indicators")
 public class AdminIndicatorController {
-  private final GetAllIndicatorsUseCase getAllIndicatorsUseCase;
+  private final GetAllAdminIndicatorsUseCase getAllAdminIndicatorsUseCase;
   private final IndicatorProvider indicatorProvider;
   private final SaveOrUpdateIndicatorUseCase saveOrUpdateIndicatorUseCase;
   private final DeleteIndicatorByIdUseCase deleteIndicatorByIdUseCase;
@@ -40,7 +40,7 @@ public class AdminIndicatorController {
   @GetMapping
   @PreAuthorize("isAuthenticated()")
   public @NonNull String all(@NonNull Model model) {
-    model.addAttribute("indicators", getAllIndicatorsUseCase.execute());
+    model.addAttribute("indicators", getAllAdminIndicatorsUseCase.execute());
     return "admin/indicators";
   }
 

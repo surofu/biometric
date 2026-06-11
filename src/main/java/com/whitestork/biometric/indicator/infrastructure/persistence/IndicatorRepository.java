@@ -58,10 +58,10 @@ public interface IndicatorRepository extends ListCrudRepository<Indicator, Long>
              c.id as category_id,
              c.name as category_name
          from indicators i
-         left join indicator_categories c on i.category_id = c.id
+         join indicator_categories c on i.category_id = c.id
          order by i.user_id, i.name, i.id desc
          """)
-  @NonNull List<IndicatorResponse> findAllResponses();
+  @NonNull List<IndicatorResponse> findAllAdminResponses();
 
   @Query("""
          select

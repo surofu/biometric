@@ -40,7 +40,7 @@
                                 <p class="text-[10px] text-slate-400 font-mono mt-1 uppercase tracking-wider">
                                     ID: ${item.id}</p>
                                 <div class="mt-3 space-y-1 text-[11px]">
-                                    <p class="text-slate-600 wrap-break-word">${item.categoryName}</p>
+                                    <p class="text-slate-600 wrap-break-word">${item.categoryName!'-'}</p>
                                     <p class="text-emerald-700 font-semibold">${item.referenceMin}
                                         — ${item.referenceMax}</p>
                                 </div>
@@ -95,7 +95,7 @@
                         <td class="px-6 py-4 text-[10px] text-slate-400 font-mono">${item.id}</td>
                         <td class="px-6 py-4 text-sm font-semibold text-slate-800 wrap-break-word max-w-xs">${item.name}</td>
                         <td class="px-6 py-4">
-                            <p class="text-xs text-slate-600 wrap-break-word">${item.categoryName}</p>
+                            <p class="text-xs text-slate-600 wrap-break-word">${item.categoryName!'-'}</p>
                             <p class="text-[11px] text-emerald-700 font-medium mt-0.5">${item.referenceMin}
                                 —${item.referenceMax}</p>
                         </td>

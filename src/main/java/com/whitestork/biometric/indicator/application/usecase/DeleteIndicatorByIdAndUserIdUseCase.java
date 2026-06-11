@@ -2,7 +2,6 @@ package com.whitestork.biometric.indicator.application.usecase;
 
 import com.whitestork.biometric.indicator.application.component.IndicatorDeleter;
 import com.whitestork.biometric.indicator.application.component.IndicatorProvider;
-import com.whitestork.biometric.measurement.application.component.MeasurementDeleter;
 import com.whitestork.biometric.measurement.infrastructure.persistence.MeasurementRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;

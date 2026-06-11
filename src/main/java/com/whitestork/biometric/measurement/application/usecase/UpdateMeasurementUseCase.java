@@ -6,12 +6,12 @@ import com.whitestork.biometric.measurement.application.mapper.MeasurementMapper
 import com.whitestork.biometric.measurement.application.request.UpdateMeasurementRequest;
 import com.whitestork.biometric.measurement.application.response.MeasurementResponse;
 import com.whitestork.biometric.measurement.domain.Measurement;
+import com.whitestork.biometric.shared.application.annotation.UseCase;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.springframework.stereotype.Service;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class UpdateMeasurementUseCase {
   private final MeasurementProvider provider;

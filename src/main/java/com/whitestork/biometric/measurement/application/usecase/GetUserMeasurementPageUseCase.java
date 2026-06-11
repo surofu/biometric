@@ -3,6 +3,7 @@ package com.whitestork.biometric.measurement.application.usecase;
 import com.whitestork.biometric.measurement.application.response.MeasurementGroupResponse;
 import com.whitestork.biometric.measurement.application.response.MeasurementResponse;
 import com.whitestork.biometric.measurement.infrastructure.persistence.MeasurementRepository;
+import com.whitestork.biometric.shared.application.annotation.UseCase;
 import com.whitestork.biometric.shared.domain.KeysetCursor;
 import com.whitestork.biometric.shared.domain.KeysetPage;
 import java.time.LocalDate;
@@ -12,9 +13,8 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import org.springframework.stereotype.Service;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class GetUserMeasurementPageUseCase {
   private final MeasurementRepository repository;

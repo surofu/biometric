@@ -1,6 +1,5 @@
 package com.whitestork.biometric.indicator.application.request;
 
-import lombok.With;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 

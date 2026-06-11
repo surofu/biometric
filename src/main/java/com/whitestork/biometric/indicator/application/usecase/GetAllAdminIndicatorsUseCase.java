@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GetAllIndicatorsUseCase {
+public class GetAllAdminIndicatorsUseCase {
   private final IndicatorRepository repository;
 
   public @NonNull List<IndicatorResponse> execute() {
-    return repository.findAllResponses();
+    return repository.findAllAdminResponses();
   }
 }

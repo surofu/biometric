@@ -6,14 +6,14 @@ import com.whitestork.biometric.measurement.application.mapper.MeasurementMapper
 import com.whitestork.biometric.measurement.application.request.SaveMeasurementRequest;
 import com.whitestork.biometric.measurement.application.response.MeasurementResponse;
 import com.whitestork.biometric.measurement.domain.Measurement;
+import com.whitestork.biometric.shared.application.annotation.UseCase;
 import com.whitestork.biometric.user.application.component.UserProvider;
 import com.whitestork.biometric.user.domain.User;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.springframework.stereotype.Service;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class SaveMeasurementUseCase {
   private final MeasurementValidator validator;
